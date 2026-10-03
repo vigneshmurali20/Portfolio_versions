@@ -70,6 +70,23 @@ else
   echo "  ⚠ claude CLI not found; skipped (install with: claude plugin marketplace add heygen-com/hyperframes)"
 fi
 
+echo "→ Installing ECC plugin (hooks off)"
+# affaan-m/ECC: 293 skills, 68 agents, 94 commands. Its hooks start disabled;
+# an existing choice in ~/.claude/settings.json is left as it is.
+if command -v claude >/dev/null 2>&1; then
+  ecc_config=(--config hooks_enabled=false --config hook_profile=minimal)
+  grep -q '"ecc@ecc"' "$claude_dir/settings.json" 2>/dev/null && ecc_config=()
+  claude plugin marketplace add affaan-m/ECC >/dev/null 2>&1 \
+    || claude plugin marketplace update ecc >/dev/null 2>&1 || true
+  if claude plugin install ecc@ecc "${ecc_config[@]}" >/dev/null 2>&1; then
+    echo "  • ecc@ecc"
+  else
+    echo "  ✗ ECC plugin install failed; run: claude plugin install ecc@ecc --config hooks_enabled=false" >&2
+  fi
+else
+  echo "  ⚠ claude CLI not found; skipped"
+fi
+
 if [ "${SKIP_CLAUDE_SEO:-0}" != 1 ]; then
   echo "→ Installing Claude SEO $claude_seo_tag"
   tmp=$(mktemp -d)
