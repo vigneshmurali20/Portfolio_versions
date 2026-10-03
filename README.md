@@ -97,6 +97,9 @@ and drafts in `~/.claude/writing/knowledge/`. They start as templates; run
 `voice-dna-creator`, `icp-creator` and `business-profile-creator` to fill them.
 `install.sh` never overwrites a profile that already exists.
 
+Brand profiles live in their own folder, e.g. `writing/context/grassdoor/voice-dna.json`
+for Grassdoor; ask for that brand's voice when writing for it.
+
 Cloud sessions start empty, so to keep your real profiles everywhere, copy
 the filled-in files into this repo's `writing/context/` and commit them.
 
