@@ -35,8 +35,11 @@ done
 echo "→ Installing writing profiles into $claude_dir/writing"
 # Templates only fill gaps: profiles the user already created are never
 # overwritten.
-mkdir -p "$claude_dir/writing"
-cp -rn "$repo_dir/writing/." "$claude_dir/writing/"
+(cd "$repo_dir/writing" && find . -type f) | while read -r f; do
+  dest="$claude_dir/writing/$f"
+  [ -e "$dest" ] && continue
+  mkdir -p "$(dirname "$dest")" && cp "$repo_dir/writing/$f" "$dest"
+done
 
 echo "→ Installing video toolkit into $claude_dir/video-toolkit"
 # Overlay the toolkit; .env and projects/ hold the user's own keys and work.
