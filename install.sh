@@ -17,6 +17,11 @@ claude_seo_tag="v2.4.1"
 
 mkdir -p "$claude_dir/skills" "$claude_dir/agents"
 
+# Skills replaced by newer ones in this repo; removed so they don't load twice.
+for retired in remotion-official; do
+  rm -rf "${claude_dir:?}/skills/$retired"
+done
+
 echo "→ Installing skills into $claude_dir/skills"
 for skill in "$repo_dir"/.claude/skills/*/; do
   name=$(basename "$skill")

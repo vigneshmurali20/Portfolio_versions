@@ -1,11 +1,11 @@
 ---
 name: remotion
-description: Toolkit-specific Remotion patterns — custom transitions, shared components, and project conventions. For core Remotion framework knowledge (hooks, animations, rendering, etc.), see the `remotion-official` skill.
+description: Toolkit-specific Remotion patterns — custom transitions, shared components, and project conventions. For core Remotion framework knowledge (hooks, animations, rendering, etc.), see the official `remotion-best-practices` skill.
 ---
 
 # Remotion — Toolkit Extensions
 
-> **Core Remotion knowledge** lives in `.claude/skills/remotion-official/` (synced from the official [remotion-dev/skills](https://github.com/remotion-dev/skills) repo). This file covers **toolkit-specific** patterns only.
+> **Core Remotion knowledge** lives in the official Remotion skills (`remotion-best-practices` and the other `remotion-*` skills, from [remotion-dev/remotion](https://github.com/remotion-dev/remotion/tree/main/packages/skills)). This file covers **toolkit-specific** patterns only.
 
 ## Shared Components
 
@@ -116,7 +116,7 @@ cd showcase/transitions && npm run studio
 
 ## Toolkit Conventions
 
-These are choices specific to this toolkit. For general Remotion best practices (interpolation clamping, `useVideoConfig`, `delayRender`, `staticFile`, no CSS animations), see the `remotion-official` skill.
+These are choices specific to this toolkit. For general Remotion best practices (interpolation clamping, `useVideoConfig`, `delayRender`, `staticFile`, no CSS animations), see the official `remotion-best-practices` skill.
 
 1. **All projects use 30fps** — Timing: frames = seconds × 30
 2. **playbackRate must be constant** — For variable/extreme speeds, pre-process with FFmpeg
