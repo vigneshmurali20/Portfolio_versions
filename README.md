@@ -26,19 +26,24 @@ To update later: `git -C ~/claude-skills pull && bash ~/claude-skills/install.sh
 ### Claude Code on the web (cloud sessions)
 
 Cloud containers start fresh each session, so the install has to run every
-time. Add this to the cloud environment's **Setup script** (environment menu
-in the session title bar → Edit). It runs for every repo that uses that
-environment:
+time. This repo is private, so the clone needs a read-only GitHub token:
+
+1. On GitHub, create a fine-grained personal access token with access to only
+   this repository and **Contents: Read-only**.
+2. In the cloud environment's settings (environment menu in the session title
+   bar → Edit), add it as an environment variable named `GITHUB_TOKEN`.
+3. Put this in the **Setup script**. It never fails the session: if the
+   install can't run, the session still starts without the skills.
 
 ```bash
-git clone --depth 1 https://github.com/vigneshwaranm-crypto/auto.git /tmp/claude-skills \
-  && bash /tmp/claude-skills/install.sh
+if [ -n "${GITHUB_TOKEN:-}" ] \
+  && git clone --depth 1 "https://x-access-token:${GITHUB_TOKEN}@github.com/vigneshwaranm-crypto/auto.git" /tmp/claude-skills \
+  && WITH_VIDEO_DEPS=1 bash /tmp/claude-skills/install.sh; then
+  echo "skills installed"
+else
+  echo "skills install skipped or failed; continuing without them"
+fi
 ```
-
-This repo is private, so the clone needs GitHub access in the setup script.
-If it fails with an authentication error, add a read-only GitHub token as an
-environment secret and clone with
-`https://x-access-token:${GITHUB_TOKEN}@github.com/vigneshwaranm-crypto/auto.git`.
 
 Sessions opened on this repo itself load everything from `.claude/` with no
 setup.
