@@ -8,6 +8,7 @@ or session.
 | Claude SEO (`/seo`, 33 skills, 19 agents) | Site audits, technical SEO, schema, GEO/AI search, local, e-commerce | [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo) v2.4.1, installed by `install.sh` |
 | img2threejs | Rebuild an object in a reference image as a procedural Three.js model | [img2threejs/img2threejs](https://github.com/img2threejs/img2threejs) v2.0.0, in `.claude/skills/img2threejs` |
 | Impeccable (`/impeccable`, 4 agents) | Frontend design: audit, critique, polish, redesign | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) v4.5.0, in `.claude/skills/impeccable` |
+| Video toolkit (`video-toolkit` + 12 skills) | Make videos: AI voiceover, images, music, talking heads, Remotion rendering | [digitalsamba/claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit), in `video-toolkit/`, installed to `~/.claude/video-toolkit` |
 | claudedesignskills (22 skills) | Three.js, R3F, GSAP, Motion, Babylon.js, Lottie, Rive, Spline and more | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills), in `.claude/skills/` |
 
 ## Use in every project
@@ -40,6 +41,17 @@ environment secret and clone with
 
 Sessions opened on this repo itself load everything from `.claude/` with no
 setup.
+
+## Video toolkit notes
+
+The toolkit is installed to `~/.claude/video-toolkit`, and the `video-toolkit`
+skill runs everything from there, so it works from any project. Your API keys
+go in `~/.claude/video-toolkit/.env` (copy `.env.example`); re-running
+`install.sh` never overwrites `.env` or `projects/`. Its slash commands
+(`/video`, `/setup`, `/brand`, ...) are available when Claude Code is opened in
+`~/.claude/video-toolkit` itself. Run `install.sh` with `WITH_VIDEO_DEPS=1` to
+also install its Python packages (needs `uv`). Cloud GPU features need a Modal
+or RunPod account, set up with `/setup`.
 
 ## Not enabled
 

@@ -7,6 +7,8 @@
 #
 # Safe to re-run: it refreshes the copies in ~/.claude. Set SKIP_CLAUDE_SEO=1
 # to skip the Claude SEO install (it needs network access to GitHub and PyPI).
+# Set WITH_VIDEO_DEPS=1 to also install the video toolkit's Python packages
+# (needs uv).
 set -euo pipefail
 
 repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
@@ -29,6 +31,16 @@ for agent in "$repo_dir"/.claude/agents/*.md; do
   cp "$agent" "$claude_dir/agents/"
   echo "  • $(basename "$agent" .md)"
 done
+
+echo "→ Installing video toolkit into $claude_dir/video-toolkit"
+# Overlay the toolkit; .env and projects/ hold the user's own keys and work.
+mkdir -p "$claude_dir/video-toolkit"
+(cd "$repo_dir/video-toolkit" && tar cf - --exclude=./.env --exclude=./projects .) \
+  | tar xf - -C "$claude_dir/video-toolkit"
+mkdir -p "$claude_dir/video-toolkit/projects"
+if [ "${WITH_VIDEO_DEPS:-0}" = 1 ]; then
+  (cd "$claude_dir/video-toolkit" && uv sync --quiet) && echo "  • Python deps synced"
+fi
 
 if [ "${SKIP_CLAUDE_SEO:-0}" != 1 ]; then
   echo "→ Installing Claude SEO $claude_seo_tag"
