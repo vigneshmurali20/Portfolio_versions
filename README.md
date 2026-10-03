@@ -35,17 +35,36 @@ time. This repo is private, so the clone needs a read-only GitHub token:
    this repository and **Contents: Read-only**.
 2. In the cloud environment's settings (environment menu in the session title
    bar → Edit), add it as an environment variable named `GITHUB_TOKEN`.
-3. Put this in the **Setup script**. It never fails the session: if the
-   install can't run, the session still starts without the skills.
+3. Put this in the **Setup script**. Environment variables are not available
+   while the setup script runs, so it only registers a session-start hook;
+   the hook runs the install in the background once the session has started
+   and `GITHUB_TOKEN` is set. It never blocks or fails the session. Skills
+   appear within a few minutes; plugins (HyperFrames, ECC) may need the next
+   session. The log is at `/tmp/skills-setup.log`.
 
 ```bash
-if [ -n "${GITHUB_TOKEN:-}" ] \
-  && git clone --depth 1 "https://x-access-token:${GITHUB_TOKEN}@github.com/vigneshwaranm-crypto/auto.git" /tmp/claude-skills \
-  && WITH_VIDEO_DEPS=1 bash /tmp/claude-skills/install.sh; then
-  echo "skills installed"
-else
-  echo "skills install skipped or failed; continuing without them"
-fi
+mkdir -p ~/.claude
+cat > ~/.claude/install-skills.sh <<'EOF'
+#!/bin/bash
+# Runs when a session starts, once GITHUB_TOKEN is available. Once per container.
+[ -e /tmp/skills-setup.started ] && exit 0
+touch /tmp/skills-setup.started
+{
+  echo "token: ${GITHUB_TOKEN:+present}"
+  git clone --depth 1 "https://x-access-token:${GITHUB_TOKEN}@github.com/vigneshwaranm-crypto/auto.git" /tmp/claude-skills \
+    && WITH_VIDEO_DEPS=1 bash /tmp/claude-skills/install.sh \
+    && echo "skills installed"
+} > /tmp/skills-setup.log 2>&1
+EOF
+python3 - <<'EOF'
+import json, os
+p = os.path.expanduser("~/.claude/settings.json")
+s = json.load(open(p)) if os.path.exists(p) else {}
+s.setdefault("hooks", {}).setdefault("SessionStart", []).append(
+    {"hooks": [{"type": "command", "command": "nohup bash ~/.claude/install-skills.sh >/dev/null 2>&1 &"}]})
+json.dump(s, open(p, "w"), indent=2)
+EOF
+true
 ```
 
 Sessions opened on this repo itself load everything from `.claude/` with no
