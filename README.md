@@ -9,7 +9,7 @@ or session.
 | img2threejs | Rebuild an object in a reference image as a procedural Three.js model | [img2threejs/img2threejs](https://github.com/img2threejs/img2threejs) v2.0.0, in `.claude/skills/img2threejs` |
 | Impeccable (`/impeccable`, 4 agents) | Frontend design: audit, critique, polish, redesign | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) v4.5.0, in `.claude/skills/impeccable` |
 | Video toolkit (`video-toolkit` + 12 skills) | Make videos: AI voiceover, images, music, talking heads, Remotion rendering | [digitalsamba/claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit), in `video-toolkit/`, installed to `~/.claude/video-toolkit` |
-| voice-dna-creator | Analyze your writing samples into a voice profile (`context/voice-dna.json`) for writing in your style | Uploaded `SKILL.md` (mcpmarket v1.0.0), in `.claude/skills/voice-dna-creator` |
+| AI co-writing (11 skills) | Voice DNA, ICP and business profiles, then LinkedIn posts, X threads, Substack notes, sales emails, how-to guides, thought leadership, bios, LinkedIn profile | Uploaded `ai-co-writing-claude-skills` zip (`voice-dna-creator` also uploaded on its own), in `.claude/skills/` |
 | claudedesignskills (22 skills) | Three.js, R3F, GSAP, Motion, Babylon.js, Lottie, Rive, Spline and more | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills), in `.claude/skills/` |
 
 ## Use in every project
@@ -53,6 +53,17 @@ go in `~/.claude/video-toolkit/.env` (copy `.env.example`); re-running
 `~/.claude/video-toolkit` itself. Run `install.sh` with `WITH_VIDEO_DEPS=1` to
 also install its Python packages (needs `uv`). Cloud GPU features need a Modal
 or RunPod account, set up with `/setup`.
+
+## Writing profiles
+
+The co-writing skills share three profiles in `~/.claude/writing/context/`:
+`voice-dna.json`, `icp.json` and `business-profile.json`, plus source notes
+and drafts in `~/.claude/writing/knowledge/`. They start as templates; run
+`voice-dna-creator`, `icp-creator` and `business-profile-creator` to fill them.
+`install.sh` never overwrites a profile that already exists.
+
+Cloud sessions start empty, so to keep your real profiles everywhere, copy
+the filled-in files into this repo's `writing/context/` and commit them.
 
 ## Not enabled
 

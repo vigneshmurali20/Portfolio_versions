@@ -1,0 +1,148 @@
+{
+  "ideal_client_profile": {
+    "version": "1.0",
+    "last_updated": "2025-01-01",
+
+    "demographics": {
+      "age_range": "RANGE - e.g., 28-45",
+      "gender": "ANY/SPECIFIC - e.g., Any, primarily male",
+      "location": "WHERE - e.g., US, UK, global English-speaking",
+      "income_level": "RANGE - e.g., $75k-250k annually",
+      "education": "LEVEL - e.g., College educated, often self-taught in specialty"
+    },
+
+    "professional_profile": {
+      "job_titles": [
+        "TITLE 1 - e.g., Founder",
+        "TITLE 2 - e.g., Content Creator",
+        "TITLE 3 - e.g., Marketing Manager"
+      ],
+      "industries": [
+        "INDUSTRY 1 - e.g., Tech/SaaS",
+        "INDUSTRY 2 - e.g., Creator Economy",
+        "INDUSTRY 3 - e.g., Professional Services"
+      ],
+      "company_size": "SIZE - e.g., Solo to 50 employees",
+      "experience_level": "LEVEL - e.g., 3-10 years in their field",
+      "decision_making_power": "LEVEL - e.g., Primary decision maker or strong influencer"
+    },
+
+    "psychographics": {
+      "values": [
+        "VALUE 1 - e.g., Efficiency and productivity",
+        "VALUE 2 - e.g., Authenticity over polish",
+        "VALUE 3 - e.g., Continuous learning"
+      ],
+      "beliefs": [
+        "BELIEF 1 - e.g., AI is a tool, not a replacement",
+        "BELIEF 2 - e.g., Quality content builds real businesses"
+      ],
+      "personality_traits": [
+        "TRAIT 1 - e.g., Action-oriented",
+        "TRAIT 2 - e.g., Curious and experimental",
+        "TRAIT 3 - e.g., Time-conscious"
+      ]
+    },
+
+    "problems_and_pain_points": {
+      "primary_problems": [
+        {
+          "problem": "PROBLEM 1 - The main challenge they face",
+          "severity": "HIGH/MEDIUM/LOW",
+          "frequency": "How often they experience this"
+        },
+        {
+          "problem": "PROBLEM 2 - Another key challenge",
+          "severity": "HIGH/MEDIUM/LOW",
+          "frequency": "How often they experience this"
+        }
+      ],
+      "frustrations": [
+        "FRUSTRATION 1 - What annoys them about current solutions",
+        "FRUSTRATION 2 - What they're tired of hearing/seeing"
+      ],
+      "fears": [
+        "FEAR 1 - What they're afraid of",
+        "FEAR 2 - What keeps them up at night"
+      ]
+    },
+
+    "goals_and_desires": {
+      "immediate_goals": [
+        "GOAL 1 - What they want in the next 30-90 days",
+        "GOAL 2 - Another short-term goal"
+      ],
+      "long_term_aspirations": [
+        "ASPIRATION 1 - Where they want to be in 1-3 years",
+        "ASPIRATION 2 - Their bigger vision"
+      ],
+      "dream_outcome": "THE DREAM - The ideal result they're working toward"
+    },
+
+    "language_patterns": {
+      "words_they_use": [
+        "WORD 1", "WORD 2", "WORD 3", "WORD 4", "WORD 5"
+      ],
+      "phrases_they_say": [
+        "PHRASE 1 - Something they commonly say",
+        "PHRASE 2 - Another common phrase"
+      ],
+      "questions_they_ask": [
+        "QUESTION 1 - A question they frequently have",
+        "QUESTION 2 - Another common question"
+      ],
+      "jargon_they_know": [
+        "TERM 1", "TERM 2", "TERM 3"
+      ]
+    },
+
+    "content_consumption": {
+      "platforms": [
+        "PLATFORM 1 - Where they spend time online",
+        "PLATFORM 2",
+        "PLATFORM 3"
+      ],
+      "content_formats": [
+        "FORMAT 1 - e.g., Short-form posts",
+        "FORMAT 2 - e.g., Newsletters",
+        "FORMAT 3 - e.g., Video tutorials"
+      ],
+      "consumption_time": "WHEN - When they consume content",
+      "attention_span": "LENGTH - How long they'll engage with content"
+    },
+
+    "objections": {
+      "common_objections": [
+        {
+          "objection": "OBJECTION 1 - Why they might not engage",
+          "response": "How to address this objection"
+        },
+        {
+          "objection": "OBJECTION 2 - Another hesitation",
+          "response": "How to address this objection"
+        }
+      ],
+      "trust_barriers": [
+        "BARRIER 1 - What makes them skeptical",
+        "BARRIER 2 - Another trust issue"
+      ]
+    },
+
+    "buying_triggers": {
+      "emotional_triggers": [
+        "TRIGGER 1 - What emotionally motivates them",
+        "TRIGGER 2"
+      ],
+      "logical_triggers": [
+        "TRIGGER 1 - What logically convinces them",
+        "TRIGGER 2"
+      ],
+      "timing_triggers": [
+        "TRIGGER 1 - When they're most likely to act",
+        "TRIGGER 2"
+      ]
+    }
+  },
+
+  "instructions": "REPLACE ALL PLACEHOLDER TEXT (in CAPS) with your actual ICP characteristics. Run the icp-creator skill with an interview to generate a personalized version."
+}

@@ -32,6 +32,12 @@ for agent in "$repo_dir"/.claude/agents/*.md; do
   echo "  • $(basename "$agent" .md)"
 done
 
+echo "→ Installing writing profiles into $claude_dir/writing"
+# Templates only fill gaps: profiles the user already created are never
+# overwritten.
+mkdir -p "$claude_dir/writing"
+cp -rn "$repo_dir/writing/." "$claude_dir/writing/"
+
 echo "→ Installing video toolkit into $claude_dir/video-toolkit"
 # Overlay the toolkit; .env and projects/ hold the user's own keys and work.
 mkdir -p "$claude_dir/video-toolkit"
