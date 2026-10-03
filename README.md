@@ -91,14 +91,20 @@ Set `HYPERFRAMES_NO_TELEMETRY=1` to turn off its anonymous usage telemetry.
 
 ## Writing profiles
 
+Client profiles live in `writing/clients/<client>/` (see
+[writing/clients/README.md](writing/clients/README.md)), one folder per client,
+installed to `~/.claude/writing/clients/`. The writing skills ask which client
+you're writing for and read only that client's profiles. The repo copy always
+wins, so edit and commit them here.
+
+Your personal profiles work the same way, below.
+
+
 The co-writing skills share three profiles in `~/.claude/writing/context/`:
 `voice-dna.json`, `icp.json` and `business-profile.json`, plus source notes
 and drafts in `~/.claude/writing/knowledge/`. They start as templates; run
 `voice-dna-creator`, `icp-creator` and `business-profile-creator` to fill them.
 `install.sh` never overwrites a profile that already exists.
-
-Brand profiles live in their own folder, e.g. `writing/context/grassdoor/voice-dna.json`
-for Grassdoor; ask for that brand's voice when writing for it.
 
 Cloud sessions start empty, so to keep your real profiles everywhere, copy
 the filled-in files into this repo's `writing/context/` and commit them.

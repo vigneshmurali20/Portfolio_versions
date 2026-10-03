@@ -136,7 +136,7 @@ Create the profile following this structure:
 
 2. Generate the complete JSON voice profile
 
-3. Save to `~/.claude/writing/context/voice-dna.json` (create the folder if needed)
+3. Save to `~/.claude/writing/context/voice-dna.json` for your own profile. For a client, save to `writing/clients/<client>/voice-dna.json` in the skills repo (lowercase, hyphenated folder name) and copy it to `~/.claude/writing/clients/<client>/` (create the folder if needed)
 
 4. Provide 3 example sentences written in the captured voice for validation
 

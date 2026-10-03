@@ -9,7 +9,7 @@ Create clear, actionable how-to guides that help readers achieve specific outcom
 
 ## Before Writing
 
-1. **Read context profiles**:
+1. **Read context profiles**. If you are writing for a client, ask which one if it isn't clear, then read that client's profiles in `~/.claude/writing/clients/<client>/` (same three file names) instead of the personal ones below. Never mix two clients' profiles.
    - `~/.claude/writing/context/voice-dna.json` - Maintain authentic voice
    - `~/.claude/writing/context/icp.json` - Match reader's skill level
    - `~/.claude/writing/context/business-profile.json` - Align with expertise areas

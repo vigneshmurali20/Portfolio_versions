@@ -9,7 +9,7 @@ Create high-performing LinkedIn posts that match your voice, resonate with your 
 
 ## Before Writing
 
-1. **Read context profiles**:
+1. **Read context profiles**. If you are writing for a client, ask which one if it isn't clear, then read that client's profiles in `~/.claude/writing/clients/<client>/` (same three file names) instead of the personal ones below. Never mix two clients' profiles.
    - `~/.claude/writing/context/voice-dna.json` - Match the user's voice
    - `~/.claude/writing/context/icp.json` - Write for the target audience
    - `~/.claude/writing/context/business-profile.json` - Reference offerings when relevant

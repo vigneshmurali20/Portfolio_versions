@@ -145,7 +145,7 @@ After gathering responses, generate a JSON file following this structure:
 
 5. After all questions, generate the complete JSON
 
-6. Save the output to `~/.claude/writing/context/icp.json`
+6. Save the output to `~/.claude/writing/context/icp.json` for your own profile. For a client, save to `writing/clients/<client>/icp.json` in the skills repo (lowercase, hyphenated folder name) and copy it to `~/.claude/writing/clients/<client>/`
 
 7. Provide a one-paragraph summary of the ideal client
 

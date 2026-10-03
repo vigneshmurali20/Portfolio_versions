@@ -124,7 +124,7 @@ After gathering responses, generate a JSON file following this structure:
 
 4. After all questions, generate the complete JSON
 
-5. Save the output to `~/.claude/writing/context/business-profile.json`
+5. Save the output to `~/.claude/writing/context/business-profile.json` for your own profile. For a client, save to `writing/clients/<client>/business-profile.json` in the skills repo (lowercase, hyphenated folder name) and copy it to `~/.claude/writing/clients/<client>/`
 
 6. Provide a summary of the key elements captured
 

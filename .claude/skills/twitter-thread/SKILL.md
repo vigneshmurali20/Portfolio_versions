@@ -9,7 +9,7 @@ Create high-performing Twitter threads that educate, tell stories, and drive eng
 
 ## Before Writing
 
-1. **Read context profiles**:
+1. **Read context profiles**. If you are writing for a client, ask which one if it isn't clear, then read that client's profiles in `~/.claude/writing/clients/<client>/` (same three file names) instead of the personal ones below. Never mix two clients' profiles.
    - `~/.claude/writing/context/voice-dna.json` - Match authentic voice
    - `~/.claude/writing/context/icp.json` - Write for target audience
    - `~/.claude/writing/context/business-profile.json` - Reference when relevant

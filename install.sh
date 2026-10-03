@@ -40,11 +40,17 @@ done
 echo "→ Installing writing profiles into $claude_dir/writing"
 # Templates only fill gaps: profiles the user already created are never
 # overwritten.
-(cd "$repo_dir/writing" && find . -type f) | while read -r f; do
+(cd "$repo_dir/writing" && find . -type f -not -path './clients/*') | while read -r f; do
   dest="$claude_dir/writing/$f"
   [ -e "$dest" ] && continue
   mkdir -p "$(dirname "$dest")" && cp "$repo_dir/writing/$f" "$dest"
 done
+
+echo "→ Installing client profiles into $claude_dir/writing/clients"
+# Client profiles are maintained in this repo, so the repo copy always wins.
+rm -rf "${claude_dir:?}/writing/clients"
+cp -r "$repo_dir/writing/clients" "$claude_dir/writing/clients"
+ls "$claude_dir/writing/clients" | grep -v README | sed 's/^/  • /'
 
 echo "→ Installing video toolkit into $claude_dir/video-toolkit"
 # Overlay the toolkit; .env and projects/ hold the user's own keys and work.
