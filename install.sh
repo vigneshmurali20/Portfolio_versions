@@ -51,6 +51,20 @@ if [ "${WITH_VIDEO_DEPS:-0}" = 1 ]; then
   (cd "$claude_dir/video-toolkit" && uv sync --quiet) && echo "  • Python deps synced"
 fi
 
+echo "→ Installing HyperFrames plugin"
+# Official plugin from the public heygen-com/hyperframes repo (21 skills).
+if command -v claude >/dev/null 2>&1; then
+  claude plugin marketplace add heygen-com/hyperframes >/dev/null 2>&1 \
+    || claude plugin marketplace update hyperframes >/dev/null 2>&1 || true
+  if claude plugin install hyperframes@hyperframes >/dev/null 2>&1; then
+    echo "  • hyperframes@hyperframes"
+  else
+    echo "  ✗ HyperFrames plugin install failed; run: claude plugin install hyperframes@hyperframes" >&2
+  fi
+else
+  echo "  ⚠ claude CLI not found; skipped (install with: claude plugin marketplace add heygen-com/hyperframes)"
+fi
+
 if [ "${SKIP_CLAUDE_SEO:-0}" != 1 ]; then
   echo "→ Installing Claude SEO $claude_seo_tag"
   tmp=$(mktemp -d)

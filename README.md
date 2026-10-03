@@ -9,6 +9,7 @@ or session.
 | img2threejs | Rebuild an object in a reference image as a procedural Three.js model | [img2threejs/img2threejs](https://github.com/img2threejs/img2threejs) v2.0.0, in `.claude/skills/img2threejs` |
 | Impeccable (`/impeccable`, 4 agents) | Frontend design: audit, critique, polish, redesign | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) v4.5.0, in `.claude/skills/impeccable` |
 | Video toolkit (`video-toolkit` + 12 skills) | Make videos: AI voiceover, images, music, talking heads, Remotion rendering | [digitalsamba/claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit), in `video-toolkit/`, installed to `~/.claude/video-toolkit` |
+| HyperFrames (`/hyperframes:hyperframes`, 21 skills) | Make videos from HTML: compositions, GSAP animation, captions, voiceover, audio-reactive visuals, website capture, rendering via `npx hyperframes` | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) official plugin, installed by `install.sh` (needs the `claude` CLI) |
 | AI co-writing (11 skills) | Voice DNA, ICP and business profiles, then LinkedIn posts, X threads, Substack notes, sales emails, how-to guides, thought leadership, bios, LinkedIn profile | Uploaded `ai-co-writing-claude-skills` zip (`voice-dna-creator` also uploaded on its own), in `.claude/skills/` |
 | claudedesignskills (22 skills) | Three.js, R3F, GSAP, Motion, Babylon.js, Lottie, Rive, Spline and more | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills), in `.claude/skills/` |
 
@@ -58,6 +59,14 @@ go in `~/.claude/video-toolkit/.env` (copy `.env.example`); re-running
 `~/.claude/video-toolkit` itself. Run `install.sh` with `WITH_VIDEO_DEPS=1` to
 also install its Python packages (needs `uv`). Cloud GPU features need a Modal
 or RunPod account, set up with `/setup`.
+
+## HyperFrames notes
+
+Rendering uses `npx hyperframes` (Node, FFmpeg and a headless Chrome, which
+`npx hyperframes browser ensure` sets up; `npx hyperframes doctor` checks
+everything). Compositions load GSAP from `cdn.jsdelivr.net`; where that host
+is blocked (some cloud sandboxes), load it from npm into the project instead.
+Set `HYPERFRAMES_NO_TELEMETRY=1` to turn off its anonymous usage telemetry.
 
 ## Writing profiles
 
