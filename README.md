@@ -18,6 +18,7 @@ or session.
 | ECC (`ecc:*`, 293 skills, 68 agents, 94 commands) | Engineering workflows: TDD, code review, security, planning, language and framework skills, operator workflows | [affaan-m/ECC](https://github.com/affaan-m/ECC) v2.2.3 official plugin, installed by `install.sh` with its hooks off (needs the `claude` CLI) |
 | AI co-writing (11 skills) | Voice DNA, ICP and business profiles, then LinkedIn posts, X threads, Substack notes, sales emails, how-to guides, thought leadership, bios, LinkedIn profile | Uploaded `ai-co-writing-claude-skills` zip (`voice-dna-creator` also uploaded on its own), in `.claude/skills/` |
 | motion-primitives | 33 animated React components (text effects, morphing dialog, dock, carousel, spotlight, tilt...) built with Motion and Tailwind; adds them by CLI or copies the vendored source | [ibelick/motion-primitives](https://github.com/ibelick/motion-primitives) (MIT), in `.claude/skills/motion-primitives` |
+| find-skills (Skills CLI, `npx skills`) | Searches the open skills ecosystem (skills.sh) for a skill that fits a task and installs it | [vercel-labs/skills](https://github.com/vercel-labs/skills) v1.7.0 (MIT), in `.claude/skills/find-skills`; the CLI runs with `npx`, nothing to install. Search needs `skills.sh`, which this cloud environment blocks |
 | claudedesignskills (22 skills) | Three.js, R3F, GSAP, Motion, Babylon.js, Lottie, Rive, Spline and more | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills), in `.claude/skills/` |
 
 ## Use in every project
