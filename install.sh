@@ -129,7 +129,7 @@ if command -v claude >/dev/null 2>&1; then
   grep -q '"ecc@ecc"' "$claude_dir/settings.json" 2>/dev/null && ecc_config=()
   claude plugin marketplace add affaan-m/ECC >/dev/null 2>&1 \
     || claude plugin marketplace update ecc >/dev/null 2>&1 || true
-  if claude plugin install ecc@ecc "${ecc_config[@]}" >/dev/null 2>&1; then
+  if claude plugin install ecc@ecc ${ecc_config[@]+"${ecc_config[@]}"} >/dev/null 2>&1; then
     echo "  • ecc@ecc"
   else
     echo "  ✗ ECC plugin install failed; run: claude plugin install ecc@ecc --config hooks_enabled=false" >&2
