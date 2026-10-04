@@ -742,7 +742,6 @@ section {
   font-variation-settings: 'opsz' 36;
   letter-spacing: -0.03em;
 }
-.mq__item,
 .contact__big {
   font-weight: 480;
 }
@@ -752,7 +751,6 @@ section {
 .line--em,
 .hc__b,
 .hero__line--em .hc__a,
-.mq__item--em,
 .brands li:nth-child(even),
 .pv-poster__type,
 .deck__quote {
@@ -1282,13 +1280,13 @@ section {
 .mq__item {
   padding: 0 28px;
   font-family: var(--serif);
+  /* one bold style for every word, so the strip reads as a single line */
+  font-weight: 700;
+  font-variation-settings: 'opsz' 36;
+  letter-spacing: -0.03em;
   font-size: clamp(30px, 4vw, 52px);
   line-height: 1;
   white-space: nowrap;
-}
-.mq__item--em {
-  font-style: italic;
-  color: var(--brand-ink);
 }
 .mq__star {
   color: var(--ink);

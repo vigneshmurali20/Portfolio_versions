@@ -220,7 +220,7 @@ const renderHero = () => {
 /* ---------------------------------------------------------------- marquee */
 const renderMarquee = () => {
   const words = ['UI/UX Design', 'Product Design', 'Motion Graphics', 'Graphic Design', 'Branding', 'App Design', 'Video Editing', 'Print'];
-  const row = words.map((w, i) => `<span class="mq__item${i % 2 ? ' mq__item--em' : ''}">${esc(w)}</span><span class="mq__star">${icon('sparkle')}</span>`).join('');
+  const row = words.map((w) => `<span class="mq__item">${esc(w)}</span><span class="mq__star">${icon('sparkle')}</span>`).join('');
   return `
   <div class="mq" aria-hidden="true" data-marquee>
     <div class="mq__track">${row}${row}</div>
