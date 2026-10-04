@@ -1,0 +1,123 @@
+{
+  "business_profile": {
+    "version": "1.0",
+    "last_updated": "2025-01-01",
+
+    "company_overview": {
+      "name": "YOUR COMPANY/BRAND NAME",
+      "tagline": "YOUR TAGLINE - One line that captures what you do",
+      "mission": "YOUR MISSION - Why you exist",
+      "vision": "YOUR VISION - Where you're heading"
+    },
+
+    "value_proposition": {
+      "primary_value": "MAIN VALUE - The #1 thing you help people achieve",
+      "unique_mechanism": "YOUR METHOD - How you uniquely deliver this value",
+      "key_differentiators": [
+        "DIFFERENTIATOR 1 - What sets you apart",
+        "DIFFERENTIATOR 2 - Another unique aspect",
+        "DIFFERENTIATOR 3 - Third differentiator"
+      ]
+    },
+
+    "offerings": {
+      "products": [
+        {
+          "name": "PRODUCT NAME",
+          "type": "TYPE - e.g., Course, Software, Service",
+          "description": "Brief description",
+          "price_point": "PRICE or RANGE",
+          "ideal_for": "Who this is best for"
+        }
+      ],
+      "services": [
+        {
+          "name": "SERVICE NAME",
+          "type": "TYPE - e.g., Consulting, Done-for-you, Coaching",
+          "description": "Brief description",
+          "price_point": "PRICE or RANGE",
+          "ideal_for": "Who this is best for"
+        }
+      ],
+      "free_resources": [
+        {
+          "name": "RESOURCE NAME",
+          "type": "TYPE - e.g., Newsletter, Lead magnet, Community",
+          "description": "Brief description",
+          "value": "What people get from it"
+        }
+      ]
+    },
+
+    "positioning": {
+      "market_position": "POSITION - e.g., Premium, accessible, budget-friendly",
+      "competitor_comparison": "HOW YOU DIFFER - Without naming competitors",
+      "category": "CATEGORY - What category do you compete in",
+      "niche_focus": "NICHE - Your specific area of focus"
+    },
+
+    "brand_voice_summary": {
+      "personality": "PERSONALITY - How your brand comes across",
+      "tone": "TONE - The overall feeling of your communication",
+      "values_demonstrated": [
+        "VALUE 1 - A value you demonstrate in content",
+        "VALUE 2",
+        "VALUE 3"
+      ]
+    },
+
+    "social_proof": {
+      "key_metrics": [
+        "METRIC 1 - e.g., 10,000+ newsletter subscribers",
+        "METRIC 2 - e.g., 500+ clients served",
+        "METRIC 3 - e.g., Featured in [publications]"
+      ],
+      "testimonial_themes": [
+        "THEME 1 - Common things clients say",
+        "THEME 2 - Another common praise"
+      ],
+      "notable_clients_or_features": [
+        "CLIENT/FEATURE 1",
+        "CLIENT/FEATURE 2"
+      ]
+    },
+
+    "content_pillars": {
+      "primary_topics": [
+        "TOPIC 1 - Main subject you cover",
+        "TOPIC 2 - Second key topic",
+        "TOPIC 3 - Third key topic"
+      ],
+      "content_mission": "WHY - The purpose behind your content",
+      "content_style": "HOW - The style/approach of your content"
+    },
+
+    "calls_to_action": {
+      "primary_cta": {
+        "action": "MAIN CTA - e.g., Subscribe to newsletter",
+        "url": "URL if applicable",
+        "when_to_use": "When to include this CTA"
+      },
+      "secondary_ctas": [
+        {
+          "action": "SECONDARY CTA",
+          "when_to_use": "When to include this"
+        }
+      ]
+    },
+
+    "platforms": {
+      "primary_platform": "PLATFORM - Where you're most active",
+      "secondary_platforms": ["PLATFORM 1", "PLATFORM 2"],
+      "website": "YOUR WEBSITE URL",
+      "handles": {
+        "twitter": "@HANDLE",
+        "linkedin": "PROFILE URL",
+        "substack": "SUBSTACK URL",
+        "other": "OTHER PLATFORMS"
+      }
+    }
+  },
+
+  "instructions": "REPLACE ALL PLACEHOLDER TEXT (in CAPS) with your actual business information. Run the business-profile-creator skill with an interview to generate a personalized version."
+}

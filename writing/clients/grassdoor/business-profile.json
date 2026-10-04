@@ -1,0 +1,103 @@
+{
+  "business_profile": {
+    "version": "1.0",
+    "last_updated": "2026-10-03",
+    "coverage_note": "Built from the Grassdoor brand context handover, Brand Book and Copy Playbook (Grassdoor Copy and Creative project). Fields marked 'unknown' were not in those sources; confirm with the stakeholder.",
+
+    "company_overview": {
+      "name": "Grassdoor",
+      "tagline": "California's most trusted Cannabis Delivery Service",
+      "mission": "Do the hard work so ordering cannabis is easy: fast, reliable, safe and discreet delivery of the top California brands.",
+      "vision": "Be the default place Californians order cannabis from: the widest selection, fast and reliable delivery, and an effortless reorder (internal north star: the 'Amazon of cannabis', never named in customer copy).",
+      "legal": {
+        "license": "C10-0001336-LIC",
+        "address": "3363 Glendale Boulevard, Los Angeles, CA (ZIP to confirm)",
+        "age_rule": "21+, or 18+ with a medical card"
+      },
+      "status": "Reopening ('Grassdoor is back') with wallet credit and a 20% credit-back offer. Customers date back to at least 2021."
+    },
+
+    "value_proposition": {
+      "primary_value": "Super Fast, reliable delivery of all the top California brands in one place, with credit you earn back on every order.",
+      "unique_mechanism": "Personal service at delivery-app speed: real-time ETA and live tracking, live customer service and budtenders, personal picks from your order history, and wallet credit earned on what you spend.",
+      "key_differentiators": [
+        "Speed: 'Super Fast' delivery with real-time ETA and live tracking (no specific delivery time until confirmed)",
+        "Convenience: effortless reorder ('Start your next order')",
+        "Deals: 20% credit back into the Grassdoor wallet",
+        "Selection: all the top California brands in one place",
+        "Reliability: on time, safe and discreet; curbside hand-off",
+        "Quality: the freshest flower, tested by our buyer"
+      ]
+    },
+
+    "offerings": {
+      "products": ["Vapes", "Pre-rolls", "Flower", "Edibles", "Extracts", "Drinks", "Wellness", "Accessories"],
+      "services": [
+        "On-demand cannabis delivery in its California delivery zone, met at the curb",
+        "Real-time ETA and live tracking",
+        "Live customer service and budtenders",
+        "Grassdoor wallet credit and the 20% credit-back program",
+        "Daily deals"
+      ],
+      "free_resources": ["Budtender advice", "'See if we deliver to you' address check"],
+      "current_offer": {
+        "wording": "Get 20% back in Grassdoor Credit on every order you complete before {end date}. Credits go straight into your Grassdoor wallet for future orders.",
+        "terms": "Credits expire 90 days from the date of issuance. Credits are earned, never framed as free or a gift.",
+        "unconfirmed": ["Live end date (June/July 31 in old drafts vs September 30 in designs)", "30% first-order vs 20% second-order rates", "Whether credit stacks with other discounts"]
+      }
+    },
+
+    "positioning": {
+      "market_position": "A trusted service provider, not a lifestyle brand: polished, professional and modern, never 'weedy'.",
+      "competitor_comparison": "Unlike lifestyle cannabis brands such as STIIIZY, Grassdoor wins on reliability, speed, selection and ease. Convenience is benchmarked against Amazon, tone against Uber (to the point) and DoorDash (friendly, information-rich).",
+      "category": "Licensed cannabis delivery service (California)",
+      "niche_focus": "Customers in the delivery zone, especially lapsed customers returning for the reopening"
+    },
+
+    "brand_voice_summary": {
+      "personality": ["trustworthy", "professional", "friendly", "empathetic", "energetic"],
+      "tone": "Warm, clear and professional: a real person (Alex) from a reliable company, in plain American English. Full detail in voice-dna.json.",
+      "values_demonstrated": ["reliability", "honesty about limits", "personal care", "discretion", "compliance"]
+    },
+
+    "social_proof": {
+      "key_metrics": ["Customers since 2021", "Review ratings appear in designs (4.7 / 1,900+ Google reviews, 4.8 on Leafly) but are not yet verified: do not use until sourced"],
+      "testimonial_themes": ["On-time delivery", "Discreet service", "Helpful budtenders", "Fresh product"],
+      "notable_clients_or_features": ["unknown"]
+    },
+
+    "content_pillars": {
+      "primary_topics": ["Grassdoor is back", "Super Fast delivery and live tracking", "Wallet credit you earn", "Your favorites, restocked", "The freshest flower", "Live support and budtenders"],
+      "content_mission": "Make every message feel like a personal note from a service the customer trusts, with one clear offer and a real product or deal feed.",
+      "content_style": "Short sentences, two-beat body (reason, then offer), one hero, three trust icons, one CTA, full legal footer."
+    },
+
+    "calls_to_action": {
+      "primary_cta": {
+        "action": "Start your next order",
+        "url": "unknown",
+        "when_to_use": "Returning and lapsed customers; reorder and wallet-credit emails"
+      },
+      "secondary_ctas": ["Shop the menu", "See if we deliver to you"]
+    },
+
+    "platforms": {
+      "primary_platform": "Email (CleverTap journeys with 1 to 2 personalized modules)",
+      "secondary_platforms": ["MMS/SMS", "Website pop-ups", "Home page"],
+      "website": "grassdoor.com",
+      "handles": {
+        "twitter": "unknown",
+        "linkedin": "unknown",
+        "substack": "n/a",
+        "other": "unknown"
+      }
+    },
+
+    "team": {
+      "voice_owner": "Alex (signs welcome and relationship emails; the Grassdoor Team signs offer emails by default)",
+      "stakeholder_feedback": "Zack E (credits are earned, not given away)",
+      "data_owner": "Abhik (CleverTap personalization data)",
+      "client_lead": "Vignesh"
+    }
+  }
+}

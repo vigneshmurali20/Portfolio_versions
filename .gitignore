@@ -1,0 +1,3 @@
+# Per-user state skills write into their own folders (logins, libraries, venvs)
+.claude/skills/*/data/
+.claude/skills/*/.venv/
