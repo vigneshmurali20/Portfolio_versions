@@ -255,6 +255,20 @@ const previews = {
         ${[0, 22, 48, 74, 100].map((x) => `<i style="--x:${x}%"></i>`).join('')}
       </div>
     </div>`,
+  logo: `
+    <div class="pv pv--logo">
+      <span class="pv-logo__grid"></span>
+      <span class="pv-logo__ring pv-logo__ring--a"></span>
+      <span class="pv-logo__ring pv-logo__ring--b"></span>
+      <svg class="pv-logo__mark" viewBox="-2 -2 43.25 31.3"><path pathLength="1" transform="matrix(1 0 0 -1 0 27.3)" d="${logoPath}"/></svg>
+    </div>`,
+  print: `
+    <div class="pv pv--print">
+      <span class="pv-print__sheet pv-print__sheet--a"><i></i><i></i><i></i></span>
+      <span class="pv-print__sheet pv-print__sheet--b"><i></i><i></i><i></i></span>
+      <span class="pv-print__sheet pv-print__sheet--c"><b>SALE</b><i></i><i></i></span>
+      <span class="pv-print__crop"></span>
+    </div>`,
   poster: `
     <div class="pv pv--poster">
       <span class="pv-poster__c"></span><span class="pv-poster__s"></span><span class="pv-poster__t"></span><span class="pv-poster__r"></span>
@@ -336,11 +350,11 @@ const renderAiLab = () => `
           (g) => `
         <div class="ai__group">
           <h3 class="ai__group-title">${esc(g.group)}</h3>
-          <ul class="ai__grid" style="--cols:${Math.ceil(g.items.length / 2)}">
+          <ul class="ai__grid">
             ${g.items
-              .map((t, i) => {
+              .map((t) => {
                 const { svg, color } = aiIcon(t);
-                return `<li class="ai-tile" style="--c:${color};--d:${(i % 6) * 0.4}s"><span class="ai-tile__icon">${svg}</span><span class="ai-tile__name">${esc(t.name)}</span></li>`;
+                return `<li class="ai-tile" style="--c:${color}"><span class="ai-tile__icon">${svg}</span><span class="ai-tile__name">${esc(t.name)}</span></li>`;
               })
               .join('')}
           </ul>

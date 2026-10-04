@@ -76,7 +76,7 @@ export const ringCards = [
 
 export const disciplinesIntro = {
   eyebrow: 'Disciplines',
-  title: ['Four crafts,', 'one calm language.'],
+  title: ['Six crafts,', 'one calm language.'],
   body: 'Most projects need more than one kind of design. I move between them so the product, the brand and the motion all say the same thing.',
 };
 
@@ -116,6 +116,24 @@ export const disciplines = [
     body: 'Campaign creatives, social series, email design, print and merchandise. Systems that keep every touchpoint on brand.',
     deliverables: ['Campaigns', 'Social media', 'Email design', 'Print & merch', 'Branding'],
     project: { label: 'Flyer Automation — Brand', href: 'https://www.behance.net/gallery/230710601/Flyer-Automation-Brand', image: 'images/work/graphic.png' },
+  },
+  {
+    key: 'logo',
+    title: 'Logo Design',
+    short: 'Logo',
+    preview: 'logo',
+    body: 'Logos and identity marks built on simple geometry, so they stay sharp everywhere from an app icon to a billboard.',
+    deliverables: ['Logomarks', 'Wordmarks', 'Monograms', 'Brand guidelines', 'Logo animation'],
+    project: { label: 'Branding for a Fintech Service', href: 'https://www.behance.net/gallery/218921809/Branding-for-a-Fintech-Service', image: 'images/work/branding.png' },
+  },
+  {
+    key: 'print',
+    title: 'Print Design',
+    short: 'Print',
+    preview: 'print',
+    body: 'Brochures, flyers, posters and merchandise, prepared print-ready with bleed, colour and paper in mind.',
+    deliverables: ['Brochures', 'Flyers', 'Posters', 'Merchandise', 'Offer collaterals'],
+    project: { label: 'Merchandise', href: 'https://www.behance.net/gallery/230692137/Merchandise', image: 'images/work/print.png' },
   },
 ];
 
@@ -186,12 +204,12 @@ export const toolboxIntro = {
 // The playground tools. `value` is the proficiency from the Figma skill rings.
 export const tools = [
   { key: 'figma', name: 'Figma', value: 100, src: 'images/tools/figma.png', use: 'UI/UX, design systems and clickable prototypes.', disciplines: ['uiux', 'product'] },
-  { key: 'illustrator', name: 'Adobe Illustrator', value: 90, src: 'images/tools/illustrator.png', use: 'Logos, brand marks and vector illustration.', disciplines: ['graphic'] },
+  { key: 'illustrator', name: 'Adobe Illustrator', value: 90, src: 'images/tools/illustrator.png', use: 'Logos, brand marks and vector illustration.', disciplines: ['logo', 'graphic'] },
   { key: 'photoshop', name: 'Adobe Photoshop', value: 90, src: 'images/tools/photoshop.png', use: 'Campaign key visuals, compositing and retouching.', disciplines: ['graphic'] },
   { key: 'aftereffects', name: 'Adobe After Effects', value: 75, src: 'images/tools/aftereffects.png', use: 'Logo animation, explainers and UI motion.', disciplines: ['motion'] },
   { key: 'framer', name: 'Framer', value: 85, src: 'images/tools/framer.png', use: 'Interactive prototypes and live marketing sites.', disciplines: ['uiux', 'motion'] },
   { key: 'premiere', name: 'Adobe Premiere Pro', value: 75, src: 'images/tools/premiere.png', use: 'Video editing, reels and promos.', disciplines: ['motion'] },
-  { key: 'indesign', name: 'Adobe InDesign', value: 100, src: 'images/tools/indesign.png', use: 'Brochures, print layouts and decks.', disciplines: ['graphic'] },
+  { key: 'indesign', name: 'Adobe InDesign', value: 100, src: 'images/tools/indesign.png', use: 'Brochures, print layouts and decks.', disciplines: ['print', 'graphic'] },
   { key: 'webflow', name: 'Webflow', value: 85, src: 'images/tools/webflow.png', use: 'No-code websites with real CMS content.', disciplines: ['uiux'] },
   { key: 'xd', name: 'Adobe XD', value: 90, src: 'images/tools/xd.png', use: 'Wireframes and quick flow prototypes.', disciplines: ['uiux', 'product'] },
   { key: 'lightroom', name: 'Adobe Lightroom', value: 90, src: 'images/tools/lightroom.png', use: 'Photo grading for campaigns and social.', disciplines: ['graphic'] },
