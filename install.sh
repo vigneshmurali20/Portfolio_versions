@@ -76,6 +76,20 @@ else
   echo "  ⚠ claude CLI not found; skipped (install with: claude plugin marketplace add heygen-com/hyperframes)"
 fi
 
+echo "→ Installing brag plugin"
+# latent-spaces/brag: /brag and /brag-slim launch videos (built on HyperFrames).
+if command -v claude >/dev/null 2>&1; then
+  claude plugin marketplace add latent-spaces/brag >/dev/null 2>&1 \
+    || claude plugin marketplace update brag >/dev/null 2>&1 || true
+  if claude plugin install brag@brag >/dev/null 2>&1; then
+    echo "  • brag@brag"
+  else
+    echo "  ✗ brag plugin install failed; run: claude plugin install brag@brag" >&2
+  fi
+else
+  echo "  ⚠ claude CLI not found; skipped"
+fi
+
 echo "→ Installing ECC plugin (hooks off)"
 # affaan-m/ECC: 293 skills, 68 agents, 94 commands. Its hooks start disabled;
 # an existing choice in ~/.claude/settings.json is left as it is.
