@@ -12,6 +12,7 @@ or session.
 | HyperFrames (`/hyperframes:hyperframes`, 21 skills) | Make videos from HTML: compositions, GSAP animation, captions, voiceover, audio-reactive visuals, website capture, rendering via `npx hyperframes` | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) official plugin, installed by `install.sh` (needs the `claude` CLI) |
 | Remotion (12 official skills) | `remotion-best-practices` router plus create, markup, render, studio, captions, maps, multimedia, interactivity, SaaS, docs, upgrade | [remotion-dev/remotion](https://github.com/remotion-dev/remotion/tree/main/packages/skills) v4.0.532 `packages/skills`, in `.claude/skills/remotion-*` (replaces the toolkit's older `remotion-official` copy) |
 | brag (`/brag`, `/brag-slim`) | Turn the project you just shipped into a short launch video, read straight from its code (uses HyperFrames) | [latent-spaces/brag](https://github.com/latent-spaces/brag) v0.4.0 official plugin, installed by `install.sh` (needs the `claude` CLI) |
+| unlazy (`/unlazy`) | Completion discipline for long tasks: writes acceptance gates first, splits work with a "Depth Tree", runs approved checks, re-verifies before saying done | [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy), in `.claude/skills/unlazy` (optional Stop hook not installed) |
 | ECC (`ecc:*`, 293 skills, 68 agents, 94 commands) | Engineering workflows: TDD, code review, security, planning, language and framework skills, operator workflows | [affaan-m/ECC](https://github.com/affaan-m/ECC) v2.2.3 official plugin, installed by `install.sh` with its hooks off (needs the `claude` CLI) |
 | AI co-writing (11 skills) | Voice DNA, ICP and business profiles, then LinkedIn posts, X threads, Substack notes, sales emails, how-to guides, thought leadership, bios, LinkedIn profile | Uploaded `ai-co-writing-claude-skills` zip (`voice-dna-creator` also uploaded on its own), in `.claude/skills/` |
 | claudedesignskills (22 skills) | Three.js, R3F, GSAP, Motion, Babylon.js, Lottie, Rive, Spline and more | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills), in `.claude/skills/` |
@@ -117,6 +118,10 @@ between sessions) that run on every command, edit and turn. `install.sh`
 installs ECC with them off. To turn them on, run
 `/plugin configure ecc@ecc` in Claude Code and set `hooks_enabled` to true;
 re-running `install.sh` keeps that choice.
+
+unlazy has an optional Stop hook that blocks Claude from finishing while
+gates are unmet. It is not installed; to add it to one project, run
+`node ~/.claude/skills/unlazy/scripts/install-hooks.mjs` there.
 
 Impeccable ships hooks that run its design checker after every edit and at
 the end of each turn. They are not installed. To turn them on in a project,
