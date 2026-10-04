@@ -101,11 +101,13 @@ else
   echo "  ⚠ claude CLI not found; skipped"
 fi
 
-echo "→ Installing NotebookLM MCP server (local computers only)"
+echo "→ NotebookLM MCP server (opt-in, local computers only)"
 # notebooklm-mcp-server drives your signed-in Google session, so it is only
 # set up on your own computer, never in cloud sessions. Pinned: it otherwise
 # updates itself on startup.
-if [ -n "${CLAUDE_CODE_REMOTE:-}" ]; then
+if [ "${WITH_NOTEBOOKLM_MCP:-0}" != 1 ]; then
+  echo "  ⚠ off by default (many Google accounts block it); enable with WITH_NOTEBOOKLM_MCP=1"
+elif [ -n "${CLAUDE_CODE_REMOTE:-}" ]; then
   echo "  ⚠ cloud session; skipped"
 elif ! command -v npm >/dev/null 2>&1 || ! command -v claude >/dev/null 2>&1; then
   echo "  ⚠ npm or claude CLI not found; skipped"
