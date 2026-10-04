@@ -22,6 +22,7 @@ import {
   processSteps,
   testimonialsIntro,
   testimonialsAreSamples,
+  brands,
   testimonials,
   contact,
 } from './content.js';
@@ -68,7 +69,7 @@ export const vMark = (cls = 'vmark') =>
 const wordmark = () => `
   <span class="wordmark" aria-hidden="true">${vMark()}<span class="wordmark__text">${[...site.name]
     .map((c, i) => `<span class="wm-ch" style="--i:${i}"><span>${c}</span><span>${c}</span></span>`)
-    .join('')}</span><span class="wordmark__deg">°</span></span>`;
+    .join('')}</span></span>`;
 
 /* Headline letters carry two copies (upright and italic) for the roll effect.
    The visible copy is aria-hidden; a plain copy is read instead. */
@@ -411,7 +412,7 @@ const renderAbout = () => `
   <section class="about" id="about" aria-labelledby="about-title">
     <div class="about__grid">
       <div class="about__photo" data-tilt data-reveal>
-        <img src="${site.portraitSmile}" alt="${esc(site.portraitSmileAlt)}" width="640" height="640" loading="lazy" />
+        <img src="${site.portraitAbout}" alt="${esc(site.portraitAboutAlt)}" width="928" height="1120" loading="lazy" />
         <span class="about__sticker">${icon('pin')} ${esc(site.location)}</span>
         <span class="about__clock" data-clock aria-label="Local time in Bangalore">--:--</span>
       </div>
@@ -480,9 +481,13 @@ const renderTestimonials = () => `
       ${sectionHead(testimonialsIntro, 'testi')}
       ${
         testimonialsAreSamples
-          ? '<p class="sample-note" data-reveal>Sample quotes, shown as placeholders until real client quotes are added.</p>'
+          ? '<p class="sample-note" data-reveal>Draft quotes, to be confirmed with each client.</p>'
           : ''
       }
+    </div>
+    <div class="brands" data-reveal>
+      <p class="brands__label">Brands I’ve worked with</p>
+      <ul>${brands.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>
     </div>
     <div class="deck" data-deck>
       <div class="deck__cards" data-deck-cards>
@@ -501,7 +506,7 @@ const renderTestimonials = () => `
                   .join(''),
               )}</span>
               <span><b>${esc(t.name)}</b><small>${esc(t.role)}</small></span>
-              ${testimonialsAreSamples ? '<span class="deck__sample">Sample</span>' : ''}
+              ${testimonialsAreSamples ? '<span class="deck__sample">Draft</span>' : ''}
             </figcaption>
           </figure>`,
           )
@@ -574,7 +579,7 @@ export const renderFooter = () => `
       </ul>
       <a class="footer__top" href="#top" data-magnetic>${icon('arrowUp')}<span>Back to top</span></a>
     </div>
-    <p class="footer__mark" aria-hidden="true" data-footer-mark>${[...site.name].map((c) => `<span>${c}</span>`).join('')}<span class="footer__deg">°</span></p>
+    <p class="footer__mark" aria-hidden="true" data-footer-mark>${[...site.name].map((c) => `<span>${c}</span>`).join('')}</p>
   </footer>`;
 
 /* ---------------------------------------------------------------- reel dialog */

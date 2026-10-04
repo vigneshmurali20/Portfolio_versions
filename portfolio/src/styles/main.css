@@ -2374,6 +2374,24 @@ html.reduced-motion .about__statement .w__i {
   max-width: 56ch;
   color: #d4cde6;
 }
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 34px;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 24px);
+  letter-spacing: -0.01em;
+  color: #e9e4f7;
+}
+.brands li {
+  opacity: 0.72;
+  transition: opacity 0.3s;
+}
+.brands li:hover {
+  opacity: 1;
+}
 .sample-note {
   padding: 6px 14px;
   border-radius: 999px;
