@@ -90,6 +90,26 @@ else
   echo "  ⚠ claude CLI not found; skipped"
 fi
 
+echo "→ Installing NotebookLM MCP server (local computers only)"
+# notebooklm-mcp-server drives your signed-in Google session, so it is only
+# set up on your own computer, never in cloud sessions. Pinned: it otherwise
+# updates itself on startup.
+if [ -n "${CLAUDE_CODE_REMOTE:-}" ]; then
+  echo "  ⚠ cloud session; skipped"
+elif ! command -v npm >/dev/null 2>&1 || ! command -v claude >/dev/null 2>&1; then
+  echo "  ⚠ npm or claude CLI not found; skipped"
+elif npm install -g --ignore-scripts notebooklm-mcp-server@4.0.2 >/dev/null 2>&1; then
+  # The browser is only needed for the one-time Google sign-in; a failed
+  # download must not undo the install.
+  (cd "$(npm root -g)/notebooklm-mcp-server" && npx --no-install playwright install chromium >/dev/null 2>&1) \
+    || echo "  ⚠ sign-in browser not downloaded; run: npx playwright install chromium"
+  claude mcp get notebooklm >/dev/null 2>&1 \
+    || claude mcp add --scope user notebooklm -- notebooklm-mcp-server start >/dev/null 2>&1
+  echo "  • notebooklm (sign in once: notebooklm-mcp-server auth)"
+else
+  echo "  ✗ NotebookLM install failed; run: npm install -g notebooklm-mcp-server@4.0.2" >&2
+fi
+
 echo "→ Installing ECC plugin (hooks off)"
 # affaan-m/ECC: 293 skills, 68 agents, 94 commands. Its hooks start disabled;
 # an existing choice in ~/.claude/settings.json is left as it is.
