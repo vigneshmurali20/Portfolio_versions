@@ -1,0 +1,66 @@
+{
+  "ideal_client_profile": {
+    "version": "1.0",
+    "last_updated": "2026-10-03",
+    "coverage_note": "Inferred from the Grassdoor brand context, Brand Book and Copy Playbook. There is no customer research in those sources yet, so demographics beyond the legal age rule are unknown. Replace inferences with CleverTap data and customer research when available.",
+
+    "demographics": {
+      "age_range": "21+ (or 18+ with a medical card). Copy avoids words people over 30 might not know, so the audience is assumed to include older adults.",
+      "gender": "unknown (write gender-neutral)",
+      "location": "California, inside Grassdoor's current delivery zone (Los Angeles base; coverage still growing)",
+      "income_level": "unknown",
+      "education": "unknown"
+    },
+
+    "professional_profile": {
+      "job_titles": ["n/a (consumer audience)"],
+      "industries": ["n/a"],
+      "company_size": "n/a",
+      "experience_level": "Experienced cannabis buyers: many ordered from Grassdoor before (some since 2021) and know the product categories",
+      "decision_making_power": "Buys for themselves; chooses between delivery services on speed, reliability, selection and price"
+    },
+
+    "psychographics": {
+      "values": ["reliability", "convenience", "discretion", "fair value", "being treated as a person, not a number"],
+      "beliefs": ["A delivery service should be as easy and predictable as other on-demand apps", "Cannabis is a normal adult purchase that deserves professional service"],
+      "personality_traits": ["busy", "practical", "values their time", "dislikes being talked down to or stereotyped"]
+    },
+
+    "problems_and_pain_points": {
+      "primary_problems": ["Waiting too long or not knowing when an order will arrive", "Not finding their favorite California brands in one place", "Unreliable or unprofessional delivery experiences"],
+      "frustrations": ["Generic promo emails ('Hi There')", "Confusing offers worded three different ways", "Stoner-culture marketing that doesn't match them", "Deals with hidden terms or no end date"],
+      "fears": ["Indiscreet delivery", "Paying for credit that expires unnoticed", "Ordering from a service that has closed or doesn't cover their area"]
+    },
+
+    "goals_and_desires": {
+      "immediate_goals": ["Reorder their usual products quickly", "Use the wallet credit they've earned before it expires", "Know exactly when their order will arrive"],
+      "long_term_aspirations": ["A dependable default service they don't have to think about"],
+      "dream_outcome": "Open one app, find every brand they like, order in a minute, get it fast, on time and discreetly at the curb, and earn credit toward the next order."
+    },
+
+    "language_patterns": {
+      "words_they_use": ["order", "delivery", "favorites", "deals", "credit", "flower", "pre-rolls", "edibles", "vapes"],
+      "phrases_they_say": ["When will it get here?", "Do you deliver to me?", "Is my credit still good?", "Shouldn't it say my name?"],
+      "questions_they_ask": ["Do you deliver to my address?", "How long will delivery take?", "When does my credit expire?", "Is my favorite back in stock?"],
+      "jargon_they_know": ["budtender", "strain", "pre-roll", "extract"]
+    },
+
+    "content_consumption": {
+      "platforms": ["Email", "SMS/MMS", "Grassdoor website and app"],
+      "content_formats": ["Short personal emails", "Product and deal feeds", "One-line SMS with a link"],
+      "consumption_time": "unknown (test send times)",
+      "attention_span": "Short: scans the hero, the offer and the feed"
+    },
+
+    "objections": {
+      "common_objections": ["Is Grassdoor really back and reliable now?", "Is the offer real, and what are the terms?", "Do they still deliver to my area?"],
+      "trust_barriers": ["The service paused before the reopening", "Inconsistent or unverifiable claims", "Generic, impersonal messages"]
+    },
+
+    "buying_triggers": {
+      "emotional_triggers": ["A personal note from Alex ('We've missed you')", "Seeing their own favorites restocked", "Recognition of their history with Grassdoor"],
+      "logical_triggers": ["20% credit back with a clear end date", "Wallet credit about to expire", "Super Fast delivery with live tracking", "All the top California brands in one place"],
+      "timing_triggers": ["Reopening announcement", "Credit expiry reminders", "Restock of a past order", "Daily deals"]
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "voice_dna": {
+    "version": "1.0",
+    "last_updated": "2025-01-01",
+
+    "core_essence": {
+      "identity": "YOUR IDENTITY HERE - e.g., A founder who shares practical insights",
+      "primary_role": "YOUR ROLE - e.g., Educator, thought leader, practitioner",
+      "unique_angle": "WHAT MAKES YOU DIFFERENT - Your unique perspective or approach"
+    },
+
+    "personality_traits": {
+      "primary": ["TRAIT 1", "TRAIT 2", "TRAIT 3"],
+      "how_it_shows": {
+        "trait_1": "How this trait appears in your writing",
+        "trait_2": "How this trait appears in your writing",
+        "trait_3": "How this trait appears in your writing"
+      }
+    },
+
+    "emotional_palette": {
+      "dominant_emotions": ["EMOTION 1", "EMOTION 2"],
+      "emotional_range": {
+        "excitement": "When and how you show excitement",
+        "frustration": "When and how you express frustration",
+        "empathy": "How you connect emotionally with readers"
+      },
+      "energy_level": "YOUR ENERGY - e.g., High energy but grounded, Calm and measured"
+    },
+
+    "communication_style": {
+      "formality": "LEVEL - e.g., Conversational but professional",
+      "complexity": "LEVEL - e.g., Simple and direct, avoids jargon",
+      "sentence_structure": {
+        "preferred_length": "SHORT/MEDIUM/LONG - e.g., Mix of short punchy and medium",
+        "patterns": ["Pattern 1", "Pattern 2"]
+      },
+      "paragraph_style": "YOUR STYLE - e.g., Short paragraphs, lots of white space"
+    },
+
+    "language_patterns": {
+      "signature_phrases": [
+        "PHRASE 1 - A phrase you use often",
+        "PHRASE 2",
+        "PHRASE 3"
+      ],
+      "power_words": ["WORD 1", "WORD 2", "WORD 3", "WORD 4", "WORD 5"],
+      "words_to_avoid": [
+        "WORD - Why you avoid it",
+        "WORD - Why you avoid it"
+      ],
+      "transitions": ["TRANSITION 1", "TRANSITION 2", "TRANSITION 3"]
+    },
+
+    "never_say": {
+      "phrases": [
+        "PHRASE - Why you never say this",
+        "PHRASE - Why you never say this"
+      ],
+      "tones": [
+        "TONE - e.g., Never preachy or condescending",
+        "TONE - e.g., Never salesy or pushy"
+      ],
+      "approaches": [
+        "APPROACH - e.g., Never use clickbait",
+        "APPROACH - e.g., Never make empty promises"
+      ]
+    },
+
+    "formatting_preferences": {
+      "uses_emojis": false,
+      "emoji_style": "IF TRUE - When and how you use them",
+      "uses_lists": true,
+      "list_style": "HOW - e.g., Numbered for steps, bullets for options",
+      "uses_headers": true,
+      "header_style": "HOW - e.g., Question-based, action-oriented",
+      "uses_bold": true,
+      "bold_for": "WHAT - e.g., Key points and important terms"
+    },
+
+    "content_philosophy": {
+      "core_belief": "YOUR BELIEF - What drives your content",
+      "value_delivery": "HOW YOU DELIVER VALUE - e.g., Practical, actionable insights",
+      "relationship_with_reader": "HOW YOU RELATE - e.g., Peer showing what works, not guru preaching"
+    },
+
+    "voice_examples": {
+      "opening_lines": [
+        "EXAMPLE - How you typically open content",
+        "EXAMPLE - Another opening style"
+      ],
+      "closing_lines": [
+        "EXAMPLE - How you typically close content",
+        "EXAMPLE - Another closing style"
+      ],
+      "transitional_phrases": [
+        "EXAMPLE - How you move between ideas",
+        "EXAMPLE - Another transition"
+      ]
+    }
+  },
+
+  "instructions": "REPLACE ALL PLACEHOLDER TEXT (in CAPS) with your actual voice characteristics. Run the voice-dna-creator skill with writing samples to generate a personalized version."
+}

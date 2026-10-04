@@ -1,0 +1,159 @@
+{
+  "voice_dna": {
+    "version": "1.0",
+    "last_updated": "2026-10-03",
+    "subject": "Grassdoor (brand voice, written by Claude for the Grassdoor Copy and Creative project)",
+    "sources": [
+      "grassdoor-brand-context.md (handover from the Grassdoor Copy and Creative project, 2026-10-04)",
+      "Grassdoor Brand Book (Claude Doc, rev 9)",
+      "Grassdoor Copy Playbook (Claude Doc, rev 10)",
+      "The stakeholder's own words quoted in those docs (feedback email, test-email versions, journey brief, two brand questionnaire responses)"
+    ],
+    "coverage_note": "Built from brand guidelines and the stakeholder's quoted copy, not from 3+ long-form published samples. Re-run with real sent emails once the relaunch journey ships.",
+
+    "core_essence": {
+      "identity": "California's most trusted Cannabis Delivery Service: a service company, not a lifestyle brand.",
+      "primary_role": "A reliable service that does the hard work so ordering is easy: fast, safe, discreet, with the top California brands in one place.",
+      "unique_angle": "A personal letter from a service you trust, not a promo blast. Real names, real order history, one clear offer, and a real person (Alex) behind it. Internally the north star is to be the default place to order (selection, speed, effortless reorder, personal picks), expressed through benefits only, never by naming another company."
+    },
+
+    "personality_traits": {
+      "primary": ["trustworthy", "professional", "friendly", "empathetic", "energetic"],
+      "how_it_shows": {
+        "trustworthy": "Leads every claim with concrete proof (on time, safe and discreet; real-time ETA; live budtenders) and never hypes. States offer terms in full: rate, end date, where the credit goes.",
+        "professional": "Polished, modern, plain American English. No slang, no weed culture, no puns.",
+        "friendly": "Uses the customer's first name, contractions, and short warm openers like 'Hey {first name},'.",
+        "empathetic": "Offers help instead of giving orders ('Need a hand choosing?'), is honest about limits, and never makes the reader feel ashamed.",
+        "energetic": "Energy comes from speed and personalization ('Super Fast' delivery, 'Some of your favorites have been restocked!'), not from loud punctuation or slang."
+      }
+    },
+
+    "emotional_palette": {
+      "dominant_emotions": ["warmth", "reassurance", "gratitude", "quiet excitement"],
+      "emotional_range": {
+        "warmth": "High in Alex's letters ('It's been a while!' 'We've missed you.'), moderate in offer and deal emails.",
+        "excitement": "Sincere, never hype: 'I'm thrilled to finally let you know…' rather than 'HUGE NEWS!!!'.",
+        "urgency": "Low to moderate and always factual: an expiry date stated plainly, never fear or pressure.",
+        "gratitude": "Genuine and brief: 'Thank you so much for your continued support!'"
+      },
+      "energy_level": "Medium: upbeat and clear, carried by speed and personal relevance rather than volume."
+    },
+
+    "communication_style": {
+      "formality": "3 of 5 (formal 1 to casual 5): conversational but polished. Contractions yes, slang no.",
+      "wit": "2 of 5 (serious 1 to witty 5): warm, but no jokes, puns or wordplay.",
+      "boldness": "4 of 5 on the guideline dial (confident claims, strong single CTA), but the personality survey scored Bold 0/2. Until the stakeholder confirms, lean warm and trustworthy over bold.",
+      "complexity": "4 of 5 toward simple: short sentences, one idea each. Avoid words a reader over 30 might not know.",
+      "sentence_structure": {
+        "length": "Mostly short (6 to 15 words). Occasional longer sentence only to state offer terms in full.",
+        "mood": "Statements and gentle offers of help. Questions only to offer help ('Need a hand choosing?'). Commands are limited to one clear CTA.",
+        "perspective": "First person singular for Alex ('I'm thrilled…'), first person plural for the company ('We've missed you'), always addressing 'you'."
+      },
+      "paragraph_style": "Two beats: the reason I'm writing to you, then the offer ('Plus, you'll earn 20% credit back…'). One to three sentences per paragraph.",
+      "benchmarks": "Uber for being transactional and to the point; DoorDash for being friendly while packing in information."
+    },
+
+    "language_patterns": {
+      "signature_phrases": [
+        "California's most trusted Cannabis Delivery Service",
+        "Grassdoor is back",
+        "We missed you.",
+        "It's been a while!",
+        "This is Alex from the Grassdoor team.",
+        "Featuring \"Super Fast\" Delivery",
+        "Get it Quick! Choose Super Fast Delivery",
+        "On time, safe and discreet",
+        "All the top California brands in one place",
+        "Your favorite California brands",
+        "Some of your favorites have been restocked!",
+        "Your next order is waiting",
+        "The freshest flower only. Our buyer constantly tests strains from top cultivators.",
+        "Our live customer service and budtenders are standing by to help",
+        "Designed for relaxation",
+        "Credits go straight into your Grassdoor wallet"
+      ],
+      "power_words": ["trusted", "Super Fast", "fresh", "favorites", "earned", "discreet", "on time", "live", "restocked", "waiting"],
+      "words_to_avoid": ["brand (in place of 'Service')", "launch", "open again", "cash back", "cashback", "discount", "free credit", "gift", "deposited", "best", "most (without a source)", "top-shelf", "fire", "dank", "stash", "bro", "420", "doorstep", "Amazon (in customer copy, until approved)", "OTP", "till"],
+      "transitions": ["Plus,", "And", "So", "While you're here,", "In the meantime,"]
+    },
+
+    "never_say": {
+      "phrases": [
+        "to your door / straight to your door / at your doorstep (drivers meet customers at the curb)",
+        "Hi There / Dear Customer",
+        "California's most trusted brand (always 'Cannabis Delivery Service')",
+        "Grassdoor launch / New brand / Open again",
+        "On Demand our Asap delivery",
+        "We've deposited… / free credit / as a thank-you gift (credits are earned)",
+        "Cures / treats / helps you sleep / eliminates pain (any health or medical claim)",
+        "Best menu in California / most reliable / biggest offer (unsourced superlatives)",
+        "Everything store / lowest prices",
+        "Round two / Pick with confidence / any sports or game metaphor",
+        "Click here"
+      ],
+      "tones": ["weedy or stoner", "lifestyle-brand cool", "luxury or premium-exclusive", "playful or punny", "pushy or fear-based urgency", "shaming or judgmental", "faceless corporate promo"],
+      "approaches": [
+        "Promising a specific delivery time before it's confirmed",
+        "Describing the offer differently from email to email",
+        "An offer without rate, end date and wallet",
+        "Comparing Grassdoor to another company by name",
+        "Youth appeal: cartoons, mascots, personified products",
+        "Implying the reader is lazy, unproductive or doing something illegal",
+        "Several competing CTAs"
+      ]
+    },
+
+    "formatting_preferences": {
+      "greeting": "'Hey {first name},' / 'Hi {first name},' / 'Hello {first name},'. If the name is missing, use 'Hi,' or suppress the send.",
+      "case": "Sentence case; curly apostrophes; 'wallet credit' lowercase (proposed); dates written 'September 30'.",
+      "punctuation": "At most one exclamation mark per short paragraph; no ALL CAPS sentences; no emoji in email body copy.",
+      "structure": "One hero (an action or an identity), a two-beat body, a product or deal feed, three trust icons (Fast delivery · Premium products · Trusted service), one CTA, legal footer.",
+      "ctas": ["Shop the menu", "Start your next order", "See if we deliver to you"],
+      "offer_wording": "Get 20% back in Grassdoor Credit on every order you complete before {end date}. Credits go straight into your Grassdoor wallet for future orders.",
+      "footer_must_include": ["License No. C10-0001336-LIC", "21+ or 18+ with a medical card", "Credits expire 90 days from the date of issuance.", "Full address with ZIP", "SMS: Reply STOP to opt out"],
+      "spelling": "American English only."
+    },
+
+    "content_philosophy": {
+      "core_belief": "We do the hard work to make their lives easy.",
+      "value_order": ["Speed ('Super Fast' delivery)", "Convenience", "Deals (20% credit back)", "The top California brands"],
+      "proof_over_hype": "Every claim is something the customer can verify: on time, safe and discreet; real-time ETA and live tracking; live customer service and budtenders; the freshest flower, tested by our buyer.",
+      "personal_every_time": "Real first name plus 1 to 2 personalized modules (last order, first-order date, favorites restocked).",
+      "credits_are_earned": "Write 'you earned' and 'what you spend earns', never 'we gave you'.",
+      "honest_about_limits": "'We're still growing our coverage, but our records show you're likely in our current delivery zone.'",
+      "journey_variety": "Emails in a journey are related, not identical: new headline and visual whenever a module repeats.",
+      "contextual_variations": {
+        "alex_letter": "First person, warmest, emotional but sincere; signs 'With lots of love, Alex (from the Grassdoor Team)'. For welcome-back and relationship emails.",
+        "team_offer_email": "First person plural, more transactional (Uber-like), offer terms up front; signs 'The Grassdoor Team'.",
+        "sms_mms": "One idea, one link, name if available, plus Reply STOP, 21+ and the license number.",
+        "product_and_deal_modules": "Short, descriptive, DoorDash-like: product name, brand, why you'd like it, no effect claims beyond 'designed for…'."
+      },
+      "open_decisions": [
+        "Whether 'Amazon' may ever appear in customer copy (default: no)",
+        "Offer end date (default: hold sends until confirmed)",
+        "Bold dial 4 vs survey Bold 0% (default: warm over bold)",
+        "Proof behind 'most trusted'",
+        "When Alex signs vs the Team (default: Alex for welcome and relationship, Team for offers)",
+        "Credit rates: 30% first order vs 20% second order"
+      ]
+    },
+
+    "voice_examples": {
+      "opening_lines": [
+        "Hey {first name}, it's been a while! This is Alex from the Grassdoor team.",
+        "Hi {first name}, some of your favorites have been restocked!",
+        "Hello {first name}, just a friendly reminder that your Grassdoor wallet credit is waiting to be redeemed!"
+      ],
+      "closing_lines": [
+        "Thank you so much for your continued support!",
+        "With lots of love, Alex (from the Grassdoor Team)",
+        "Our live customer service and budtenders are standing by to help."
+      ],
+      "transitional_phrases": [
+        "Plus, you'll earn 20% credit back on every order you complete before {end date}.",
+        "While you're here, here's what you ordered last time.",
+        "Need a hand choosing?"
+      ]
+    }
+  }
+}
