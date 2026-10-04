@@ -69,7 +69,7 @@ export const vMark = (cls = 'vmark') =>
 const wordmark = () => `
   <span class="wordmark" aria-hidden="true">${vMark()}<span class="wordmark__text">${[...site.name]
     .map((c, i) => `<span class="wm-ch" style="--i:${i}"><span>${c}</span><span>${c}</span></span>`)
-    .join('')}</span><span class="wordmark__deg">°</span></span>`;
+    .join('')}</span></span>`;
 
 /* Headline letters carry two copies (upright and italic) for the roll effect.
    The visible copy is aria-hidden; a plain copy is read instead. */
@@ -579,7 +579,7 @@ export const renderFooter = () => `
       </ul>
       <a class="footer__top" href="#top" data-magnetic>${icon('arrowUp')}<span>Back to top</span></a>
     </div>
-    <p class="footer__mark" aria-hidden="true" data-footer-mark>${[...site.name].map((c) => `<span>${c}</span>`).join('')}<span class="footer__deg">°</span></p>
+    <p class="footer__mark" aria-hidden="true" data-footer-mark>${[...site.name].map((c) => `<span>${c}</span>`).join('')}</p>
   </footer>`;
 
 /* ---------------------------------------------------------------- reel dialog */

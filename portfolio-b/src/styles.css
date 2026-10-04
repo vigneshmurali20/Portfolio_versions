@@ -21,7 +21,9 @@
   --sky: #d3f2fb;
   --rose: #fcddeb;
 
-  --serif: 'Instrument Serif', 'Times New Roman', serif;
+  /* upright display: Fraunces (variable weight); italic accents: Instrument Serif */
+  --serif: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --serif-italic: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --sans: 'Urbanist Variable', 'Urbanist', system-ui, sans-serif;
   --mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
 
@@ -345,19 +347,9 @@ body::after {
   left: 0;
   top: 100%;
 }
-.wordmark__deg {
-  align-self: flex-start;
-  margin-left: -0.22em;
-  font-size: 0.7em;
-  transition: transform 0.7s var(--ease);
-}
 a:hover .wm-ch span,
 a:focus-visible .wm-ch span {
   transform: translateY(-100%);
-}
-a:hover .wordmark__deg,
-a:focus-visible .wordmark__deg {
-  transform: rotate(360deg);
 }
 a:hover .vmark,
 a:focus-visible .vmark {
@@ -729,15 +721,47 @@ section {
 .line--em {
   font-style: italic;
 }
-/* Instrument Serif has a single weight; a thin stroke on the upright lines
-   makes them heavier while the italic lines keep their light contrast. */
-.sec-title .line:not(.line--em),
-.contact__title .line:not(.line--em),
-.hero__line:not(.hero__line--em) .hc__a,
-.hero__line--em .hc__b,
+/* Type pairing: upright display lines in Fraunces at a medium weight,
+   italic accents in Instrument Serif italic. */
+.sheet li a,
+.sec-title,
+.contact__title,
+.hero__title,
+.disc__name,
+.disc__short,
+.pv-dash__kpi b,
+.tb__empty-title,
+.tb__name,
+.tb__meter b,
 .xp__title,
+.xp__company,
+.brands li,
 .footer__mark {
-  -webkit-text-stroke: 0.022em currentColor;
+  font-weight: 580;
+  /* a mid optical size keeps the hairlines sturdy at display sizes */
+  font-variation-settings: 'opsz' 36;
+  letter-spacing: -0.03em;
+}
+.mq__item,
+.contact__big {
+  font-weight: 480;
+}
+.deck__card blockquote p {
+  font-weight: 400;
+}
+.line--em,
+.hc__b,
+.hero__line--em .hc__a,
+.mq__item--em,
+.brands li:nth-child(even),
+.pv-poster__type,
+.deck__quote {
+  font-family: var(--serif-italic);
+  font-weight: 400;
+}
+.hero__line--em .hc__b {
+  font-family: var(--serif);
+  font-weight: 580;
 }
 .line__in {
   display: block;
@@ -799,7 +823,7 @@ section {
 .hero__copy {
   position: relative;
   z-index: 3;
-  max-width: 1080px;
+  max-width: 1180px;
   margin: 0 auto;
   text-align: center;
   pointer-events: none;
@@ -852,7 +876,7 @@ section {
   margin-top: 22px;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(46px, 7vw, 104px);
+  font-size: clamp(44px, 6.3vw, 92px);
   line-height: 0.94;
   letter-spacing: -0.025em;
 }
@@ -1064,7 +1088,8 @@ section {
   position: absolute;
   z-index: 4;
   right: max(var(--gutter), calc(50% - 600px));
-  top: 168px;
+  /* sits beside the intro copy, clear of the headline */
+  top: 300px;
   width: 112px;
   height: 112px;
   display: grid;
@@ -2664,13 +2689,11 @@ section {
   font-family: var(--serif);
   font-size: clamp(26px, 3vw, 38px);
   line-height: 1;
-  -webkit-text-stroke: 0.02em currentColor;
   color: var(--ink-2);
   transition: color 0.3s;
 }
 .brands li:nth-child(even) {
   font-style: italic;
-  -webkit-text-stroke: 0;
 }
 .brands li:hover {
   color: var(--brand-ink);
@@ -2946,10 +2969,6 @@ section {
 .footer__mark span {
   display: inline-block;
 }
-.footer__deg {
-  font-size: 0.5em;
-  align-self: flex-start;
-}
 
 /* ---------------------------------------------------------------- reveal states */
 .js [data-reveal] {
@@ -2970,7 +2989,6 @@ section {
     display: none;
   }
   .badge {
-    top: 128px;
     width: 92px;
     height: 92px;
   }
