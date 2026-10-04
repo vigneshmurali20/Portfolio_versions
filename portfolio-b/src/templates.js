@@ -3,8 +3,13 @@
  * (vite.config.js), so the content is there for search engines, screen
  * readers and visitors without JavaScript. src/main.js only adds motion.
  */
+import * as simpleIcons from 'simple-icons';
 import {
   site,
+  aiIntro,
+  aboutAi,
+  aiPractices,
+  aiTools,
   meta,
   nav,
   hero,
@@ -290,6 +295,62 @@ const renderDisciplines = () => `
     </div>
   </section>`;
 
+/* ---------------------------------------------------------------- AI lab */
+const AI_GLYPHS = {
+  terminal: '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5zm4.2 3.3-1.1 1.1 2.6 2.6-2.6 2.6 1.1 1.1L10.9 12zM12 15.8v1.6h6v-1.6z"/>',
+  chat: '<path d="M12 3c5 0 9 3.4 9 7.7s-4 7.7-9 7.7c-1 0-2-.1-2.9-.4L4.5 20l1.1-3.9C4 14.7 3 12.8 3 10.7 3 6.4 7 3 12 3zm-4 6.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zm4 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zm4 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>',
+};
+const PRACTICE_ICONS = {
+  spark: '<path d="M12 2.5c.7 5 2.5 8.6 9.5 9.5-7 .9-8.8 4.5-9.5 9.5-.7-5-2.5-8.6-9.5-9.5 7-.9 8.8-4.5 9.5-9.5z" fill="currentColor" stroke="none"/>',
+  agent: '<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16h5"/>',
+  code: '<path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
+};
+const aiIcon = (t) => {
+  const s = t.si ? simpleIcons[t.si] : null;
+  const path = s ? `<path d="${s.path}"/>` : AI_GLYPHS[t.glyph];
+  const color = s ? `#${s.hex}` : t.color;
+  const badge = t.badge ? `<span class="ai-tile__badge">${icon('arrowR')}</span>` : '';
+  return { svg: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">${path}</svg>${badge}`, color };
+};
+
+const renderAiLab = () => `
+  <section class="ai" id="ai-lab" aria-labelledby="ai-lab-title">
+    <div class="ai__top">
+      ${sectionHead(aiIntro, 'ai-lab')}
+      <ul class="ai__practices">
+        ${aiPractices
+          .map(
+            (p, i) => `
+          <li class="ai-card" data-reveal data-tilt style="--i:${i}">
+            <span class="ai-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PRACTICE_ICONS[p.icon]}</svg></span>
+            <h3>${esc(p.title)}</h3>
+            <p>${esc(p.body)}</p>
+          </li>`,
+          )
+          .join('')}
+      </ul>
+    </div>
+    <div class="ai__tools">
+      ${aiTools
+        .map(
+          (g) => `
+        <div class="ai__group">
+          <h3 class="ai__group-title">${esc(g.group)}</h3>
+          <ul class="ai__grid" style="--cols:${Math.ceil(g.items.length / 2)}">
+            ${g.items
+              .map((t, i) => {
+                const { svg, color } = aiIcon(t);
+                return `<li class="ai-tile" style="--c:${color};--d:${(i % 6) * 0.4}s"><span class="ai-tile__icon">${svg}</span><span class="ai-tile__name">${esc(t.name)}</span></li>`;
+              })
+              .join('')}
+          </ul>
+        </div>`,
+        )
+        .join('')}
+    </div>
+    <p class="ai__note">Product names and logos belong to their owners and are shown to list the tools I use.</p>
+  </section>`;
+
 /* ---------------------------------------------------------------- toolbox */
 const renderToolbox = () => `
   <section class="tb" id="toolbox" aria-labelledby="toolbox-title">
@@ -411,8 +472,8 @@ const renderShowreel = () => `
   </section>`;
 
 /* ---------------------------------------------------------------- about */
-// Newest first: start dates in content.js are Nov 2022, Jul 2024, Sep 2024, Jun 2023.
-const EXPERIENCE_ORDER = [2, 1, 3, 0];
+// Newest first: start dates in content.js are Nov 2022, Jul 2024, Sep 2024, Jun 2023, Oct 2025.
+const EXPERIENCE_ORDER = [4, 2, 1, 3, 0];
 
 const renderAbout = () => `
   <section class="about" id="about" aria-labelledby="about-title">
@@ -425,6 +486,7 @@ const renderAbout = () => `
       <div class="about__text">
         ${sectionHead({ eyebrow: 'About', title: ['Hi, I’m Vignesh.', 'Nice to meet you.'] }, 'about')}
         <p class="about__bio" data-reveal>${esc(aboutLong)}</p>
+        <p class="about__bio about__bio--ai" data-reveal>${esc(aboutAi)}</p>
         <dl class="facts" data-reveal>
           <div><dt>Based in</dt><dd>${esc(site.location)}</dd></div>
           <div><dt>Experience</dt><dd>${site.experienceYears}+ years</dd></div>
@@ -602,7 +664,7 @@ export function renderPage() {
     meta,
     loader: renderLoader(),
     nav: renderNav(),
-    main: [renderHero(), renderMarquee(), renderWork(), renderDisciplines(), renderToolbox(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
+    main: [renderHero(), renderMarquee(), renderWork(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
     footer: renderFooter() + renderDialog(),
   };
 }

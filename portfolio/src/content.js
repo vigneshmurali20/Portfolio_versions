@@ -95,7 +95,7 @@ export const experience = [
   },
   {
     company: 'Deepvue, Bangalore',
-    period: 'Sep 2024 to Present',
+    period: 'Sep 2024 to Oct 2025',
     role: 'Graphic Designer and UI/UX',
     skills: 'Product Design, UI/UX Design, Web Design, Visual Design, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Product Release Notes Design.',
   },
@@ -104,6 +104,12 @@ export const experience = [
     period: 'Jun 2023 to Aug 2025',
     role: 'Lead Designer and UI/UX',
     skills: 'Wireframes, High-Fidelity Prototypes, Booking Flows, Responsive Design, Design Systems, Interaction Design, Website Redesigns, Experience Optimization, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Offer Collaterals, Product Launch & Seasonal Campaign Design.',
+  },
+  {
+    company: 'Grassdoor Logistics',
+    period: 'Oct 2025 to Present',
+    role: 'UI/UX and Graphic Designer',
+    skills: 'UI/UX Design, Graphic Design.',
   },
 ];
 

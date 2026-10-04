@@ -40,6 +40,7 @@ export const nav = [
   { href: '#work', label: 'Work' },
   { href: '#disciplines', label: 'Disciplines' },
   { href: '#toolbox', label: 'Toolbox' },
+  { href: '#ai-lab', label: 'AI Lab' },
   { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' },
 ];
@@ -118,6 +119,64 @@ export const disciplines = [
   },
 ];
 
+export const aiIntro = {
+  eyebrow: 'AI lab',
+  title: ['Designing with AI,', 'building with agents.'],
+  body: 'Outside client work, I explore generative design with AI, build AI agents and automations as a hobby, and vibe-code small apps that solve real, everyday problems.',
+};
+
+// Shown as one extra line under the About bio.
+export const aboutAi =
+  'I also create generative designs with AI, build AI agents and automations for fun, and vibe-code apps that solve real-time problems.';
+
+export const aiPractices = [
+  { icon: 'spark', title: 'Generative design', body: 'AI-assisted moodboards, visuals and motion explorations, refined by hand into on-brand work.' },
+  { icon: 'agent', title: 'Agents & automation', body: 'Personal AI agents and no-code workflows that take repetitive work off the table.' },
+  { icon: 'code', title: 'Vibe coding', body: 'Small working apps, shipped with Claude Code and Codex, that solve real-time problems.' },
+];
+
+// Platform icons. `si` is a Simple Icons key (resolved at build time);
+// `glyph` is a built-in icon for brands Simple Icons doesn't carry.
+export const aiTools = [
+  {
+    group: 'Agentic coding',
+    items: [
+      { name: 'Claude Code', si: 'siClaude', badge: 'terminal' },
+      { name: 'OpenAI Codex', glyph: 'terminal', color: '#111014' },
+      { name: 'Cursor', si: 'siCursor' },
+      { name: 'GitHub Copilot', si: 'siGithubcopilot' },
+      { name: 'v0', si: 'siV0' },
+      { name: 'Replit', si: 'siReplit' },
+    ],
+  },
+  {
+    group: 'Models & assistants',
+    items: [
+      { name: 'Claude', si: 'siClaude' },
+      { name: 'ChatGPT', glyph: 'chat', color: '#10A37F' },
+      { name: 'Gemini', si: 'siGooglegemini' },
+      { name: 'Perplexity', si: 'siPerplexity' },
+    ],
+  },
+  {
+    group: 'Agents & automation',
+    items: [
+      { name: 'n8n', si: 'siN8n' },
+      { name: 'Zapier', si: 'siZapier' },
+      { name: 'Make', si: 'siMake' },
+      { name: 'LangChain', si: 'siLangchain' },
+      { name: 'CrewAI', si: 'siCrewai' },
+    ],
+  },
+  {
+    group: 'Generative media',
+    items: [
+      { name: 'Hugging Face', si: 'siHuggingface' },
+      { name: 'ElevenLabs', si: 'siElevenlabs' },
+    ],
+  },
+];
+
 export const toolboxIntro = {
   eyebrow: 'Toolbox',
   title: ['My toolbox.', 'Go on, play with it.'],
@@ -172,7 +231,7 @@ export const experience = [
   },
   {
     company: 'Deepvue, Bangalore',
-    period: 'Sep 2024 to Present',
+    period: 'Sep 2024 to Oct 2025',
     role: 'Graphic Designer and UI/UX',
     skills: 'Product Design, UI/UX Design, Web Design, Visual Design, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Product Release Notes Design.',
   },
@@ -181,6 +240,12 @@ export const experience = [
     period: 'Jun 2023 to Aug 2025',
     role: 'Lead Designer and UI/UX',
     skills: 'Wireframes, High-Fidelity Prototypes, Booking Flows, Responsive Design, Design Systems, Interaction Design, Website Redesigns, Experience Optimization, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Offer Collaterals, Product Launch & Seasonal Campaign Design.',
+  },
+  {
+    company: 'Grassdoor Logistics',
+    period: 'Oct 2025 to Present',
+    role: 'UI/UX and Graphic Designer',
+    skills: 'UI/UX Design, Graphic Design.',
   },
 ];
 
