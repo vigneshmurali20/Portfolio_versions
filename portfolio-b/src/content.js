@@ -47,6 +47,8 @@ export const nav = [
 export const hero = {
   lines: ['Design that makes', 'people say Yes.'],
   body: 'You’re just one step away from bringing your imagination to life.',
+  // the notification card above the headline
+  hello: 'Hi, Vignesh here!',
   cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
   notes: [
