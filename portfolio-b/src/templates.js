@@ -654,14 +654,37 @@ const renderContact = () => `
 /* ---------------------------------------------------------------- footer */
 export const renderFooter = () => `
   <footer class="footer">
-    <div class="footer__row">
-      <p>© ${new Date().getFullYear()} ${esc(site.fullName)}. Designed &amp; built with care.</p>
-      <ul>
-        ${nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}
-      </ul>
-      <a class="footer__top" href="#top" data-magnetic>${icon('arrowUp')}<span>Back to top</span></a>
+    <div class="footer__card" data-footer>
+      <svg class="footer__orbit" viewBox="-2 -2 43.25 31.3" aria-hidden="true" focusable="false"><path transform="matrix(1 0 0 -1 0 27.3)" d="${logoPath}"/></svg>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a class="footer__logo" href="#top" aria-label="${esc(site.fullName)}, back to top">${vMark()}<span>${esc(site.fullName)}</span></a>
+          <p>Product &amp; UI/UX designer in ${esc(site.location)}. Interfaces, motion and brand visuals that feel calm and clear.</p>
+          <span class="footer__status"><span class="dot-live" aria-hidden="true"></span>Open to freelance &amp; full-time work</span>
+        </div>
+        <nav class="footer__col" aria-label="Footer">
+          <h2>Explore</h2>
+          <ul>${nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}</ul>
+        </nav>
+        <div class="footer__col">
+          <h2>Connect</h2>
+          <ul>
+            <li><a href="mailto:${site.email}">${esc(site.email)}</a></li>
+            <li><a href="tel:${site.phone.replace(/\s/g, '')}">${esc(site.phone)}</a></li>
+            <li><a href="${site.behance}" target="_blank" rel="noopener">Behance ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a></li>
+          </ul>
+        </div>
+        <div class="footer__col footer__time">
+          <h2>Local time</h2>
+          <p class="footer__clock" data-clock>--:--</p>
+          <p class="footer__note">Bangalore, India · usually replies within a day</p>
+        </div>
+      </div>
+      <div class="footer__bar">
+        <p>© ${new Date().getFullYear()} ${esc(site.fullName)}. Designed &amp; built with care.</p>
+        <a class="footer__top" href="#top" data-magnetic>${icon('arrowUp')}<span>Back to top</span></a>
+      </div>
     </div>
-    <p class="footer__mark" aria-hidden="true" data-footer-mark>${[...site.name].map((c) => `<span>${c}</span>`).join('')}</p>
   </footer>`;
 
 /* ---------------------------------------------------------------- reel dialog */

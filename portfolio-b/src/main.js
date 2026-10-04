@@ -432,12 +432,17 @@ function reveals() {
     { rotationX: 0, scale: 1, y: 0, ease: 'none', scrollTrigger: { trigger: '[data-reel-frame]', start: 'top 95%', end: 'top 25%', scrub: true } },
   );
   // footer wordmark letters rise in
-  gsap.from('[data-footer-mark] span', {
-    yPercent: 70,
+  // footer card tips up into place
+  gsap.from('[data-footer]', {
+    y: 80,
+    rotationX: 18,
     opacity: 0,
-    ease: 'none',
-    stagger: 0.05,
-    scrollTrigger: { trigger: '[data-footer-mark]', start: 'top bottom', end: 'bottom bottom', scrub: true },
+    transformPerspective: 1400,
+    transformOrigin: '50% 100%',
+    duration: 1.4,
+    ease: EASE,
+    clearProps: 'transform,opacity',
+    scrollTrigger: { trigger: '[data-footer]', start: 'top 92%', once: true },
   });
   gsap.from('.deck__cards', {
     y: 80,
@@ -798,10 +803,10 @@ function contactForm() {
 
 /* ------------------------------------------------------------ clock */
 function clock() {
-  const el = $('[data-clock]');
-  if (!el) return;
+  const els = $$('[data-clock]');
+  if (!els.length) return;
   const fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: site.timezone });
-  const tick = () => (el.textContent = `${fmt.format(new Date())} IST`);
+  const tick = () => els.forEach((el) => (el.textContent = `${fmt.format(new Date())} IST`));
   tick();
   setInterval(tick, 30000);
 }
