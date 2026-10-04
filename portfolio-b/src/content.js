@@ -56,7 +56,8 @@ export const hero = {
     { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and fintech.' },
     { icon: 'tools', title: ['Ideas that', 'actually move.'], body: 'Motion, brand and campaign visuals.' },
   ],
-  trust: ['Deepvue', 'RetainIQ', 'Modish', 'Salesmax'],
+  // latest first
+  trust: ['Grassdoor Logistics / Omnigreen', 'Deepvue', 'RetainIQ', 'Modish'],
   tagline: ['Less noise.', 'More clarity.'],
 };
 
@@ -242,7 +243,7 @@ export const testimonialsIntro = {
 export const testimonialsAreSamples = true;
 
 // Brands shown in the "worked with" strip.
-export const brands = ['Deepvue', 'RetainIQ', 'DigiPro', 'Modish', 'Salesmax'];
+export const brands = ['Grassdoor Logistics', 'Omnigreen', 'Deepvue', 'RetainIQ', 'DigiPro', 'Modish', 'Salesmax'];
 
 export const testimonials = [
   {

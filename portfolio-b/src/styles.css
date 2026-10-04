@@ -1099,6 +1099,9 @@ section {
   right: max(var(--gutter), calc(50% - 600px));
   text-align: left;
 }
+.hero__trust p {
+  max-width: 290px;
+}
 .hero__rule {
   display: block;
   width: 28px;
