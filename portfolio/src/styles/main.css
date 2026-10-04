@@ -6,6 +6,7 @@
   --brand-deep: #42307d;
   --brand-soft: #b692f6;
   --brand-mist: #e9d7fe;
+  --accent-ink: #9e77ed;
   --cyan: #3de0ff;
   --ink: #09070f;
   --ink-2: #110d1c;
@@ -221,15 +222,14 @@ main {
    Shared type
    ========================================================================== */
 .accent {
-  background: var(--grad-brand);
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: accent-flow 8s ease-in-out infinite alternate;
+  color: var(--accent-ink);
 }
-@keyframes accent-flow {
-  to { background-position: 100% 0; }
+.accent__word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.accent .ch {
+  display: inline-block;
 }
 .section-title {
   font-family: var(--f-display);
@@ -1920,16 +1920,11 @@ html.gl-portrait .hero__portrait img {
   text-align: center;
   margin: 0 calc(-1 * var(--gutter)) -2.4vw;
   white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(244, 241, 251, 0.14);
-  background: var(--grad-chrome);
-  background-size: 200% 100%;
-  background-position: var(--chrome-x, 0%) 0;
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: rgba(244, 241, 251, 0.07);
+  -webkit-text-stroke: 1px rgba(244, 241, 251, 0.32);
   -webkit-mask: linear-gradient(180deg, #000 20%, transparent 95%);
   mask: linear-gradient(180deg, #000 20%, transparent 95%);
-  opacity: 0.35;
+  opacity: 0.6;
   user-select: none;
 }
 

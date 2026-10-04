@@ -33,6 +33,7 @@ export function heroIntro(stage) {
     return;
   }
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  tl.call(() => window.dispatchEvent(new Event('hero-intro')), null, 0.7);
   if (stage) tl.to(stage.state, { intro: 1, duration: 2.8, ease: 'power2.inOut' }, 0);
   tl.to('.hero__hello', { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'back.out(2.2)' }, 0.1)
     .from('.hero__hello-spark i', { scaleY: 0, stagger: 0.08, duration: 0.6, ease: 'back.out(3)' }, 0.5)
@@ -443,9 +444,67 @@ export function initFooter() {
     ease: 'none',
     scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'bottom bottom', scrub: 1 },
   });
-  const card = $('.footer__card');
-  card.addEventListener('pointermove', (e) => {
-    const b = card.getBoundingClientRect();
-    giant.style.setProperty('--chrome-x', `${((e.clientX - b.left) / b.width) * 100}%`);
+}
+
+/* ------------------------------------------------- accent typeface effect */
+// Accent words use the variable fonts' weight axis instead of a gradient:
+// letters ripple from thin to bold as they scroll in, and swell toward the
+// cursor as it passes over them.
+export function initTypeEffect() {
+  const groups = $$('[data-accent]').map((el) => {
+    const chars = $$('.ch', el);
+    const base = parseFloat(getComputedStyle(el).fontWeight) || 600;
+    // Urbanist runs 100-900; Quicksand (the contact heading) 300-700
+    const quick = getComputedStyle(el).fontFamily.includes('Quicksand');
+    return { el, chars, base, min: quick ? 300 : 100, max: quick ? 700 : 900, w: chars.map(() => base) };
+  });
+  if (env.reduced) return;
+
+  groups.forEach((g) => {
+    const inHero = !!g.el.closest('.hero');
+    const tw = gsap.fromTo(
+      g.chars,
+      { fontWeight: g.min, y: 8 },
+      {
+        fontWeight: g.base,
+        y: 0,
+        duration: 1.1,
+        stagger: 0.06,
+        ease: 'power3.out',
+        paused: inHero,
+        scrollTrigger: inHero ? undefined : { trigger: g.el, start: 'top 85%', once: true },
+        onComplete: () => g.chars.forEach((c, i) => (g.w[i] = g.base)),
+      },
+    );
+    // the hero title sits behind the loader, so it plays with the hero intro
+    if (inHero) window.addEventListener('hero-intro', () => tw.play(), { once: true });
+  });
+
+  if (!env.fine) return;
+  let mx = -9999;
+  let my = -9999;
+  window.addEventListener('pointermove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+  }, { passive: true });
+  const radius = 140;
+  gsap.ticker.add(() => {
+    for (const g of groups) {
+      const r = g.el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) continue;
+      // skip the math entirely when the cursor is nowhere near this word
+      const far = my < r.top - radius || my > r.bottom + radius || mx < r.left - radius || mx > r.right + radius;
+      g.chars.forEach((c, i) => {
+        let target = g.base;
+        if (!far) {
+          const b = c.getBoundingClientRect();
+          const d = Math.hypot(mx - (b.left + b.width / 2), my - (b.top + b.height / 2));
+          target = g.base + (g.max - g.base) * Math.exp(-((d / radius) ** 2) * 2.2);
+        }
+        if (Math.abs(g.w[i] - target) < 0.5) return;
+        g.w[i] += (target - g.w[i]) * 0.18;
+        c.style.fontWeight = String(Math.round(g.w[i]));
+      });
+    }
   });
 }

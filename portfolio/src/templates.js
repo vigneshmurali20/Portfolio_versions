@@ -50,6 +50,15 @@ const logo = (extra = '') => `
   <span class="logo__sheen"></span>
 </span>`;
 
+// Accent words: solid colour (no gradient). Letters are split so the
+// typeface effect can vary each one's weight; screen readers get the
+// plain text from the visually hidden copy.
+const accent = (text) =>
+  `<span class="accent" data-accent><span class="sr-only">${esc(text)}</span><span class="accent__chars" aria-hidden="true">${text
+    .split(' ')
+    .map((w) => `<span class="accent__word">${[...w].map((c) => `<span class="ch">${esc(c)}</span>`).join('')}</span>`)
+    .join(' ')}</span></span>`;
+
 const splitWords = (text, cls = '') =>
   text
     .split(' ')
@@ -105,7 +114,7 @@ export function renderHero() {
         <span class="hero__hello-spark" aria-hidden="true"><i></i><i></i><i></i></span>
       </p>
       <h1 class="hero__title" id="hero-title" data-hero-title>
-        <span class="hero__line"><span class="hero__line-i">I’m <span class="accent">${esc(site.name)}</span>,</span></span>
+        <span class="hero__line"><span class="hero__line-i">I’m ${accent(site.name)},</span></span>
         <span class="hero__line"><span class="hero__line-i">${esc(site.role)}</span></span>
       </h1>
     </div>
@@ -183,7 +192,7 @@ export function renderServices() {
 <section class="services" id="services" aria-labelledby="services-title">
   <div class="services__pin" data-services-pin>
     <div class="services__head">
-      <h2 class="section-title" id="services-title" data-reveal>${esc(servicesIntro.title[0])} <span class="accent">${esc(servicesIntro.title[1])}</span></h2>
+      <h2 class="section-title" id="services-title" data-reveal>${esc(servicesIntro.title[0])} ${accent(servicesIntro.title[1])}</h2>
       <p class="services__intro" data-reveal>${esc(servicesIntro.body)}</p>
     </div>
     <div class="orbit" data-orbit data-cursor="drag">
@@ -231,7 +240,7 @@ export function renderServices() {
 export function renderExperience() {
   return `
 <section class="section experience" id="experience" aria-labelledby="exp-title">
-  <h2 class="section-title section-title--center" id="exp-title" data-reveal>My <span class="accent">Work Experience</span></h2>
+  <h2 class="section-title section-title--center" id="exp-title" data-reveal>My ${accent('Work Experience')}</h2>
   <div class="timeline" data-timeline>
   <span class="timeline__rail" aria-hidden="true"><span data-rail></span><span class="timeline__spark" data-spark></span></span>
   <ol class="timeline__list">
@@ -265,7 +274,7 @@ export function renderPortfolio() {
   return `
 <section class="section portfolio" id="portfolio" aria-labelledby="folio-title">
   <div class="portfolio__head">
-    <h2 class="section-title" id="folio-title" data-reveal>${esc(portfolio.title[0])} <span class="accent">${esc(portfolio.title[1])}</span></h2>
+    <h2 class="section-title" id="folio-title" data-reveal>${esc(portfolio.title[0])} ${accent(portfolio.title[1])}</h2>
     <a class="pill-btn pill-btn--primary pill-btn--sm" href="${esc(site.behance)}" ${ext} data-magnetic="0.35" data-cursor="hover">
       <span class="pill-btn__fill" aria-hidden="true"></span>
       <span class="pill-btn__label"><span data-text="See All">See All</span></span>
@@ -322,7 +331,7 @@ export function renderCta() {
 <section class="cta" id="contact" aria-labelledby="cta-title">
   <h2 class="cta__title" id="cta-title">
     <span class="cta__line"><span class="cta__line-i">${esc(cta.title[0])}</span></span>
-    <span class="cta__line"><span class="cta__line-i accent">${esc(cta.title[1])}</span></span>
+    <span class="cta__line"><span class="cta__line-i">${accent(cta.title[1])}</span></span>
   </h2>
   <form class="cta__form" data-cta-form novalidate>
     <label class="cta__field">

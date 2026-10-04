@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import * as S from './shaders.js';
 
 const FOV = 35;
@@ -26,7 +25,7 @@ const CHIP_LAYOUT = {
   aftereffects: [0.72, 0.4, 0.13, 0.6],
 };
 
-/** Branded studio environment for the chrome and glass reflections. */
+/** Branded studio environment for the chrome reflections. */
 function makeEnvironment(renderer) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0b0816);
@@ -204,56 +203,42 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
     portrait.visible = true;
   });
 
-  // Glass tool chips.
+  // Tool icons: flat app icons (no glass or bevel) that hide behind the
+  // portrait and come out when the cursor is near it.
   const chipGroup = new THREE.Group();
   fxScene.add(chipGroup);
-  const glass = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff,
-    metalness: 0,
-    roughness: 0.08,
-    transmission: mobile ? 0 : 1,
-    transparent: mobile,
-    opacity: mobile ? 0.35 : 1,
-    thickness: 0.45,
-    ior: 1.45,
-    iridescence: 0.5,
-    iridescenceIOR: 1.35,
-    clearcoat: 1,
-    clearcoatRoughness: 0.05,
-    attenuationColor: new THREE.Color('#b692f6'),
-    attenuationDistance: 4,
-    envMapIntensity: 0.9,
-  });
-  const chipGeo = new RoundedBoxGeometry(1, 1, 0.3, 5, 0.2);
-  const iconGeo = new THREE.PlaneGeometry(0.78, 0.78);
+  const iconGeo = new THREE.PlaneGeometry(1, 1);
   const chips = [];
   tools.forEach((t, i) => {
     const key = t.src.split('/').pop().replace('.png', '');
     const layout = CHIP_LAYOUT[key];
     if (!layout) return;
-    // small screens keep four chips so the portrait stays the focus
+    // small screens keep four icons so the portrait stays the focus
     if (mobile && !['figma', 'framer', 'photoshop', 'xd'].includes(key)) return;
     const holder = new THREE.Group();
-    const box = new THREE.Mesh(chipGeo, glass);
-    const iconMat = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, toneMapped: false });
+    const iconMat = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, toneMapped: false, opacity: 0 });
     const icon = new THREE.Mesh(iconGeo, iconMat);
-    icon.position.z = 0.16;
-    holder.add(box, icon);
+    holder.add(icon);
+    holder.visible = false;
     loader.loadAsync(t.src).then((tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = fx.capabilities.getMaxAnisotropy();
       iconMat.map = tex;
       iconMat.needsUpdate = true;
     });
     chipGroup.add(holder);
     chips.push({
       holder,
-      box,
+      icon,
+      mat: iconMat,
       layout,
-      i,
+      i: chips.length,
       hover: 0,
+      reveal: 0,
       seed: Math.random() * 10,
       spin: 0,
       base: new THREE.Vector3(),
+      origin: new THREE.Vector3(),
     });
   });
 
@@ -321,8 +306,9 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
   }
 
   /* ---------------------------------------------------------------- input */
-  let lastX = vw / 2;
-  let lastY = vh / 2;
+  let lastX = -1;
+  let lastY = -1;
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2(10, 10);
   function onPointer(e) {
@@ -422,9 +408,22 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
     portraitMat.uniforms.uTime.value = t;
     portraitMat.uniforms.uVel.value.copy(state.vel);
 
-    // chips
+    // tool icons
+    // Hidden behind the portrait until the cursor comes near it (on touch
+    // screens: until the visitor starts scrolling). While the hero scrolls
+    // they travel out toward the screen; once the hero is left behind they
+    // glide back to their hiding place.
+    const near =
+      lastX >= pr.left - pr.width * 0.5 &&
+      lastX <= pr.right + pr.width * 0.5 &&
+      lastY >= pr.top - pr.height * 0.12 &&
+      lastY <= pr.bottom;
+    const inHero = p < 0.8 && intro > 0.85;
+    const active = inHero && (canHover ? near : p > 0.02);
+    const fly = reduced ? 0 : smooth(0.02, 0.8, p);
+
     raycaster.setFromCamera(ndc, camera);
-    const hits = raycaster.intersectObjects(chips.map((c) => c.box), false);
+    const hits = raycaster.intersectObjects(chips.filter((c) => c.holder.visible).map((c) => c.icon), false);
     const hovered = hits.length ? hits[0].object : null;
     for (const c of chips) {
       const [dx, dy, size, depth] = c.layout;
@@ -434,21 +433,29 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
       const half = size * H * 0.6;
       x = clamp(x, half + 8, vw - half - 8);
       c.base.copy(pxToWorld(x, y));
-      const ci = reduced ? 1 : smooth(0.25 + c.i * 0.05, 0.75 + c.i * 0.05, intro);
-      const scatter = reduced ? 0 : smooth(0.05, 0.9, p);
-      c.hover = damp(c.hover, c.box === hovered ? 1 : 0, 8, dt);
+      // hiding place: just behind the portrait, offset a little toward the icon's side
+      c.origin.copy(pxToWorld(pr.left + pr.width / 2 + dx * H * 0.18, pr.top + pr.height * 0.45 + dy * H * 0.2));
+      c.origin.z = -0.9;
+
+      // staggered: icons further from the portrait come out a touch later
+      c.reveal = damp(c.reveal, active ? 1 : 0, active ? 4.2 - c.i * 0.25 : 3.4 + c.i * 0.15, dt);
+      const e = c.reveal * c.reveal * (3 - 2 * c.reveal);
+      c.hover = damp(c.hover, c.icon === hovered ? 1 : 0, 8, dt);
       c.spin += dt * (0.25 + c.hover * 3);
+
       tmp.copy(c.base);
-      tmp.x += state.mouse.x * 0.25 * depth + Math.sign(dx) * scatter * 3.2;
-      tmp.y += state.mouse.y * 0.18 * depth + Math.sin(t * 0.9 + c.seed) * 0.08 + scatter * (dy < 0 ? 1.5 : -1.2);
-      tmp.z = depth * 0.9 - (1 - ci) * 8 + scatter * 5;
-      c.holder.position.copy(tmp);
-      const s = size * H * k * (0.4 + 0.6 * ci) * (1 + c.hover * 0.28);
+      tmp.x += state.mouse.x * 0.25 * depth + Math.sign(dx) * fly * 2.4;
+      tmp.y += state.mouse.y * 0.18 * depth + Math.sin(t * 0.9 + c.seed) * 0.08 + fly * (dy < 0 ? 0.8 : -0.6);
+      tmp.z = depth * 0.9 + fly * 4.5;
+      c.holder.position.lerpVectors(c.origin, tmp, e);
+
+      const s = size * H * k * (0.35 + 0.65 * e) * (1 + c.hover * 0.25);
       c.holder.scale.setScalar(s);
-      c.holder.rotation.x = Math.sin(t * 0.7 + c.seed) * 0.18 - state.mouse.y * 0.3 + scatter * 2;
-      c.holder.rotation.y = Math.sin(t * 0.5 + c.seed * 2) * 0.3 + state.mouse.x * 0.4 + (1 - ci) * 4 + c.hover * Math.sin(c.spin) * 0.6 + scatter * 3 * Math.sign(dx);
-      c.holder.rotation.z = Math.sin(t * 0.4 + c.seed) * 0.1;
-      c.holder.visible = ci > 0.001;
+      c.holder.rotation.x = (Math.sin(t * 0.7 + c.seed) * 0.12 - state.mouse.y * 0.25) * e;
+      c.holder.rotation.y = (1 - e) * 1.1 * Math.sign(dx) + (Math.sin(t * 0.5 + c.seed * 2) * 0.2 + state.mouse.x * 0.3) * e + c.hover * Math.sin(c.spin) * 0.5;
+      c.holder.rotation.z = Math.sin(t * 0.4 + c.seed) * 0.08 * e;
+      c.mat.opacity = smooth(0, 0.35, e);
+      c.holder.visible = e > 0.005;
     }
 
     // chrome floaters, parallaxing faster than the page as the hero scrolls

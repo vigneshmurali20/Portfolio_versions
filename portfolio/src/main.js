@@ -22,6 +22,7 @@ import {
   initMarquee,
   initCta,
   initFooter,
+  initTypeEffect,
 } from './sections.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -162,6 +163,7 @@ initPortfolio();
 initMarquee(() => (lenis ? lenis.velocity * 60 : 0));
 initCta({ email: site.email });
 initFooter();
+initTypeEffect();
 
 window.addEventListener('load', () => ScrollTrigger.refresh());
 document.fonts.ready.then(() => ScrollTrigger.refresh());
