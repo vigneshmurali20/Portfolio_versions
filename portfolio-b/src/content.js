@@ -52,7 +52,7 @@ export const hero = {
   cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
   notes: [
-    { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and fintech.' },
+    { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and SAP.' },
     { icon: 'tools', title: ['Ideas that', 'actually move.'], body: 'Motion, brand and campaign visuals.' },
   ],
   // latest first
