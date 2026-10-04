@@ -3,8 +3,13 @@
  * (vite.config.js), so the content is there for search engines, screen
  * readers and visitors without JavaScript. src/main.js only adds motion.
  */
+import * as simpleIcons from 'simple-icons';
 import {
   site,
+  aiIntro,
+  aboutAi,
+  aiPractices,
+  aiTools,
   meta,
   nav,
   hero,
@@ -25,6 +30,7 @@ import {
   brands,
   testimonials,
   contact,
+  currently,
 } from './content.js';
 
 const esc = (s) =>
@@ -141,7 +147,6 @@ const renderHero = () => {
   <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
     <canvas class="hero__gl" aria-hidden="true" data-hero-gl></canvas>
     <div class="hero__copy">
-      <p class="hero__hello" data-hero-in><span class="dot-live" aria-hidden="true"></span>${esc(site.fullName)} · ${esc(site.role)}</p>
       <h1 class="hero__title" id="hero-title">
         <span class="sr-only">${esc(l1)} ${esc(l2)}</span>
         <span class="hero__line" aria-hidden="true">${rollLetters(l1)}</span>
@@ -149,7 +154,7 @@ const renderHero = () => {
       </h1>
       <p class="hero__body" data-hero-in>${esc(hero.body)}</p>
       <div class="hero__ctas" data-hero-in>
-        ${btn('View my work', '#work')}
+        ${btn(hero.cta.label, hero.cta.href, { iconName: 'arrowUR' })}
         <button class="btn btn--ghost" type="button" data-reel-open data-magnetic>
           <span class="btn__play">${icon('play')}</span>
           <span class="btn__roll"><span class="btn__label" data-text="Watch showreel">Watch showreel</span></span>
@@ -194,7 +199,7 @@ const renderHero = () => {
 
     <div class="hero__trust" data-hero-in>
       <span class="hero__rule" aria-hidden="true"></span>
-      <p>${site.experienceYears} years designing for<br />${hero.trust.map(esc).join(', ')} &amp; more.</p>
+      <p>${site.experienceYears}+ years of experience with ${hero.trust.map(esc).join(', ')} &amp; more.</p>
       <ul class="tool-stack" aria-label="Main tools">
         ${toolStack.map((t) => `<li><img src="${t.src}" alt="${esc(t.name)}" width="36" height="36" loading="lazy" /></li>`).join('')}
         <li class="tool-stack__more"><a href="#toolbox" aria-label="See the full toolbox">+${tools.length - toolStack.length}</a></li>
@@ -214,7 +219,7 @@ const renderHero = () => {
 /* ---------------------------------------------------------------- marquee */
 const renderMarquee = () => {
   const words = ['UI/UX Design', 'Product Design', 'Motion Graphics', 'Graphic Design', 'Branding', 'App Design', 'Video Editing', 'Print'];
-  const row = words.map((w, i) => `<span class="mq__item${i % 2 ? ' mq__item--em' : ''}">${esc(w)}</span><span class="mq__star">${icon('sparkle')}</span>`).join('');
+  const row = words.map((w) => `<span class="mq__item">${esc(w)}</span><span class="mq__star">${icon('sparkle')}</span>`).join('');
   return `
   <div class="mq" aria-hidden="true" data-marquee>
     <div class="mq__track">${row}${row}</div>
@@ -243,6 +248,20 @@ const previews = {
         <span class="pv-motion__head"></span>
         ${[0, 22, 48, 74, 100].map((x) => `<i style="--x:${x}%"></i>`).join('')}
       </div>
+    </div>`,
+  logo: `
+    <div class="pv pv--logo">
+      <span class="pv-logo__grid"></span>
+      <span class="pv-logo__ring pv-logo__ring--a"></span>
+      <span class="pv-logo__ring pv-logo__ring--b"></span>
+      <svg class="pv-logo__mark" viewBox="-2 -2 43.25 31.3"><path pathLength="1" transform="matrix(1 0 0 -1 0 27.3)" d="${logoPath}"/></svg>
+    </div>`,
+  print: `
+    <div class="pv pv--print">
+      <span class="pv-print__sheet pv-print__sheet--a"><i></i><i></i><i></i></span>
+      <span class="pv-print__sheet pv-print__sheet--b"><i></i><i></i><i></i></span>
+      <span class="pv-print__sheet pv-print__sheet--c"><b>SALE</b><i></i><i></i></span>
+      <span class="pv-print__crop"></span>
     </div>`,
   poster: `
     <div class="pv pv--poster">
@@ -282,6 +301,62 @@ const renderDisciplines = () => `
         )
         .join('')}
     </div>
+  </section>`;
+
+/* ---------------------------------------------------------------- AI lab */
+const AI_GLYPHS = {
+  terminal: '<path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5zm4.2 3.3-1.1 1.1 2.6 2.6-2.6 2.6 1.1 1.1L10.9 12zM12 15.8v1.6h6v-1.6z"/>',
+  chat: '<path d="M12 3c5 0 9 3.4 9 7.7s-4 7.7-9 7.7c-1 0-2-.1-2.9-.4L4.5 20l1.1-3.9C4 14.7 3 12.8 3 10.7 3 6.4 7 3 12 3zm-4 6.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zm4 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zm4 0a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>',
+};
+const PRACTICE_ICONS = {
+  spark: '<path d="M12 2.5c.7 5 2.5 8.6 9.5 9.5-7 .9-8.8 4.5-9.5 9.5-.7-5-2.5-8.6-9.5-9.5 7-.9 8.8-4.5 9.5-9.5z" fill="currentColor" stroke="none"/>',
+  agent: '<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16h5"/>',
+  code: '<path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
+};
+const aiIcon = (t) => {
+  const s = t.si ? simpleIcons[t.si] : null;
+  const path = s ? `<path d="${s.path}"/>` : AI_GLYPHS[t.glyph];
+  const color = s ? `#${s.hex}` : t.color;
+  const badge = t.badge ? `<span class="ai-tile__badge">${icon('arrowR')}</span>` : '';
+  return { svg: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">${path}</svg>${badge}`, color };
+};
+
+const renderAiLab = () => `
+  <section class="ai" id="ai-lab" aria-labelledby="ai-lab-title">
+    <div class="ai__top">
+      ${sectionHead(aiIntro, 'ai-lab')}
+      <ul class="ai__practices">
+        ${aiPractices
+          .map(
+            (p, i) => `
+          <li class="ai-card" data-reveal data-tilt style="--i:${i}">
+            <span class="ai-card__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PRACTICE_ICONS[p.icon]}</svg></span>
+            <h3>${esc(p.title)}</h3>
+            <p>${esc(p.body)}</p>
+          </li>`,
+          )
+          .join('')}
+      </ul>
+    </div>
+    <div class="ai__tools">
+      ${aiTools
+        .map(
+          (g) => `
+        <div class="ai__group">
+          <h3 class="ai__group-title">${esc(g.group)}</h3>
+          <ul class="ai__grid">
+            ${g.items
+              .map((t) => {
+                const { svg, color } = aiIcon(t);
+                return `<li class="ai-tile" style="--c:${color}"><span class="ai-tile__icon">${svg}</span><span class="ai-tile__name">${esc(t.name)}</span></li>`;
+              })
+              .join('')}
+          </ul>
+        </div>`,
+        )
+        .join('')}
+    </div>
+    <p class="ai__note">Product names and logos belong to their owners and are shown to list the tools I use.</p>
   </section>`;
 
 /* ---------------------------------------------------------------- toolbox */
@@ -405,8 +480,8 @@ const renderShowreel = () => `
   </section>`;
 
 /* ---------------------------------------------------------------- about */
-// Newest first: start dates in content.js are Nov 2022, Jul 2024, Sep 2024, Jun 2023.
-const EXPERIENCE_ORDER = [2, 1, 3, 0];
+// Newest first: start dates in content.js are Nov 2022, Jul 2024, Sep 2024, Jun 2023, Oct 2025.
+const EXPERIENCE_ORDER = [4, 2, 1, 3, 0];
 
 const renderAbout = () => `
   <section class="about" id="about" aria-labelledby="about-title">
@@ -419,11 +494,17 @@ const renderAbout = () => `
       <div class="about__text">
         ${sectionHead({ eyebrow: 'About', title: ['Hi, I’m Vignesh.', 'Nice to meet you.'] }, 'about')}
         <p class="about__bio" data-reveal>${esc(aboutLong)}</p>
+        <p class="about__bio about__bio--ai" data-reveal>${esc(aboutAi)}</p>
         <dl class="facts" data-reveal>
           <div><dt>Based in</dt><dd>${esc(site.location)}</dd></div>
-          <div><dt>Experience</dt><dd>${site.experienceYears} years</dd></div>
+          <div><dt>Experience</dt><dd>${site.experienceYears}+ years</dd></div>
           <div><dt>Disciplines</dt><dd>9 and counting</dd></div>
         </dl>
+        ${
+          site.resume
+            ? `<div class="about__cv" data-reveal>${btn('Download résumé', site.resume, { iconName: 'arrowUR', attrs: 'download target="_blank" rel="noopener"' })}<span>PDF · 1 page</span></div>`
+            : ''
+        }
         <ul class="skills">
           ${skills
             .map(
@@ -561,8 +642,9 @@ const renderContact = () => `
           <li>
             <span class="contact__label">Elsewhere</span>
             <a href="${site.behance}" target="_blank" rel="noopener" class="contact__big">Behance ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a>
+            <a href="${site.linkedin}" target="_blank" rel="noopener" class="contact__big">LinkedIn ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a>
             ${site.dribbble ? `<a href="${site.dribbble}" target="_blank" rel="noopener" class="contact__big">Dribbble ${icon('arrowUR')}</a>` : ''}
-            ${site.resume ? `<a href="${site.resume}" class="contact__big" download>Download CV ${icon('arrowUR')}</a>` : ''}
+            ${site.resume ? `<a href="${site.resume}" class="contact__big" download target="_blank" rel="noopener">Résumé (PDF) ${icon('arrowUR')}</a>` : ''}
           </li>
         </ul>
       </div>
@@ -572,14 +654,40 @@ const renderContact = () => `
 /* ---------------------------------------------------------------- footer */
 export const renderFooter = () => `
   <footer class="footer">
-    <div class="footer__row">
-      <p>© ${new Date().getFullYear()} ${esc(site.fullName)}. Designed &amp; built with care.</p>
-      <ul>
-        ${nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}
-      </ul>
-      <a class="footer__top" href="#top" data-magnetic>${icon('arrowUp')}<span>Back to top</span></a>
+    <div class="footer__card" data-footer>
+      <svg class="footer__orbit" viewBox="-2 -2 43.25 31.3" aria-hidden="true" focusable="false"><path transform="matrix(1 0 0 -1 0 27.3)" d="${logoPath}"/></svg>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a class="footer__logo" href="#top" aria-label="${esc(site.fullName)}, back to top">${vMark()}<span>${esc(site.fullName)}</span></a>
+          <p>Product &amp; UI/UX designer. Interfaces, motion and brand visuals that feel calm and clear.</p>
+          <span class="footer__status"><span class="dot-live" aria-hidden="true"></span>Open to freelance &amp; full-time work</span>
+        </div>
+        <nav class="footer__col" aria-label="Footer">
+          <h2>Explore</h2>
+          <ul>${nav.map((n) => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')}</ul>
+        </nav>
+        <div class="footer__col">
+          <h2>Connect</h2>
+          <ul>
+            <li><a href="mailto:${site.email}">${esc(site.email)}</a></li>
+            <li><a href="tel:${site.phone.replace(/\s/g, '')}">${esc(site.phone)}</a></li>
+            <li><a href="${site.behance}" target="_blank" rel="noopener">Behance ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a></li>
+            <li><a href="${site.linkedin}" target="_blank" rel="noopener">LinkedIn ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a></li>
+            ${site.resume ? `<li><a href="${site.resume}" download target="_blank" rel="noopener">Résumé (PDF) ${icon('arrowUR')}</a></li>` : ''}
+          </ul>
+        </div>
+        <div class="footer__col footer__now">
+          <h2>Currently</h2>
+          <p class="sr-only">${currently.map(esc).join(', ')}.</p>
+          <p class="footer__roll" aria-hidden="true" data-now>${currently.map((c, i) => `<span${i ? '' : ' class="is-on"'}>${esc(c)}</span>`).join('')}</p>
+          <a class="footer__hi" href="#contact" data-magnetic>Say hi ${icon('arrowUR')}</a>
+        </div>
+      </div>
+      <div class="footer__bar">
+        <p>© ${new Date().getFullYear()} ${esc(site.fullName)}. Designed &amp; built with care.</p>
+        <a class="footer__top" href="#top" data-magnetic>${icon('arrowUp')}<span>Back to top</span></a>
+      </div>
     </div>
-    <p class="footer__mark" aria-hidden="true" data-footer-mark>${[...site.name].map((c) => `<span>${c}</span>`).join('')}</p>
   </footer>`;
 
 /* ---------------------------------------------------------------- reel dialog */
@@ -596,7 +704,7 @@ export function renderPage() {
     meta,
     loader: renderLoader(),
     nav: renderNav(),
-    main: [renderHero(), renderMarquee(), renderWork(), renderDisciplines(), renderToolbox(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
+    main: [renderHero(), renderMarquee(), renderWork(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
     footer: renderFooter() + renderDialog(),
   };
 }

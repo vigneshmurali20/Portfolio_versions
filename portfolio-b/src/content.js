@@ -15,10 +15,11 @@ export const site = {
   location: 'Bangalore, India',
   timezone: 'Asia/Kolkata',
   behance: 'https://www.behance.net/vigneshwaranmurali',
+  linkedin: 'https://www.linkedin.com/in/vigneshmurali24',
   // The Figma file has no Dribbble link. Add the URL here to show it.
   dribbble: null,
-  // Add a CV at public/cv.pdf and set this to 'cv.pdf' to show a Download CV link.
-  resume: null,
+  // One-page résumé for recruiters (public/Vigneshwaran-M-Resume.pdf).
+  resume: 'Vigneshwaran-M-Resume.pdf',
   // Head-and-shoulders crop of images/portrait.png, for the hero.
   portrait: 'images/portrait-hero.png',
   portraitAlt: 'Vignesh with his arms folded, in a black knit sweater',
@@ -30,9 +31,9 @@ export const site = {
 };
 
 export const meta = {
-  title: 'Vignesh Murali | Product, UI/UX, Motion & Graphic Designer',
+  title: 'Vignesh Murali | Product & UI/UX Designer in Bangalore, India',
   description:
-    'Vignesh Murali is a product designer in Bangalore working across UI/UX, product, motion graphics, graphic design and branding.',
+    'Vignesh Murali is a product and UI/UX designer in Bangalore, India, with 4+ years of experience in SaaS dashboards, web and app design, motion graphics, graphic design and branding. Available for freelance and full-time work.',
 };
 
 // One page, so the nav links jump to sections.
@@ -40,19 +41,22 @@ export const nav = [
   { href: '#work', label: 'Work' },
   { href: '#disciplines', label: 'Disciplines' },
   { href: '#toolbox', label: 'Toolbox' },
+  { href: '#ai-lab', label: 'AI Lab' },
   { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' },
 ];
 
 export const hero = {
-  lines: ['Designing clear products', 'for brands that move.'],
-  body: 'I’m Vignesh, a product designer in Bangalore. I shape interfaces, motion and brand visuals that feel calm, considered and easy to use.',
+  lines: ['Design that makes', 'people say Yes.'],
+  body: 'You’re just one step away from bringing your imagination to life.',
+  cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
   notes: [
-    { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and fintech.' },
+    { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and SAP.' },
     { icon: 'tools', title: ['Ideas that', 'actually move.'], body: 'Motion, brand and campaign visuals.' },
   ],
-  trust: ['Deepvue', 'RetainIQ', 'Modish', 'Salesmax'],
+  // latest first
+  trust: ['Grassdoor Logistics / Omnigreen', 'Deepvue', 'RetainIQ', 'Modish'],
   tagline: ['Less noise.', 'More clarity.'],
 };
 
@@ -71,7 +75,7 @@ export const ringCards = [
 
 export const disciplinesIntro = {
   eyebrow: 'Disciplines',
-  title: ['Four crafts,', 'one calm language.'],
+  title: ['Six crafts,', 'one calm language.'],
   body: 'Most projects need more than one kind of design. I move between them so the product, the brand and the motion all say the same thing.',
 };
 
@@ -112,6 +116,82 @@ export const disciplines = [
     deliverables: ['Campaigns', 'Social media', 'Email design', 'Print & merch', 'Branding'],
     project: { label: 'Flyer Automation — Brand', href: 'https://www.behance.net/gallery/230710601/Flyer-Automation-Brand', image: 'images/work/graphic.png' },
   },
+  {
+    key: 'logo',
+    title: 'Logo Design',
+    short: 'Logo',
+    preview: 'logo',
+    body: 'Logos and identity marks built on simple geometry, so they stay sharp everywhere from an app icon to a billboard.',
+    deliverables: ['Logomarks', 'Wordmarks', 'Monograms', 'Brand guidelines', 'Logo animation'],
+    project: { label: 'Branding for a Fintech Service', href: 'https://www.behance.net/gallery/218921809/Branding-for-a-Fintech-Service', image: 'images/work/branding.png' },
+  },
+  {
+    key: 'print',
+    title: 'Print Design',
+    short: 'Print',
+    preview: 'print',
+    body: 'Brochures, flyers, posters and merchandise, prepared print-ready with bleed, colour and paper in mind.',
+    deliverables: ['Brochures', 'Flyers', 'Posters', 'Merchandise', 'Offer collaterals'],
+    project: { label: 'Merchandise', href: 'https://www.behance.net/gallery/230692137/Merchandise', image: 'images/work/print.png' },
+  },
+];
+
+export const aiIntro = {
+  eyebrow: 'AI lab',
+  title: ['Designing with AI,', 'building with agents.'],
+  body: 'Outside client work, I explore generative design with AI, build AI agents and automations as a hobby, and vibe-code small apps that solve real, everyday problems.',
+};
+
+// Shown as one extra line under the About bio.
+export const aboutAi =
+  'I also create generative designs with AI, build AI agents and automations for fun, and vibe-code apps that solve real-time problems.';
+
+export const aiPractices = [
+  { icon: 'spark', title: 'Generative design', body: 'AI-assisted moodboards, visuals and motion explorations, refined by hand into on-brand work.' },
+  { icon: 'agent', title: 'Agents & automation', body: 'Personal AI agents and no-code workflows that take repetitive work off the table.' },
+  { icon: 'code', title: 'Vibe coding', body: 'Small working apps, shipped with Claude Code and Codex, that solve real-time problems.' },
+];
+
+// Platform icons. `si` is a Simple Icons key (resolved at build time);
+// `glyph` is a built-in icon for brands Simple Icons doesn't carry.
+export const aiTools = [
+  {
+    group: 'Agentic coding',
+    items: [
+      { name: 'Claude Code', si: 'siClaude', badge: 'terminal' },
+      { name: 'OpenAI Codex', glyph: 'terminal', color: '#111014' },
+      { name: 'Cursor', si: 'siCursor' },
+      { name: 'GitHub Copilot', si: 'siGithubcopilot' },
+      { name: 'v0', si: 'siV0' },
+      { name: 'Replit', si: 'siReplit' },
+    ],
+  },
+  {
+    group: 'Models & assistants',
+    items: [
+      { name: 'Claude', si: 'siClaude' },
+      { name: 'ChatGPT', glyph: 'chat', color: '#10A37F' },
+      { name: 'Gemini', si: 'siGooglegemini' },
+      { name: 'Perplexity', si: 'siPerplexity' },
+    ],
+  },
+  {
+    group: 'Agents & automation',
+    items: [
+      { name: 'n8n', si: 'siN8n' },
+      { name: 'Zapier', si: 'siZapier' },
+      { name: 'Make', si: 'siMake' },
+      { name: 'LangChain', si: 'siLangchain' },
+      { name: 'CrewAI', si: 'siCrewai' },
+    ],
+  },
+  {
+    group: 'Generative media',
+    items: [
+      { name: 'Hugging Face', si: 'siHuggingface' },
+      { name: 'ElevenLabs', si: 'siElevenlabs' },
+    ],
+  },
 ];
 
 export const toolboxIntro = {
@@ -123,12 +203,12 @@ export const toolboxIntro = {
 // The playground tools. `value` is the proficiency from the Figma skill rings.
 export const tools = [
   { key: 'figma', name: 'Figma', value: 100, src: 'images/tools/figma.png', use: 'UI/UX, design systems and clickable prototypes.', disciplines: ['uiux', 'product'] },
-  { key: 'illustrator', name: 'Adobe Illustrator', value: 90, src: 'images/tools/illustrator.png', use: 'Logos, brand marks and vector illustration.', disciplines: ['graphic'] },
+  { key: 'illustrator', name: 'Adobe Illustrator', value: 90, src: 'images/tools/illustrator.png', use: 'Logos, brand marks and vector illustration.', disciplines: ['logo', 'graphic'] },
   { key: 'photoshop', name: 'Adobe Photoshop', value: 90, src: 'images/tools/photoshop.png', use: 'Campaign key visuals, compositing and retouching.', disciplines: ['graphic'] },
   { key: 'aftereffects', name: 'Adobe After Effects', value: 75, src: 'images/tools/aftereffects.png', use: 'Logo animation, explainers and UI motion.', disciplines: ['motion'] },
   { key: 'framer', name: 'Framer', value: 85, src: 'images/tools/framer.png', use: 'Interactive prototypes and live marketing sites.', disciplines: ['uiux', 'motion'] },
   { key: 'premiere', name: 'Adobe Premiere Pro', value: 75, src: 'images/tools/premiere.png', use: 'Video editing, reels and promos.', disciplines: ['motion'] },
-  { key: 'indesign', name: 'Adobe InDesign', value: 100, src: 'images/tools/indesign.png', use: 'Brochures, print layouts and decks.', disciplines: ['graphic'] },
+  { key: 'indesign', name: 'Adobe InDesign', value: 100, src: 'images/tools/indesign.png', use: 'Brochures, print layouts and decks.', disciplines: ['print', 'graphic'] },
   { key: 'webflow', name: 'Webflow', value: 85, src: 'images/tools/webflow.png', use: 'No-code websites with real CMS content.', disciplines: ['uiux'] },
   { key: 'xd', name: 'Adobe XD', value: 90, src: 'images/tools/xd.png', use: 'Wireframes and quick flow prototypes.', disciplines: ['uiux', 'product'] },
   { key: 'lightroom', name: 'Adobe Lightroom', value: 90, src: 'images/tools/lightroom.png', use: 'Photo grading for campaigns and social.', disciplines: ['graphic'] },
@@ -168,7 +248,7 @@ export const experience = [
   },
   {
     company: 'Deepvue, Bangalore',
-    period: 'Sep 2024 to Present',
+    period: 'Sep 2024 to Oct 2025',
     role: 'Graphic Designer and UI/UX',
     skills: 'Product Design, UI/UX Design, Web Design, Visual Design, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Product Release Notes Design.',
   },
@@ -177,6 +257,12 @@ export const experience = [
     period: 'Jun 2023 to Aug 2025',
     role: 'Lead Designer and UI/UX',
     skills: 'Wireframes, High-Fidelity Prototypes, Booking Flows, Responsive Design, Design Systems, Interaction Design, Website Redesigns, Experience Optimization, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Offer Collaterals, Product Launch & Seasonal Campaign Design.',
+  },
+  {
+    company: 'Grassdoor Logistics',
+    period: 'Oct 2025 to Present',
+    role: 'UI/UX and Graphic Designer',
+    skills: 'UI/UX Design, Graphic Design.',
   },
 ];
 
@@ -238,14 +324,14 @@ export const testimonialsIntro = {
 export const testimonialsAreSamples = true;
 
 // Brands shown in the "worked with" strip.
-export const brands = ['Deepvue', 'RetainIQ', 'DigiPro', 'Modish', 'Salesmax'];
+export const brands = ['Grassdoor Logistics', 'Omnigreen', 'Deepvue', 'RetainIQ', 'DigiPro', 'Modish', 'Salesmax'];
 
 export const testimonials = [
   {
     name: 'Chandrashekar',
     role: 'Founder, Deepvue',
     rating: 5,
-    quote: 'Vignesh led the redesign of our analytics dashboard end to end. Complex fintech data became clear and easy to act on, and every screen he handed over was ready to build.',
+    quote: 'Vignesh led the redesign of our analytics dashboard end to end, which helped us make 2X revenue. Complex fintech data became clear and easy to act on, and every screen he handed over was ready to build.',
   },
   {
     name: 'Gaurav',
@@ -272,6 +358,9 @@ export const testimonials = [
     quote: 'Clean UI, sharp landing pages and clickable prototypes that made our product easier to explain. Working across time zones was never an issue.',
   },
 ];
+
+// The footer's "Currently" ticker.
+export const currently = ['Designing for Grassdoor', 'Vibe-coding small apps', 'Building AI agents', 'Exploring generative design', 'Animating a logo'];
 
 export const contact = {
   title: ['Let’s make something', 'clear.'],
