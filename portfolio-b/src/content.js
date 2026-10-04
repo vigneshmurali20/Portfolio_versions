@@ -30,9 +30,9 @@ export const site = {
 };
 
 export const meta = {
-  title: 'Vignesh Murali | Product, UI/UX, Motion & Graphic Designer',
+  title: 'Vignesh Murali | Product & UI/UX Designer in Bangalore, India',
   description:
-    'Vignesh Murali is a product designer in Bangalore working across UI/UX, product, motion graphics, graphic design and branding.',
+    'Vignesh Murali is a product and UI/UX designer in Bangalore, India, with 4 years of experience in SaaS dashboards, web and app design, motion graphics, graphic design and branding. Available for freelance and full-time work.',
 };
 
 // One page, so the nav links jump to sections.
@@ -45,8 +45,12 @@ export const nav = [
 ];
 
 export const hero = {
-  lines: ['Designing clear products', 'for brands that move.'],
-  body: 'I’m Vignesh, a product designer in Bangalore. I shape interfaces, motion and brand visuals that feel calm, considered and easy to use.',
+  // h1: keyword-first upright line, a benefit in the italic line
+  lines: ['Product & UI/UX design', 'that makes people say yes.'],
+  body: 'You’re just one step away from bringing your imagination to life.',
+  // a plain statement of who, what and where, for search and AI answers
+  entity: 'Product & UI/UX designer in Bangalore, India.',
+  cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
   notes: [
     { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and fintech.' },

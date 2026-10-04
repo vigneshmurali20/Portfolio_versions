@@ -737,7 +737,7 @@ section {
 .xp__company,
 .brands li,
 .footer__mark {
-  font-weight: 580;
+  font-weight: 700;
   /* a mid optical size keeps the hairlines sturdy at display sizes */
   font-variation-settings: 'opsz' 36;
   letter-spacing: -0.03em;
@@ -761,7 +761,7 @@ section {
 }
 .hero__line--em .hc__b {
   font-family: var(--serif);
-  font-weight: 580;
+  font-weight: 700;
 }
 .line__in {
   display: block;

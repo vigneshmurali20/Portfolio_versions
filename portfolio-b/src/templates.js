@@ -148,7 +148,7 @@ const renderHero = () => {
       </h1>
       <p class="hero__body" data-hero-in>${esc(hero.body)}</p>
       <div class="hero__ctas" data-hero-in>
-        ${btn('View my work', '#work')}
+        ${btn(hero.cta.label, hero.cta.href, { iconName: 'arrowUR' })}
         <button class="btn btn--ghost" type="button" data-reel-open data-magnetic>
           <span class="btn__play">${icon('play')}</span>
           <span class="btn__roll"><span class="btn__label" data-text="Watch showreel">Watch showreel</span></span>
@@ -193,7 +193,7 @@ const renderHero = () => {
 
     <div class="hero__trust" data-hero-in>
       <span class="hero__rule" aria-hidden="true"></span>
-      <p>${site.experienceYears} years designing for<br />${hero.trust.map(esc).join(', ')} &amp; more.</p>
+      <p>${esc(hero.entity)}<br />${site.experienceYears} years with ${hero.trust.map(esc).join(', ')} &amp; more.</p>
       <ul class="tool-stack" aria-label="Main tools">
         ${toolStack.map((t) => `<li><img src="${t.src}" alt="${esc(t.name)}" width="36" height="36" loading="lazy" /></li>`).join('')}
         <li class="tool-stack__more"><a href="#toolbox" aria-label="See the full toolbox">+${tools.length - toolStack.length}</a></li>
