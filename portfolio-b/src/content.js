@@ -26,6 +26,8 @@ export const site = {
   // About section photo (Figma node 1:16257).
   portraitAbout: 'images/portrait-about.jpg',
   portraitAboutAlt: 'Vignesh in a white linen shirt, hands in his pockets, looking to the side',
+  // round photo in the hero notification (Figma node 1:16252)
+  avatar: 'images/avatar.jpg',
   showreel: 'showreel.mp4',
   showreelPoster: 'images/showreel-poster.jpg',
 };

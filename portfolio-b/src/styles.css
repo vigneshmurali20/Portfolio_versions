@@ -857,8 +857,7 @@ section {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  object-position: 38% 22%;
-  background: #e7e3dc;
+  background: #7f56d9;
   transform: scale(1.001);
 }
 .notif__avatar i {
