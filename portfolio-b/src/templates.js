@@ -147,13 +147,6 @@ const renderHero = () => {
   <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
     <canvas class="hero__gl" aria-hidden="true" data-hero-gl></canvas>
     <div class="hero__copy">
-      <a class="notif" href="#contact" data-notif data-cursor="Say hi">
-        <span class="notif__avatar"><img src="${site.avatar}" alt="" width="160" height="160" /><i aria-hidden="true"></i></span>
-        <span class="notif__text">
-          <span class="notif__top"><b>${esc(site.name)}</b><span>now</span></span>
-          <span class="notif__msg">${esc(hero.hello)} <span class="notif__wave" aria-hidden="true">${icon('hand')}</span></span>
-        </span>
-      </a>
       <h1 class="hero__title" id="hero-title">
         <span class="sr-only">${esc(l1)} ${esc(l2)}</span>
         <span class="hero__line" aria-hidden="true">${rollLetters(l1)}</span>

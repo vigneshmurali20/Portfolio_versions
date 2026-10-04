@@ -274,8 +274,6 @@ window.addEventListener('resize', drawWires);
 function heroIntro() {
   const tl = gsap.timeline({ defaults: { ease: EASE } });
   tl.fromTo('.hc__a', { y: 0, yPercent: 130 }, { yPercent: 0, duration: 1.4, stagger: 0.018, clearProps: 'transform' }, 0)
-    // the notification drops in like a message arriving on a phone
-    .fromTo('[data-notif]', { opacity: 0, y: -48, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: 'back.out(1.6)', clearProps: 'transform' }, 0.15)
     .fromTo('[data-hero-in]', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1.2, stagger: 0.08 }, 0.35)
     .fromTo(
       '.note',

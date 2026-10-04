@@ -26,8 +26,6 @@ export const site = {
   // About section photo (Figma node 1:16257).
   portraitAbout: 'images/portrait-about.jpg',
   portraitAboutAlt: 'Vignesh in a white linen shirt, hands in his pockets, looking to the side',
-  // round photo in the hero notification (Figma node 1:16252)
-  avatar: 'images/avatar.jpg',
   showreel: 'showreel.mp4',
   showreelPoster: 'images/showreel-poster.jpg',
 };
@@ -51,8 +49,6 @@ export const nav = [
 export const hero = {
   lines: ['Design that makes', 'people say Yes.'],
   body: 'You’re just one step away from bringing your imagination to life.',
-  // the notification card above the headline
-  hello: 'Hi, Vignesh here!',
   cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
   notes: [
