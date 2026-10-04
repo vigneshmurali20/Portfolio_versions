@@ -27,6 +27,8 @@ function staticSections() {
 }
 
 export default defineConfig({
+  // relative asset URLs, so the build works from any folder or sub-path
+  base: './',
   plugins: [staticSections()],
   build: {
     target: 'es2020',

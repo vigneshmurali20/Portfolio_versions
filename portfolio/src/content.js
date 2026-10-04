@@ -21,9 +21,9 @@ export const site = {
   // The Figma file has a Dribbble card but no Dribbble link. Add the URL here
   // and the card appears automatically.
   dribbble: null,
-  portrait: '/images/portrait.png',
+  portrait: 'images/portrait.png',
   portraitAlt: 'Vignesh, sitting on a wooden chair with his arms folded, in a black knit sweater',
-  portraitSmile: '/images/portrait-smile.png',
+  portraitSmile: 'images/portrait-smile.png',
   portraitSmileAlt: 'Vignesh smiling, in a black shirt',
 };
 
@@ -38,14 +38,14 @@ export const nav = [
 ];
 
 export const tools = [
-  { name: 'Figma', src: '/images/tools/figma.png' },
-  { name: 'Adobe Photoshop', src: '/images/tools/photoshop.png' },
-  { name: 'Adobe Premiere Pro', src: '/images/tools/premiere.png' },
-  { name: 'Adobe Illustrator', src: '/images/tools/illustrator.png' },
-  { name: 'Framer', src: '/images/tools/framer.png' },
-  { name: 'Webflow', src: '/images/tools/webflow.png' },
-  { name: 'Adobe XD', src: '/images/tools/xd.png' },
-  { name: 'Adobe After Effects', src: '/images/tools/aftereffects.png' },
+  { name: 'Figma', src: 'images/tools/figma.png' },
+  { name: 'Adobe Photoshop', src: 'images/tools/photoshop.png' },
+  { name: 'Adobe Premiere Pro', src: 'images/tools/premiere.png' },
+  { name: 'Adobe Illustrator', src: 'images/tools/illustrator.png' },
+  { name: 'Framer', src: 'images/tools/framer.png' },
+  { name: 'Webflow', src: 'images/tools/webflow.png' },
+  { name: 'Adobe XD', src: 'images/tools/xd.png' },
+  { name: 'Adobe After Effects', src: 'images/tools/aftereffects.png' },
 ];
 
 export const servicesIntro = {
@@ -54,15 +54,15 @@ export const servicesIntro = {
 };
 
 export const services = [
-  { title: 'UI/UX Design', project: 'Landing Page — SaaS', image: '/images/work/ui-ux.png', href: 'https://www.behance.net/gallery/230687789/Landing-Page-SaaS' },
-  { title: 'Product Design', project: 'Dashboard Revamp — Deepvue', image: '/images/work/product.png', href: 'https://www.behance.net/gallery/226234661/Dashboard-Revamp' },
-  { title: 'Graphic Design', project: 'Flyer Automation — Brand', image: '/images/work/graphic.png', href: 'https://www.behance.net/gallery/230710601/Flyer-Automation-Brand' },
-  { title: 'Motion Graphics', project: 'Motion Graphics', image: '/images/work/motion.png', href: 'https://www.behance.net/gallery/230749799/Motion-Graphics' },
-  { title: 'Branding', project: 'Branding for a Fintech Service', image: '/images/work/branding.png', href: 'https://www.behance.net/gallery/218921809/Branding-for-a-Fintech-Service' },
-  { title: 'Print Design', project: 'Merchandise', image: '/images/work/print.png', href: 'https://www.behance.net/gallery/230692137/Merchandise' },
-  { title: 'Video Editing', project: 'Logo Animation', image: '/images/work/video.png', href: 'https://www.behance.net/gallery/206932523/Logo-Animation' },
-  { title: 'App Design', project: 'AI-assisted Fintech App', image: '/images/work/app.png', href: 'https://www.behance.net/gallery/231811507/AI-assisted-Fintech-App' },
-  { title: 'Social Media', project: 'Social Media Posts', image: '/images/work/social.png', href: 'https://www.behance.net/gallery/206932249/Social-Media-Post' },
+  { title: 'UI/UX Design', project: 'Landing Page — SaaS', image: 'images/work/ui-ux.png', href: 'https://www.behance.net/gallery/230687789/Landing-Page-SaaS' },
+  { title: 'Product Design', project: 'Dashboard Revamp — Deepvue', image: 'images/work/product.png', href: 'https://www.behance.net/gallery/226234661/Dashboard-Revamp' },
+  { title: 'Graphic Design', project: 'Flyer Automation — Brand', image: 'images/work/graphic.png', href: 'https://www.behance.net/gallery/230710601/Flyer-Automation-Brand' },
+  { title: 'Motion Graphics', project: 'Motion Graphics', image: 'images/work/motion.png', href: 'https://www.behance.net/gallery/230749799/Motion-Graphics' },
+  { title: 'Branding', project: 'Branding for a Fintech Service', image: 'images/work/branding.png', href: 'https://www.behance.net/gallery/218921809/Branding-for-a-Fintech-Service' },
+  { title: 'Print Design', project: 'Merchandise', image: 'images/work/print.png', href: 'https://www.behance.net/gallery/230692137/Merchandise' },
+  { title: 'Video Editing', project: 'Logo Animation', image: 'images/work/video.png', href: 'https://www.behance.net/gallery/206932523/Logo-Animation' },
+  { title: 'App Design', project: 'AI-assisted Fintech App', image: 'images/work/app.png', href: 'https://www.behance.net/gallery/231811507/AI-assisted-Fintech-App' },
+  { title: 'Social Media', project: 'Social Media Posts', image: 'images/work/social.png', href: 'https://www.behance.net/gallery/206932249/Social-Media-Post' },
 ];
 
 // Listed oldest first, as in the Figma timeline.
@@ -99,7 +99,7 @@ export const portfolio = {
   featured: {
     title: 'Deepvue — SaaS Dashboard Revamp',
     body: 'At Deepvue.ai, I led the end-to-end redesign of the analytics dashboard, enhancing both UI clarity and UX flow. The updated experience made complex fintech data more intuitive, interactive, and accessible to users.',
-    image: '/images/work/product.png',
+    image: 'images/work/product.png',
     href: 'https://www.behance.net/gallery/226234661/Dashboard-Revamp',
   },
 };
