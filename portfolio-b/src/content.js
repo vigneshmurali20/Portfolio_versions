@@ -32,7 +32,7 @@ export const site = {
 export const meta = {
   title: 'Vignesh Murali | Product & UI/UX Designer in Bangalore, India',
   description:
-    'Vignesh Murali is a product and UI/UX designer in Bangalore, India, with 4 years of experience in SaaS dashboards, web and app design, motion graphics, graphic design and branding. Available for freelance and full-time work.',
+    'Vignesh Murali is a product and UI/UX designer in Bangalore, India, with 4+ years of experience in SaaS dashboards, web and app design, motion graphics, graphic design and branding. Available for freelance and full-time work.',
 };
 
 // One page, so the nav links jump to sections.
@@ -48,8 +48,6 @@ export const hero = {
   // h1: keyword-first upright line, a benefit in the italic line
   lines: ['Product & UI/UX design', 'that makes people say yes.'],
   body: 'You’re just one step away from bringing your imagination to life.',
-  // a plain statement of who, what and where, for search and AI answers
-  entity: 'Product & UI/UX designer in Bangalore, India.',
   cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
   notes: [

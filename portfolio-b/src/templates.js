@@ -193,7 +193,7 @@ const renderHero = () => {
 
     <div class="hero__trust" data-hero-in>
       <span class="hero__rule" aria-hidden="true"></span>
-      <p>${esc(hero.entity)}<br />${site.experienceYears} years with ${hero.trust.map(esc).join(', ')} &amp; more.</p>
+      <p>${site.experienceYears}+ years of experience with ${hero.trust.map(esc).join(', ')} &amp; more.</p>
       <ul class="tool-stack" aria-label="Main tools">
         ${toolStack.map((t) => `<li><img src="${t.src}" alt="${esc(t.name)}" width="36" height="36" loading="lazy" /></li>`).join('')}
         <li class="tool-stack__more"><a href="#toolbox" aria-label="See the full toolbox">+${tools.length - toolStack.length}</a></li>
@@ -420,7 +420,7 @@ const renderAbout = () => `
         <p class="about__bio" data-reveal>${esc(aboutLong)}</p>
         <dl class="facts" data-reveal>
           <div><dt>Based in</dt><dd>${esc(site.location)}</dd></div>
-          <div><dt>Experience</dt><dd>${site.experienceYears} years</dd></div>
+          <div><dt>Experience</dt><dd>${site.experienceYears}+ years</dd></div>
           <div><dt>Disciplines</dt><dd>9 and counting</dd></div>
         </dl>
         <ul class="skills">
