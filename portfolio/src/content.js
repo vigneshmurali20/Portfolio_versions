@@ -201,40 +201,44 @@ export const testimonialsIntro = {
   body: 'A few words from the founders, marketers and product teams I’ve designed with.',
 };
 
-// SAMPLE QUOTES. These people are invented, written as placeholders at the
-// owner's request. While `testimonialsAreSamples` is true the section shows a
-// visible "sample" label. Replace them with real client quotes (with the
-// client's permission), then set it to false.
+// Clients and the people quoted. The names and brands are real; the quote
+// wording is a DRAFT written for the site. While `testimonialsAreSamples` is
+// true, the section shows a visible "draft" label. Replace each quote with
+// the client's own words (and their permission), then set it to false.
 export const testimonialsAreSamples = true;
+
+// Brands shown in the "worked with" strip.
+export const brands = ['Deepvue', 'RetainIQ', 'DigiPro', 'Modish', 'Salesmax'];
+
 export const testimonials = [
   {
-    name: 'Arjun Mehta',
-    role: 'Founder, fintech startup',
+    name: 'Chandrashekar',
+    role: 'Founder, Deepvue',
     rating: 5,
-    quote: 'Vignesh took our cluttered analytics dashboard and turned it into something our users actually enjoy opening. He asked the right questions early, and every screen he handed over was ready to build.',
+    quote: 'Vignesh led the redesign of our analytics dashboard end to end. Complex fintech data became clear and easy to act on, and every screen he handed over was ready to build.',
   },
   {
-    name: 'Priya Raman',
-    role: 'Marketing Lead, D2C skincare brand',
+    name: 'Gaurav',
+    role: 'Founder, Deepvue',
     rating: 5,
-    quote: 'Our campaign creatives went from a two-week scramble to a calm, reliable pipeline. Banners, emails and social posts all felt like one brand for the first time.',
+    quote: 'From product UI to release notes, launch videos and campaign creatives, he keeps everything on brand. He is the person we go to when something has to look right and ship fast.',
   },
   {
-    name: 'Daniel Brooks',
-    role: 'Product Manager, B2B SaaS company',
+    name: 'Janani',
+    role: 'Founder, DigiPro',
     rating: 5,
-    quote: 'Working across time zones was never an issue. Clickable prototypes landed in my inbox each morning, and our usability tests ran smoother because of them.',
+    quote: 'Logos, brand identities, promo videos and print, all handled with the same care. Our clients noticed the jump in quality straight away.',
   },
   {
-    name: 'Sneha Kulkarni',
-    role: 'Brand Strategist, creative agency',
+    name: 'Seema',
+    role: 'Founder, Modish',
     rating: 5,
-    quote: 'He has a rare mix of systems thinking and visual taste. The identity he built for our client came with a guideline doc the whole team still uses.',
+    quote: 'He understood our brand quickly and turned it into social posts and campaign visuals that felt like one consistent voice. Thoughtful, quick and easy to work with.',
   },
   {
-    name: 'Rahul Verma',
-    role: 'Co-founder, EV mobility startup',
+    name: 'Stephen',
+    role: 'Founder, Salesmax',
     rating: 5,
-    quote: 'The launch teaser and social series he designed doubled our engagement in the first month. Fast, thoughtful and genuinely fun to work with.',
+    quote: 'Clean UI, sharp landing pages and clickable prototypes that made our product easier to explain. Working across time zones was never an issue.',
   },
 ];

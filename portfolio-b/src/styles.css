@@ -729,6 +729,16 @@ section {
 .line--em {
   font-style: italic;
 }
+/* Instrument Serif has a single weight; a thin stroke on the upright lines
+   makes them heavier while the italic lines keep their light contrast. */
+.sec-title .line:not(.line--em),
+.contact__title .line:not(.line--em),
+.hero__line:not(.hero__line--em) .hc__a,
+.hero__line--em .hc__b,
+.xp__title,
+.footer__mark {
+  -webkit-text-stroke: 0.022em currentColor;
+}
 .line__in {
   display: block;
 }
@@ -2396,8 +2406,8 @@ section {
   top: 110px;
   border-radius: var(--radius);
   overflow: hidden;
-  background: #e7e3dc;
-  aspect-ratio: 1;
+  background: #1b1b1b;
+  aspect-ratio: 928 / 1120;
   transform-style: preserve-3d;
 }
 .about__photo img {
@@ -2628,6 +2638,42 @@ section {
   border: 1px dashed var(--line-2);
   font-size: 13px;
   color: var(--muted);
+}
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 40px;
+  margin-top: 48px;
+  padding: 22px 0;
+  border-block: 1px solid var(--line-2);
+}
+.brands__label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.brands ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 36px;
+}
+.brands li {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1;
+  -webkit-text-stroke: 0.02em currentColor;
+  color: var(--ink-2);
+  transition: color 0.3s;
+}
+.brands li:nth-child(even) {
+  font-style: italic;
+  -webkit-text-stroke: 0;
+}
+.brands li:hover {
+  color: var(--brand-ink);
 }
 .deck {
   margin-top: 56px;

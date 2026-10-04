@@ -19,7 +19,8 @@ const damp = (a, b, lambda, dt) => a + (b - a) * (1 - Math.exp(-lambda * dt));
 const easeOut = (t) => 1 - Math.pow(1 - t, 4);
 
 // where the head sits inside images/portrait-hero.png (fractions of the image)
-const HEAD = { x: 0.378, y: 0.24 };
+// ring centre: below the chin, so the front of the ring passes over the chest
+const HEAD = { x: 0.378, y: 0.46 };
 
 export function canWebGL() {
   try {

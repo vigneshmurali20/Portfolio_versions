@@ -22,6 +22,7 @@ import {
   processSteps,
   testimonialsIntro,
   testimonialsAreSamples,
+  brands,
   testimonials,
   contact,
 } from './content.js';
@@ -411,7 +412,7 @@ const renderAbout = () => `
   <section class="about" id="about" aria-labelledby="about-title">
     <div class="about__grid">
       <div class="about__photo" data-tilt data-reveal>
-        <img src="${site.portraitSmile}" alt="${esc(site.portraitSmileAlt)}" width="640" height="640" loading="lazy" />
+        <img src="${site.portraitAbout}" alt="${esc(site.portraitAboutAlt)}" width="928" height="1120" loading="lazy" />
         <span class="about__sticker">${icon('pin')} ${esc(site.location)}</span>
         <span class="about__clock" data-clock aria-label="Local time in Bangalore">--:--</span>
       </div>
@@ -480,9 +481,13 @@ const renderTestimonials = () => `
       ${sectionHead(testimonialsIntro, 'testi')}
       ${
         testimonialsAreSamples
-          ? '<p class="sample-note" data-reveal>Sample quotes, shown as placeholders until real client quotes are added.</p>'
+          ? '<p class="sample-note" data-reveal>Draft quotes, to be confirmed with each client.</p>'
           : ''
       }
+    </div>
+    <div class="brands" data-reveal>
+      <p class="brands__label">Brands I’ve worked with</p>
+      <ul>${brands.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>
     </div>
     <div class="deck" data-deck>
       <div class="deck__cards" data-deck-cards>
@@ -501,7 +506,7 @@ const renderTestimonials = () => `
                   .join(''),
               )}</span>
               <span><b>${esc(t.name)}</b><small>${esc(t.role)}</small></span>
-              ${testimonialsAreSamples ? '<span class="deck__sample">Sample</span>' : ''}
+              ${testimonialsAreSamples ? '<span class="deck__sample">Draft</span>' : ''}
             </figcaption>
           </figure>`,
           )

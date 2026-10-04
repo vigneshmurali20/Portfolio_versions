@@ -22,6 +22,7 @@ import {
   testimonialsIntro,
   testimonials,
   testimonialsAreSamples,
+  brands,
 } from './content.js';
 
 const esc = (s) =>
@@ -454,7 +455,8 @@ export function renderTestimonials() {
   <div class="testimonials__head">
     <h2 class="section-title section-title--center" id="t-title" data-reveal>${esc(testimonialsIntro.title[0])} ${accent(testimonialsIntro.title[1])}</h2>
     <p class="testimonials__intro" data-reveal>${esc(testimonialsIntro.body)}</p>
-    ${testimonialsAreSamples ? '<p class="sample-note">Sample testimonials, shown as placeholders until real client quotes are added</p>' : ''}
+    <ul class="brands" aria-label="Brands I’ve worked with">${brands.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>
+    ${testimonialsAreSamples ? '<p class="sample-note">Draft quotes, to be confirmed with each client</p>' : ''}
   </div>
   <div class="tslider" data-tslider data-cursor="drag">
     <ul class="tslider__track" data-tslider-track>
