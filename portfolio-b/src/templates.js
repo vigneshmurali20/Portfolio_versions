@@ -141,7 +141,6 @@ const renderHero = () => {
   <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
     <canvas class="hero__gl" aria-hidden="true" data-hero-gl></canvas>
     <div class="hero__copy">
-      <p class="hero__hello" data-hero-in><span class="dot-live" aria-hidden="true"></span>${esc(site.fullName)} · ${esc(site.role)}</p>
       <h1 class="hero__title" id="hero-title">
         <span class="sr-only">${esc(l1)} ${esc(l2)}</span>
         <span class="hero__line" aria-hidden="true">${rollLetters(l1)}</span>
