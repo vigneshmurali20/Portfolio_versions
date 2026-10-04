@@ -15,10 +15,11 @@ export const site = {
   location: 'Bangalore, India',
   timezone: 'Asia/Kolkata',
   behance: 'https://www.behance.net/vigneshwaranmurali',
+  linkedin: 'https://www.linkedin.com/in/vigneshmurali24',
   // The Figma file has no Dribbble link. Add the URL here to show it.
   dribbble: null,
-  // Add a CV at public/cv.pdf and set this to 'cv.pdf' to show a Download CV link.
-  resume: null,
+  // One-page résumé for recruiters (public/Vigneshwaran-M-Resume.pdf).
+  resume: 'Vigneshwaran-M-Resume.pdf',
   // Head-and-shoulders crop of images/portrait.png, for the hero.
   portrait: 'images/portrait-hero.png',
   portraitAlt: 'Vignesh with his arms folded, in a black knit sweater',
@@ -359,6 +360,9 @@ export const testimonials = [
     quote: 'Clean UI, sharp landing pages and clickable prototypes that made our product easier to explain. Working across time zones was never an issue.',
   },
 ];
+
+// The footer's "Currently" ticker.
+export const currently = ['Designing for Grassdoor', 'Vibe-coding small apps', 'Building AI agents', 'Exploring generative design', 'Animating a logo'];
 
 export const contact = {
   title: ['Let’s make something', 'clear.'],

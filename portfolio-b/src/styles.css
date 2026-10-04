@@ -748,17 +748,13 @@ section {
   font-weight: 400;
 }
 .line--em,
-.hc__b,
 .hero__line--em .hc__a,
+.hero__line--em .hc__b,
 .brands li:nth-child(even),
 .pv-poster__type,
 .deck__quote {
   font-family: var(--serif-italic);
   font-weight: 400;
-}
-.hero__line--em .hc__b {
-  font-family: var(--serif);
-  font-weight: 700;
 }
 .line__in {
   display: block;
@@ -949,13 +945,13 @@ section {
   left: 0.06em;
   top: 0.16em;
   transform: translateY(130%);
-  font-style: italic;
+  /* same font and width as the letter it replaces, so spacing never shifts;
+     the hover rolls each letter into the brand colour */
+  color: var(--brand);
 }
-.hero__line--em .hc__a {
-  font-style: italic;
-}
+.hero__line--em .hc__a,
 .hero__line--em .hc__b {
-  font-style: normal;
+  font-style: italic;
 }
 .hw:hover .hc__a {
   transform: translateY(-130%);
@@ -3064,20 +3060,53 @@ section {
   color: #fff;
   background-size: 100% 1px;
 }
-.footer__clock {
+/* "Currently" ticker: one line at a time rolls up into view */
+.footer__roll {
+  position: relative;
+  /* room for two lines, with clearance so neighbours never peek in */
+  height: 2.5em;
   margin-top: 12px;
+  overflow: hidden;
   font-family: var(--serif);
   font-weight: 700;
   font-variation-settings: 'opsz' 36;
-  font-size: clamp(36px, 4vw, 52px);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
-.footer__note {
-  margin-top: 10px;
-  font-size: 13px;
-  color: rgba(244, 242, 238, 0.6);
+.footer__roll span {
+  position: absolute;
+  inset: 0 0 auto;
+  transform: translateY(140%);
+  opacity: 0;
+  transition:
+    transform 0.8s var(--ease),
+    opacity 0.5s;
+}
+.footer__roll span.is-on {
+  transform: none;
+  opacity: 1;
+}
+.footer__roll span.is-out {
+  transform: translateY(-140%);
+  opacity: 0;
+}
+.footer__col .footer__hi {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background-color 0.3s;
+}
+.footer__col .footer__hi:hover {
+  background: var(--brand-ink);
+  color: #fff;
 }
 .footer__bar {
   position: relative;
@@ -3622,4 +3651,18 @@ section {
     transform: scale(1.6);
     opacity: 0;
   }
+}
+
+.about__cv {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin-top: 24px;
+}
+.about__cv > span {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
 }

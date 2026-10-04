@@ -30,6 +30,7 @@ import {
   brands,
   testimonials,
   contact,
+  currently,
 } from './content.js';
 
 const esc = (s) =>
@@ -506,6 +507,11 @@ const renderAbout = () => `
           <div><dt>Experience</dt><dd>${site.experienceYears}+ years</dd></div>
           <div><dt>Disciplines</dt><dd>9 and counting</dd></div>
         </dl>
+        ${
+          site.resume
+            ? `<div class="about__cv" data-reveal>${btn('Download résumé', site.resume, { iconName: 'arrowUR', attrs: 'download target="_blank" rel="noopener"' })}<span>PDF · 1 page</span></div>`
+            : ''
+        }
         <ul class="skills">
           ${skills
             .map(
@@ -643,8 +649,9 @@ const renderContact = () => `
           <li>
             <span class="contact__label">Elsewhere</span>
             <a href="${site.behance}" target="_blank" rel="noopener" class="contact__big">Behance ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a>
+            <a href="${site.linkedin}" target="_blank" rel="noopener" class="contact__big">LinkedIn ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a>
             ${site.dribbble ? `<a href="${site.dribbble}" target="_blank" rel="noopener" class="contact__big">Dribbble ${icon('arrowUR')}</a>` : ''}
-            ${site.resume ? `<a href="${site.resume}" class="contact__big" download>Download CV ${icon('arrowUR')}</a>` : ''}
+            ${site.resume ? `<a href="${site.resume}" class="contact__big" download target="_blank" rel="noopener">Résumé (PDF) ${icon('arrowUR')}</a>` : ''}
           </li>
         </ul>
       </div>
@@ -672,12 +679,15 @@ export const renderFooter = () => `
             <li><a href="mailto:${site.email}">${esc(site.email)}</a></li>
             <li><a href="tel:${site.phone.replace(/\s/g, '')}">${esc(site.phone)}</a></li>
             <li><a href="${site.behance}" target="_blank" rel="noopener">Behance ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a></li>
+            <li><a href="${site.linkedin}" target="_blank" rel="noopener">LinkedIn ${icon('arrowUR')}<span class="sr-only">(opens in a new tab)</span></a></li>
+            ${site.resume ? `<li><a href="${site.resume}" download target="_blank" rel="noopener">Résumé (PDF) ${icon('arrowUR')}</a></li>` : ''}
           </ul>
         </div>
-        <div class="footer__col footer__time">
-          <h2>Local time</h2>
-          <p class="footer__clock" data-clock>--:--</p>
-          <p class="footer__note">Usually replies within a day</p>
+        <div class="footer__col footer__now">
+          <h2>Currently</h2>
+          <p class="sr-only">${currently.map(esc).join(', ')}.</p>
+          <p class="footer__roll" aria-hidden="true" data-now>${currently.map((c, i) => `<span${i ? '' : ' class="is-on"'}>${esc(c)}</span>`).join('')}</p>
+          <a class="footer__hi" href="#contact" data-magnetic>Say hi ${icon('arrowUR')}</a>
         </div>
       </div>
       <div class="footer__bar">

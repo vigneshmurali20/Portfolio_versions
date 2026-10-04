@@ -801,6 +801,23 @@ function contactForm() {
   );
 }
 
+/* ------------------------------------------------------------ footer ticker */
+function currentlyTicker() {
+  const roll = $('[data-now]');
+  if (!roll || reduced) return;
+  const items = $$('span', roll);
+  let i = 0;
+  setInterval(() => {
+    const prev = items[i];
+    i = (i + 1) % items.length;
+    prev.classList.remove('is-on');
+    prev.classList.add('is-out');
+    items[i].classList.remove('is-out');
+    items[i].classList.add('is-on');
+    setTimeout(() => prev.classList.remove('is-out'), 900);
+  }, 2600);
+}
+
 /* ------------------------------------------------------------ clock */
 function clock() {
   const els = $$('[data-clock]');
@@ -820,6 +837,7 @@ showreel();
 deck();
 contactForm();
 clock();
+currentlyTicker();
 processLine();
 reveals();
 heroScroll();
