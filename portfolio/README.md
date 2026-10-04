@@ -11,11 +11,26 @@ npm run build    # static site in dist/ — deploy that folder anywhere
 npm run preview  # serve the production build
 ```
 
+## Pages
+
+`index.html` (Home), `about.html`, `services.html`, `resume.html`,
+`projects.html` and `contact.html`, one per nav item. Each is a small shell
+with a `data-page` attribute; `vite.config.js` fills it from
+`src/templates.js` (`renderPage(page)`) at build time, including the title and
+description from `pages` in `src/content.js`.
+
 ## Editing content
 
-All words, links and images live in `src/content.js`. At build time,
-`vite.config.js` renders `src/templates.js` into `index.html`, so the content
-ships as static HTML (crawlable, works without JavaScript).
+All words, links and images live in `src/content.js`, so the content ships as
+static HTML (crawlable, works without JavaScript).
+
+**Testimonials are samples.** The five quotes in `testimonials` are invented
+placeholders, and the section shows a visible "sample" label while
+`testimonialsAreSamples` is `true`. Replace them with real client quotes
+(with permission), then set it to `false`.
+
+Add a CV at `public/cv.pdf` and set `site.resume` to `'cv.pdf'` to show the
+Download CV button.
 
 The Figma file has a Dribbble card but no Dribbble link. Set `site.dribbble`
 in `src/content.js` and the card and footer link appear.

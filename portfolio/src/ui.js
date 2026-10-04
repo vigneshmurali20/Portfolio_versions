@@ -203,7 +203,8 @@ export function initNav({ ScrollTrigger, scrollTo, lenis }) {
   const menu = document.getElementById('menu');
   const menuLinks = [...menu.querySelectorAll('a')];
 
-  let active = 'top';
+  // Each nav item is its own page, so the active item is the current page.
+  const active = nav.dataset.current || 'home';
   const moveIndicator = (id) => {
     const a = links.find((l) => l.dataset.link === id);
     if (!a || !pill.offsetParent) return;
@@ -213,33 +214,12 @@ export function initNav({ ScrollTrigger, scrollTo, lenis }) {
     indicator.style.transform = `translateX(${ab.left - pb.left}px)`;
     indicator.style.opacity = '1';
   };
-  const setActive = (id) => {
-    active = id;
-    links.forEach((l) => {
-      const on = l.dataset.link === id;
-      l.classList.toggle('is-active', on);
-      if (on) l.setAttribute('aria-current', 'true');
-      else l.removeAttribute('aria-current');
-    });
-    moveIndicator(id);
-  };
   links.forEach((l) => {
     l.addEventListener('pointerenter', () => moveIndicator(l.dataset.link));
     l.addEventListener('focus', () => moveIndicator(l.dataset.link));
   });
   pill.addEventListener('pointerleave', () => moveIndicator(active));
   pill.addEventListener('focusout', () => moveIndicator(active));
-
-  links.forEach((l) => {
-    const sec = document.getElementById(l.dataset.link);
-    if (!sec) return;
-    ScrollTrigger.create({
-      trigger: sec,
-      start: 'top 45%',
-      end: 'bottom 45%',
-      onToggle: (self) => self.isActive && setActive(l.dataset.link),
-    });
-  });
 
   let lastY = 0;
   ScrollTrigger.create({
@@ -262,7 +242,8 @@ export function initNav({ ScrollTrigger, scrollTo, lenis }) {
   window.addEventListener('resize', () => moveIndicator(active));
   // re-measure once the compact width transition settles
   pill.addEventListener('transitionend', (e) => e.propertyName === 'width' && moveIndicator(active));
-  requestAnimationFrame(() => setActive(active));
+  requestAnimationFrame(() => moveIndicator(active));
+  document.fonts?.ready.then(() => moveIndicator(active));
 
   /* mobile menu */
   const setMenu = (open) => {
@@ -281,12 +262,16 @@ export function initNav({ ScrollTrigger, scrollTo, lenis }) {
   };
   burger.addEventListener('click', () => setMenu(!menu.classList.contains('is-open')));
   menu.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href^="#"]');
+    const a = e.target.closest('a');
     if (!a) return;
-    e.preventDefault();
+    const href = a.getAttribute('href') || '';
     setMenu(false);
-    burger.focus();
-    setTimeout(() => scrollTo(a.getAttribute('href')), 200);
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      burger.focus();
+      setTimeout(() => scrollTo(href), 200);
+    }
+    // links to other pages fall through to the page transition
   });
   document.addEventListener('keydown', (e) => {
     if (!menu.classList.contains('is-open')) return;
@@ -315,4 +300,35 @@ export function initClock(timeZone) {
   const tick = () => els.forEach((el) => (el.textContent = fmt.format(new Date())));
   tick();
   setInterval(tick, 20000);
+}
+
+/* ------------------------------------------------------- page transitions */
+// A brand-purple curtain wipes up before moving to another page; the next
+// page's loader lifts it again.
+export function initPageTransitions() {
+  const curtain = document.createElement('div');
+  curtain.className = 'page-curtain';
+  curtain.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(curtain);
+  const reset = () => gsap.set(curtain, { scaleY: 0 });
+  reset();
+  // returning with the back button can restore a covered page from the cache
+  window.addEventListener('pageshow', (e) => e.persisted && reset());
+
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || /^(mailto|tel):/.test(href)) return;
+    const url = new URL(href, location.href);
+    if (url.origin !== location.origin) return;
+    if (url.pathname === location.pathname && url.hash) return;
+    e.preventDefault();
+    if (env.reduced) {
+      location.href = url.href;
+      return;
+    }
+    gsap.fromTo(curtain, { scaleY: 0 }, { scaleY: 1, transformOrigin: 'bottom', duration: 0.6, ease: 'expo.inOut', onComplete: () => (location.href = url.href) });
+  });
 }

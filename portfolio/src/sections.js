@@ -1,5 +1,8 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Flip } from 'gsap/Flip';
+
+gsap.registerPlugin(Flip);
 import { env } from './ui.js';
 
 const $ = (s, root = document) => root.querySelector(s);
@@ -90,6 +93,7 @@ export function initReveals() {
 
 export function initAbout() {
   const statement = $('[data-statement]');
+  if (!statement) return;
   const words = $$('.w', statement);
   if (env.reduced) {
     words.forEach((w) => w.classList.add('is-lit'));
@@ -132,6 +136,7 @@ export function initAbout() {
 /* ------------------------------------------------ services: orbit carousel */
 export function initOrbit({ scrollToY }) {
   const section = $('.services');
+  if (!section || !$('[data-orbit]')) return;
   const pin = $('[data-services-pin]');
   const orbit = $('[data-orbit]');
   const ring = $('[data-orbit-ring]');
@@ -294,6 +299,7 @@ export function initOrbit({ scrollToY }) {
 /* ------------------------------------------------------------ experience */
 export function initTimeline() {
   const tl = $('[data-timeline]');
+  if (!tl) return;
   const rail = $('[data-rail]', tl);
   const spark = $('[data-spark]', tl);
   const jobs = $$('[data-job]', tl);
@@ -328,7 +334,7 @@ export function initTimeline() {
 
 /* ------------------------------------------------------------- portfolio */
 export function initPortfolio() {
-  if (env.reduced) return;
+  if (env.reduced || !$('.platforms')) return;
   gsap.from('.platform', {
     y: 120,
     rotateX: 24,
@@ -385,6 +391,7 @@ export function initMarquee(getVelocity) {
 /* ------------------------------------------------------------------- cta */
 export function initCta({ email }) {
   const form = $('[data-cta-form]');
+  if (!form) return;
   const input = form.querySelector('input');
   const msg = $('[data-cta-msg]');
   const valid = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
@@ -416,7 +423,7 @@ export function initCta({ email }) {
   });
 
   if (env.reduced) return;
-  gsap.from('.cta__line-i', {
+  if ($('.cta__line-i')) gsap.from('.cta__line-i', {
     yPercent: 115,
     rotate: 3,
     stagger: 0.15,
@@ -437,6 +444,7 @@ export function initCta({ email }) {
 /* ---------------------------------------------------------------- footer */
 export function initFooter() {
   const giant = $('[data-giant]');
+  if (!giant) return;
   if (env.reduced) return;
   gsap.from(giant, {
     yPercent: 40,
@@ -461,7 +469,7 @@ export function initTypeEffect() {
   if (env.reduced) return;
 
   groups.forEach((g) => {
-    const inHero = !!g.el.closest('.hero');
+    const inHero = !!g.el.closest('.hero, .page-hero');
     const tw = gsap.fromTo(
       g.chars,
       { fontWeight: g.min, y: 8 },
@@ -506,5 +514,206 @@ export function initTypeEffect() {
         c.style.fontWeight = String(Math.round(g.w[i]));
       });
     }
+  });
+}
+
+/* ------------------------------------------------------ inner page header */
+export function preparePageHero() {
+  if (env.reduced) return;
+  gsap.set('.page-hero .hero__line-i', { yPercent: 115, rotate: 2 });
+  gsap.set(['.page-hero__kicker', '.page-hero__body', '.page-hero__scroll'], { opacity: 0, y: 24 });
+}
+
+export function pageHeroIntro(stage) {
+  if (env.reduced) {
+    if (stage) stage.state.intro = 1;
+    return;
+  }
+  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  tl.call(() => window.dispatchEvent(new Event('hero-intro')), null, 0.35);
+  if (stage) tl.to(stage.state, { intro: 1, duration: 2.2, ease: 'power2.inOut' }, 0);
+  tl.to('.page-hero__kicker', { opacity: 1, y: 0, duration: 1 }, 0.05)
+    .to('.page-hero .hero__line-i', { yPercent: 0, rotate: 0, duration: 1.3 }, 0.12)
+    .to('.page-hero__body', { opacity: 1, y: 0, duration: 1.1 }, 0.45)
+    .to('.page-hero__scroll', { opacity: 1, y: 0, duration: 1 }, 0.8);
+}
+
+export function pageHeroScroll() {
+  if (env.reduced || !$('.page-hero')) return;
+  gsap.timeline({
+    scrollTrigger: { trigger: '.page-hero', start: 'top top', end: 'bottom top', scrub: true },
+    defaults: { ease: 'none', immediateRender: false },
+  })
+    .fromTo('.page-hero__title', { y: 0, opacity: 1, filter: 'blur(0px)' }, { y: () => -window.innerHeight * 0.15, opacity: 0, filter: 'blur(10px)' }, 0)
+    .fromTo(['.page-hero__kicker', '.page-hero__body'], { opacity: 1 }, { opacity: 0, duration: 0.6 }, 0);
+}
+
+/* ------------------------------------------------------------ skill bars */
+export function initSkills() {
+  $$('[data-skills]').forEach((list) => {
+    const items = $$('.skill', list);
+    ScrollTrigger.create({
+      trigger: list,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        items.forEach((it, i) => {
+          if (!env.reduced) {
+            gsap.from(it.querySelector('.skill__fill'), { scaleX: 0, duration: 1.6, delay: i * 0.12, ease: 'expo.out' });
+            gsap.from(it.querySelector('.skill__knob'), { left: '0%', duration: 1.6, delay: i * 0.12, ease: 'expo.out' });
+          }
+          const n = it.querySelector('[data-count]');
+          if (n) countUp(n, 1.6);
+        });
+      },
+    });
+  });
+}
+
+/* ------------------------------------------------------------ tool rings */
+export function initRings() {
+  $$('[data-rings]').forEach((list) => {
+    const rings = $$('.ring', list);
+    ScrollTrigger.create({
+      trigger: list,
+      start: 'top 85%',
+      once: true,
+      onEnter: () =>
+        rings.forEach((r, i) => {
+          const fill = r.querySelector('.ring__fill');
+          if (!env.reduced) gsap.from(fill, { strokeDashoffset: parseFloat(fill.dataset.full), duration: 1.8, delay: i * 0.08, ease: 'expo.out' });
+          const n = r.querySelector('[data-count]');
+          if (n) countUp(n, 1.6);
+        }),
+    });
+    if (!env.reduced) {
+      gsap.from(rings, { y: 50, opacity: 0, stagger: 0.06, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: list, start: 'top 90%', once: true } });
+    }
+  });
+}
+
+/* ------------------------------------------------- double-diamond diagram */
+export function initDiamond() {
+  const d = $('[data-diamond]');
+  if (!d || env.reduced) return;
+  const line = d.querySelector('.diamond__line');
+  const len = line.getTotalLength();
+  gsap.set(line, { strokeDasharray: len, strokeDashoffset: len });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: d, start: 'top 80%', end: 'bottom 45%', scrub: 1 } });
+  tl.to(line, { strokeDashoffset: 0, ease: 'none' })
+    .from(d.querySelectorAll('.diamond__shape'), { opacity: 0, scale: 0.85, transformOrigin: '50% 50%', stagger: 0.2 }, 0)
+    .from(d.querySelectorAll('.diamond__dot'), { scale: 0, transformOrigin: '50% 50%', stagger: 0.12 }, 0.1)
+    .from(d.querySelectorAll('.diamond__label'), { opacity: 0, y: 14, stagger: 0.12 }, 0.3);
+}
+
+/* -------------------------------------------------------- project filters */
+export function initFilters() {
+  const bar = $('[data-filters]');
+  if (!bar) return;
+  const cards = $$('[data-pgrid] .pcard');
+  const buttons = $$('[data-filter]', bar);
+  bar.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-filter]');
+    if (!btn || btn.classList.contains('is-active')) return;
+    const cat = btn.dataset.filter;
+    buttons.forEach((b) => {
+      const on = b === btn;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    const state = env.reduced ? null : Flip.getState(cards);
+    cards.forEach((c) => (c.hidden = !(cat === 'All' || c.dataset.cat === cat)));
+    if (state) {
+      Flip.from(state, {
+        duration: 0.7,
+        ease: 'power3.inOut',
+        scale: true,
+        absolute: true,
+        onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.6 }),
+        onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.85, duration: 0.4 }),
+      });
+    }
+    ScrollTrigger.refresh();
+  });
+  if (!env.reduced) {
+    gsap.from(cards, { y: 60, opacity: 0, stagger: 0.05, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '[data-pgrid]', start: 'top 88%', once: true } });
+  }
+}
+
+/* --------------------------------------------------- testimonial slider */
+// Cards drift slowly and loop; scrolling the page nudges them along, hovering
+// or focusing pauses them, and they can be dragged.
+export function initTestimonials(getVelocity) {
+  const slider = $('[data-tslider]');
+  if (!slider) return;
+  const track = $('[data-tslider-track]', slider);
+  if (env.reduced) {
+    slider.classList.add('is-static');
+    return;
+  }
+  let x = 0;
+  let w = track.scrollWidth / 2;
+  window.addEventListener('resize', () => (w = track.scrollWidth / 2));
+  let paused = false;
+  let dragging = false;
+  let lastX = 0;
+  let vel = 0;
+  slider.addEventListener('pointerenter', () => (paused = true));
+  slider.addEventListener('pointerleave', () => (paused = false));
+  slider.addEventListener('focusin', () => (paused = true));
+  slider.addEventListener('focusout', () => (paused = false));
+  slider.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    lastX = e.clientX;
+    slider.setPointerCapture?.(e.pointerId);
+  });
+  slider.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX;
+    lastX = e.clientX;
+    x -= dx;
+    vel = -dx * 60;
+  });
+  const end = () => (dragging = false);
+  slider.addEventListener('pointerup', end);
+  slider.addEventListener('pointercancel', end);
+
+  gsap.ticker.add((t, dms) => {
+    const dt = Math.min(dms / 1000, 0.05);
+    if (!dragging) {
+      const auto = paused ? 0 : 40;
+      vel *= Math.exp(-4 * dt);
+      x += (auto + vel + Math.abs(getVelocity()) * 0.15) * dt;
+    }
+    if (!w) w = track.scrollWidth / 2;
+    if (w) x = ((x % w) + w) % w;
+    track.style.transform = `translate3d(${-x}px,0,0)`;
+  });
+  gsap.from($$('.tcard', track).slice(0, 4), { y: 80, opacity: 0, rotateX: -20, stagger: 0.1, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: slider, start: 'top 85%', once: true } });
+}
+
+/* --------------------------------------------------------- copy buttons */
+export function initCopy() {
+  const toast = $('[data-copy-toast]');
+  $$('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.copy;
+      let ok = false;
+      try {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      } catch {
+        // clipboard refused: select the visible value so it can be copied by hand
+        const value = btn.parentElement.querySelector('.ccard__value');
+        const range = document.createRange();
+        range.selectNodeContents(value);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      btn.textContent = ok ? 'Copied' : 'Selected';
+      if (toast) toast.textContent = ok ? `Copied ${text}` : `Selected ${text}. Press Ctrl+C or ⌘C to copy.`;
+      setTimeout(() => (btn.textContent = 'Copy'), 2000);
+    });
   });
 }

@@ -56,7 +56,7 @@ void main() {
                 fbm(p * 1.7 + 3.0 * q + vec2(8.3, 2.8) - t));
   float f = fbm(p * 1.1 + 2.4 * r + vec2(0.0, uScroll * 2.0));
 
-  vec3 ink = vec3(0.035, 0.027, 0.059);
+  vec3 ink = vec3(0.016, 0.012, 0.027);
   vec3 deep = vec3(0.259, 0.188, 0.490);
   vec3 brand = vec3(0.498, 0.337, 0.851);
   vec3 cyan = vec3(0.239, 0.878, 1.0);
@@ -74,7 +74,7 @@ void main() {
   col += brand * 0.16 * g;
 
   float v = smoothstep(1.3, 0.2, length(p * vec2(0.8, 1.15)));
-  col *= mix(0.3, 1.0, v);
+  col *= mix(0.22, 0.78, v);
 
   gl_FragColor = vec4(col, 1.0);
 }

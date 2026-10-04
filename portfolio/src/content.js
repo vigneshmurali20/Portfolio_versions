@@ -21,6 +21,8 @@ export const site = {
   // The Figma file has a Dribbble card but no Dribbble link. Add the URL here
   // and the card appears automatically.
   dribbble: null,
+  // Add a CV at public/cv.pdf and set this to 'cv.pdf' to show the Download CV button.
+  resume: null,
   portrait: 'images/portrait.png',
   portraitAlt: 'Vignesh, sitting on a wooden chair with his arms folded, in a black knit sweater',
   portraitSmile: 'images/portrait-smile.png',
@@ -28,14 +30,26 @@ export const site = {
 };
 
 // Order matches the Figma nav: three links, the logo, three links.
+// Each nav item is its own page. Order matches the Figma nav: three links,
+// the logo, three links.
 export const nav = [
-  { id: 'top', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'services', label: 'Service' },
-  { id: 'experience', label: 'Resume' },
-  { id: 'portfolio', label: 'Project' },
-  { id: 'contact', label: 'Contact' },
+  { page: 'home', href: './', label: 'Home' },
+  { page: 'about', href: 'about.html', label: 'About' },
+  { page: 'services', href: 'services.html', label: 'Service' },
+  { page: 'resume', href: 'resume.html', label: 'Resume' },
+  { page: 'projects', href: 'projects.html', label: 'Project' },
+  { page: 'contact', href: 'contact.html', label: 'Contact' },
 ];
+
+// Per-page titles and descriptions for the <head>.
+export const pages = {
+  home: { title: 'Vignesh | Product Designer', description: 'Vignesh is a multidisciplinary product designer in Bangalore working across UI/UX, product, motion and branding.' },
+  about: { title: 'About | Vignesh', description: 'About Vignesh Murali, UI/UX and graphic designer: skills, toolkit and design process.' },
+  services: { title: 'Services | Vignesh', description: 'UI/UX, product, graphic, motion, branding, print, video, app and social media design.' },
+  resume: { title: 'Resume | Vignesh', description: 'Work experience, skills and tools of designer Vignesh Murali.' },
+  projects: { title: 'Projects | Vignesh', description: 'Selected projects by Vignesh: apps, landing pages, branding, motion and campaigns.' },
+  contact: { title: 'Contact | Vignesh', description: 'Start a project with Vignesh. Email, phone and availability.' },
+};
 
 export const tools = [
   { name: 'Figma', src: 'images/tools/figma.png' },
@@ -116,3 +130,111 @@ export const footer = {
   title: 'Let’s Connect there',
   button: 'Hire me',
 };
+
+/* ---------------------------------------------------------------------------
+ * Added from the second Figma pass (About frame 1:15698, skill rings
+ * 1:13666 / 1:13717, process diagram 1:15730, project cards 1:14144-1:14246,
+ * testimonial layout 1:13773).
+ * ------------------------------------------------------------------------ */
+
+// Long bio from the Figma "About me" frame.
+export const aboutLong =
+  'I’m Vignesh Murali, a UI/UX & Graphic Designer skilled in crafting seamless user experiences and visually compelling designs using tools like Figma, Framer and Adobe Suite. I specialize in wireframing, prototyping, branding and creative content across web, product and marketing. With experience working with both Indian and international clients, I deliver holistic design solutions that blend creativity, strategy and clear communication.';
+
+// Slider values measured from the Figma bars (fill width / track width).
+export const skills = [
+  { name: 'Product Design', value: 91 },
+  { name: 'Website UI/UX', value: 93 },
+  { name: 'App Design', value: 85 },
+  { name: 'Graphic Design', value: 91 },
+];
+
+export const toolSkills = [
+  { name: 'Figma', value: 100, src: 'images/tools/figma.png' },
+  { name: 'Adobe Illustrator', value: 90, src: 'images/tools/illustrator.png' },
+  { name: 'Adobe Photoshop', value: 90, src: 'images/tools/photoshop.png' },
+  { name: 'Framer', value: 85, src: 'images/tools/framer.png' },
+  { name: 'Adobe After Effects', value: 75, src: 'images/tools/aftereffects.png' },
+  { name: 'Adobe InDesign', value: 100, src: 'images/tools/indesign.png' },
+  { name: 'Adobe Lightroom', value: 90, src: 'images/tools/lightroom.png' },
+  { name: 'Adobe XD', value: 90, src: 'images/tools/xd.png' },
+  { name: 'Webflow', value: 85, src: 'images/tools/webflow.png' },
+  { name: 'Adobe Premiere Pro', value: 75, src: 'images/tools/premiere.png' },
+];
+
+// The six stops of the double-diamond diagram in Figma. Only the Discover
+// note comes from the file; the other notes are written for this site.
+export const processSteps = [
+  { title: 'Kick off', body: 'Align on goals, audience, constraints and what success looks like.' },
+  { title: 'Discover', body: 'Identified real user needs and pain points and business problems.' },
+  { title: 'Define', body: 'Turn research into a clear problem statement, user flows and priorities.' },
+  { title: 'Design', body: 'Explore directions, then refine one into wireframes and high-fidelity prototypes.' },
+  { title: 'Deliver', body: 'Hand off a documented design system and support development through launch.' },
+  { title: 'Reflection', body: 'Review the results with the team and carry the lessons into the next release.' },
+];
+
+// Project cards from Figma. The titles are part of the card artwork. The file
+// has no links for these; add an `href` to any project to make its card a link.
+export const projects = [
+  { title: 'Fintech AI App', category: 'App Design', image: 'images/projects/fintech-ai-app.png', href: 'https://www.behance.net/gallery/231811507/AI-assisted-Fintech-App' },
+  { title: 'Product Revamp', category: 'UI/UX', image: 'images/projects/product-revamp.png', href: 'https://www.behance.net/gallery/226234661/Dashboard-Revamp' },
+  { title: 'Landing Page', category: 'Web Design', image: 'images/projects/landing-music.png', href: 'https://www.behance.net/gallery/230687789/Landing-Page-SaaS' },
+  { title: 'Landing Page', category: 'Web Design', image: 'images/projects/landing-email-validation.png' },
+  { title: 'Landing Page', category: 'Web Design', image: 'images/projects/landing-notion.png' },
+  { title: 'Login Page', category: 'UI/UX', image: 'images/projects/login-page.png' },
+  { title: 'Booking Page', category: 'UI/UX', image: 'images/projects/booking-page.png' },
+  { title: 'Branding', category: 'Branding', image: 'images/projects/branding.png', href: 'https://www.behance.net/gallery/218921809/Branding-for-a-Fintech-Service' },
+  { title: 'Brand Teaser', category: 'Motion', image: 'images/projects/brand-teaser.png' },
+  { title: 'Logo Animation', category: 'Motion', image: 'images/projects/logo-animation-thal.png', href: 'https://www.behance.net/gallery/206932523/Logo-Animation' },
+  { title: 'Logo Animation', category: 'Motion', image: 'images/projects/logo-animation-cynlr.png' },
+  { title: 'Motion Graphics', category: 'Motion', image: 'images/projects/motion-integrations.png', href: 'https://www.behance.net/gallery/230749799/Motion-Graphics' },
+  { title: 'Motion Graphics', category: 'Motion', image: 'images/projects/motion-onboarding.png' },
+  { title: 'E-mail Campaign', category: 'Graphic Design', image: 'images/projects/email-campaign.png' },
+  { title: 'Hero Banner', category: 'Graphic Design', image: 'images/projects/hero-banner.png' },
+  { title: 'Banner', category: 'Graphic Design', image: 'images/projects/banner.png' },
+  { title: 'Social Media', category: 'Graphic Design', image: 'images/projects/social-media.png', href: 'https://www.behance.net/gallery/206932249/Social-Media-Post' },
+  { title: 'Merchandise', category: 'Graphic Design', image: 'images/projects/merchandise.png', href: 'https://www.behance.net/gallery/230692137/Merchandise' },
+];
+
+export const testimonialsIntro = {
+  title: ['Testimonials That Speak to', 'My Results'],
+  body: 'A few words from the founders, marketers and product teams I’ve designed with.',
+};
+
+// SAMPLE QUOTES. These people are invented, written as placeholders at the
+// owner's request. While `testimonialsAreSamples` is true the section shows a
+// visible "sample" label. Replace them with real client quotes (with the
+// client's permission), then set it to false.
+export const testimonialsAreSamples = true;
+export const testimonials = [
+  {
+    name: 'Arjun Mehta',
+    role: 'Founder, fintech startup',
+    rating: 5,
+    quote: 'Vignesh took our cluttered analytics dashboard and turned it into something our users actually enjoy opening. He asked the right questions early, and every screen he handed over was ready to build.',
+  },
+  {
+    name: 'Priya Raman',
+    role: 'Marketing Lead, D2C skincare brand',
+    rating: 5,
+    quote: 'Our campaign creatives went from a two-week scramble to a calm, reliable pipeline. Banners, emails and social posts all felt like one brand for the first time.',
+  },
+  {
+    name: 'Daniel Brooks',
+    role: 'Product Manager, B2B SaaS company',
+    rating: 5,
+    quote: 'Working across time zones was never an issue. Clickable prototypes landed in my inbox each morning, and our usability tests ran smoother because of them.',
+  },
+  {
+    name: 'Sneha Kulkarni',
+    role: 'Brand Strategist, creative agency',
+    rating: 5,
+    quote: 'He has a rare mix of systems thinking and visual taste. The identity he built for our client came with a guideline doc the whole team still uses.',
+  },
+  {
+    name: 'Rahul Verma',
+    role: 'Co-founder, EV mobility startup',
+    rating: 5,
+    quote: 'The launch teaser and social series he designed doubled our engagement in the first month. Fast, thoughtful and genuinely fun to work with.',
+  },
+];

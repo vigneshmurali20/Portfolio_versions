@@ -23,10 +23,23 @@ import {
   initCta,
   initFooter,
   initTypeEffect,
+  preparePageHero,
+  pageHeroIntro,
+  pageHeroScroll,
+  initSkills,
+  initRings,
+  initDiamond,
+  initFilters,
+  initTestimonials,
+  initCopy,
 } from './sections.js';
+import { initPageTransitions } from './ui.js';
 
 gsap.registerPlugin(ScrollTrigger);
 const html = document.documentElement;
+const page = html.dataset.page || 'home';
+const isHome = page === 'home';
+const heroSel = isHome ? '.hero' : '.page-hero';
 if (env.reduced) html.classList.add('reduced-motion');
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.scrollTo(0, 0);
@@ -77,9 +90,9 @@ async function startWebGL() {
   stage = createStage({
     bgCanvas: document.querySelector('.gl--bg'),
     fxCanvas: document.querySelector('.gl--fx'),
-    heroEl: document.querySelector('.hero'),
+    heroEl: document.querySelector(heroSel),
     portraitEl: document.querySelector('[data-hero-portrait]'),
-    ctaEl: document.querySelector('.cta'),
+    ctaEl: document.querySelector('.cta:not(.cta--form-only)'),
     portraitSrc: site.portrait,
     tools,
     mobile: env.mobile,
@@ -92,7 +105,7 @@ async function startWebGL() {
     rt = setTimeout(() => stage.resize(), 120);
   });
   await stage.ready;
-  html.classList.add('gl-portrait');
+  if (isHome) html.classList.add('gl-portrait');
   return stage;
 }
 
@@ -110,20 +123,32 @@ const preload = (src) =>
     img.src = src;
   });
 
-prepareHero();
+if (isHome) prepareHero();
+else preparePageHero();
+
+// First visit gets the full loader; moving between pages keeps it short.
+let visited = false;
+try {
+  visited = sessionStorage.getItem('vm-visited') === '1';
+  sessionStorage.setItem('vm-visited', '1');
+} catch {
+  /* storage blocked: treat every load as a first visit */
+}
 
 runLoader({
+  minDuration: visited ? 0.25 : 1.4,
   tasks: [
     document.fonts.ready,
     webglTask,
-    preload(site.portrait),
-    preload(site.portraitSmile),
-    ...services.slice(0, 3).map((s) => preload(s.image)),
+    ...(isHome ? [preload(site.portrait), preload(site.portraitSmile), ...services.slice(0, 3).map((s) => preload(s.image))] : []),
   ],
 }).then(() => {
   lenis?.start();
-  heroIntro(stage);
+  if (isHome) heroIntro(stage);
+  else pageHeroIntro(stage);
 });
+
+initPageTransitions();
 
 /* --------------------------------------------------------- interactions */
 initCursor();
@@ -131,12 +156,13 @@ initMagnetic();
 initTilt();
 initClock(site.timezone);
 initNav({ ScrollTrigger, scrollTo, lenis });
-heroScroll();
+if (isHome) heroScroll();
+else pageHeroScroll();
 webglTask.then(() => {
   // hand the hero progress to the 3D stage once it exists
   if (stage) {
     ScrollTrigger.create({
-      trigger: '.hero',
+      trigger: heroSel,
       start: 'top top',
       end: 'bottom top',
       onUpdate: (self) => (stage.state.heroP = self.progress),
@@ -146,7 +172,7 @@ webglTask.then(() => {
       end: 'max',
       onUpdate: (self) => (stage.state.scroll = self.progress),
     });
-  } else if (!env.reduced) {
+  } else if (isHome && !env.reduced) {
     gsap.to('.hero__portrait', {
       y: 120,
       opacity: 0.2,
@@ -164,6 +190,12 @@ initMarquee(() => (lenis ? lenis.velocity * 60 : 0));
 initCta({ email: site.email });
 initFooter();
 initTypeEffect();
+initSkills();
+initRings();
+initDiamond();
+initFilters();
+initTestimonials(() => (lenis ? lenis.velocity * 60 : 0));
+initCopy();
 
 window.addEventListener('load', () => ScrollTrigger.refresh());
 document.fonts.ready.then(() => ScrollTrigger.refresh());

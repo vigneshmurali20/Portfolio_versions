@@ -80,15 +80,19 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
   let k = VIEW_H / vh; // world units per CSS pixel at z = 0
 
   /* ------------------------------------------------------------- renderers */
+  // Inner pages have no portrait, so they skip the foreground canvas entirely.
+  const hasFx = !!portraitEl;
   const bg = new THREE.WebGLRenderer({ canvas: bgCanvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-  const fx = new THREE.WebGLRenderer({ canvas: fxCanvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  for (const r of [bg, fx]) {
+  const fx = hasFx ? new THREE.WebGLRenderer({ canvas: fxCanvas, antialias: true, alpha: true, powerPreference: 'high-performance' }) : null;
+  if (!hasFx) fxCanvas.style.display = 'none';
+  const renderers = [bg, fx].filter(Boolean);
+  for (const r of renderers) {
     r.setPixelRatio(Math.min(window.devicePixelRatio, dprCap));
     r.setSize(vw, vh, false);
     r.toneMapping = THREE.ACESFilmicToneMapping;
     r.toneMappingExposure = 1.05;
   }
-  fx.setClearColor(0x000000, 0);
+  fx?.setClearColor(0x000000, 0);
 
   const camera = new THREE.PerspectiveCamera(FOV, vw / vh, 0.1, 100);
   camera.position.z = CAM_Z;
@@ -173,8 +177,7 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
 
   /* --------------------------------------------------- foreground: fx scene */
   const fxScene = new THREE.Scene();
-  const envFx = makeEnvironment(fx);
-  fxScene.environment = envFx;
+  if (hasFx) fxScene.environment = makeEnvironment(fx);
 
   const manager = new THREE.LoadingManager();
   const loader = new THREE.TextureLoader(manager);
@@ -195,7 +198,7 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
   portrait.visible = false;
   fxScene.add(portrait);
 
-  const portraitReady = loader.loadAsync(portraitSrc).then((tex) => {
+  const portraitReady = !hasFx ? Promise.resolve() : loader.loadAsync(portraitSrc).then((tex) => {
     tex.colorSpace = THREE.NoColorSpace;
     tex.anisotropy = fx.capabilities.getMaxAnisotropy();
     portraitMat.uniforms.uTex.value = tex;
@@ -209,7 +212,7 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
   fxScene.add(chipGroup);
   const iconGeo = new THREE.PlaneGeometry(1, 1);
   const chips = [];
-  tools.forEach((t, i) => {
+  (hasFx ? tools : []).forEach((t, i) => {
     const key = t.src.split('/').pop().replace('.png', '');
     const layout = CHIP_LAYOUT[key];
     if (!layout) return;
@@ -275,7 +278,7 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
       uTime: { value: 0 },
       uSize: { value: 52 },
       uBoost: { value: 0 },
-      uPixelRatio: { value: fx.getPixelRatio() },
+      uPixelRatio: { value: fx ? fx.getPixelRatio() : 1 },
     },
     transparent: true,
     depthWrite: false,
@@ -294,14 +297,14 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
     k = VIEW_H / vh;
     camera.aspect = vw / vh;
     camera.updateProjectionMatrix();
-    for (const r of [bg, fx]) {
+    for (const r of renderers) {
       r.setPixelRatio(Math.min(window.devicePixelRatio, dprCap));
       r.setSize(vw, vh, false);
     }
     const pr = bg.getPixelRatio();
     nebulaRT.setSize(Math.max(1, Math.round(vw * pr * 0.5)), Math.max(1, Math.round(vh * pr * 0.5)));
     nebulaMat.uniforms.uRes.value.set(vw, vh);
-    pMat.uniforms.uPixelRatio.value = fx.getPixelRatio();
+    if (fx) pMat.uniforms.uPixelRatio.value = fx.getPixelRatio();
     needsFx = true;
   }
 
@@ -339,10 +342,12 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
     state.vel.clampLength(0, 3);
 
     const heroRect = heroEl.getBoundingClientRect();
-    const ctaRect = ctaEl.getBoundingClientRect();
+    const ctaRect = ctaEl ? ctaEl.getBoundingClientRect() : { top: Infinity, bottom: Infinity, height: 0 };
 
     /* planet: sits on the hero's bottom edge, then rises again behind the CTA */
-    const R = mobile ? vw * 0.62 : Math.min(vw * 0.29, vh * 0.5);
+    // inner pages carry intro text under the title, so their planet sits lower and smaller
+    const R = (mobile ? vw * 0.62 : Math.min(vw * 0.29, vh * 0.5)) * (hasFx ? 1 : 0.8);
+    const sink = hasFx ? 0 : R * 0.5;
     let cy;
     let scaleMul = 1;
     const p = state.heroP;
@@ -350,8 +355,8 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
     // hero: anchored to the viewport bottom, sinking as the page scrolls on
     // cta: rides up with the contact section and settles behind the form
     if (ctaRect.top > vh * 1.4) {
-      const scrolled = Math.max(0, vh - heroRect.bottom);
-      cy = vh + R * (1 - introRise) * 1.3 + scrolled * 0.9;
+      const scrolled = Math.max(0, -heroRect.top);
+      cy = vh + sink + R * (1 - introRise) * 1.3 + scrolled * 0.9;
     } else {
       scaleMul = 1.15;
       cy = ctaRect.bottom + R * scaleMul * 0.5;
@@ -379,6 +384,8 @@ export function createStage({ bgCanvas, fxCanvas, heroEl, portraitEl, ctaEl, por
     bg.render(copyScene, ortho);
     bg.render(bgScene, camera);
     bg.autoClear = true;
+
+    if (!hasFx) return;
 
     /* fx: only while the hero is on screen */
     const heroVisible = heroRect.bottom > -40;
