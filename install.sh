@@ -25,8 +25,19 @@ done
 echo "→ Installing skills into $claude_dir/skills"
 for skill in "$repo_dir"/.claude/skills/*/; do
   name=$(basename "$skill")
-  rm -rf "${claude_dir:?}/skills/$name"
-  cp -r "$skill" "$claude_dir/skills/$name"
+  dest="$claude_dir/skills/$name"
+  # Keep per-user state some skills write into their own folder (logins,
+  # libraries, Python environments) across re-installs.
+  keep=$(mktemp -d)
+  for state in data .venv; do
+    [ -e "$dest/$state" ] && mv "$dest/$state" "$keep/"
+  done
+  rm -rf "${dest:?}"
+  cp -r "$skill" "$dest"
+  for state in data .venv; do
+    [ -e "$keep/$state" ] && rm -rf "${dest:?}/$state" && mv "$keep/$state" "$dest/"
+  done
+  rmdir "$keep" 2>/dev/null || rm -rf "$keep"
   echo "  • $name"
 done
 

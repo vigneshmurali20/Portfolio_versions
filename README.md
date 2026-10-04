@@ -14,6 +14,7 @@ or session.
 | brag (`/brag`, `/brag-slim`) | Turn the project you just shipped into a short launch video, read straight from its code (uses HyperFrames) | [latent-spaces/brag](https://github.com/latent-spaces/brag) v0.4.0 official plugin, installed by `install.sh` (needs the `claude` CLI) |
 | unlazy (`/unlazy`) | Completion discipline for long tasks: writes acceptance gates first, splits work with a "Depth Tree", runs approved checks, re-verifies before saying done | [Leonxlnx/unlazy](https://github.com/Leonxlnx/unlazy), in `.claude/skills/unlazy` (optional Stop hook not installed) |
 | NotebookLM / Gemini Notebook (MCP server `notebooklm`) | Create notebooks, add sources, run deep research, and generate audio overviews, quizzes, mind maps and reports from Claude | [notebooklm-mcp-server](https://github.com/moodRobotics/notebooklm-mcp-server) v4.0.2 (community, unofficial), installed by `install.sh` on **your own computer only**; sign in once with `notebooklm-mcp-server auth` |
+| notebooklm skill | Ask your NotebookLM notebooks questions and get source-grounded, cited answers; keeps a library of your notebooks | [PleasePrompto/notebooklm-skill](https://github.com/PleasePrompto/notebooklm-skill) (community, unofficial), in `.claude/skills/notebooklm`; drives a real Chrome window, so use it on **your own computer**; sign in once by asking "Set up NotebookLM authentication" |
 | ECC (`ecc:*`, 293 skills, 68 agents, 94 commands) | Engineering workflows: TDD, code review, security, planning, language and framework skills, operator workflows | [affaan-m/ECC](https://github.com/affaan-m/ECC) v2.2.3 official plugin, installed by `install.sh` with its hooks off (needs the `claude` CLI) |
 | AI co-writing (11 skills) | Voice DNA, ICP and business profiles, then LinkedIn posts, X threads, Substack notes, sales emails, how-to guides, thought leadership, bios, LinkedIn profile | Uploaded `ai-co-writing-claude-skills` zip (`voice-dna-creator` also uploaded on its own), in `.claude/skills/` |
 | claudedesignskills (22 skills) | Three.js, R3F, GSAP, Motion, Babylon.js, Lottie, Rive, Spline and more | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills), in `.claude/skills/` |
@@ -122,6 +123,13 @@ to Google, and the session is saved to `~/.notebooklm-mcp/auth.json`. That file
 is your Google login: never commit or share it. If Google rejects the session
 right after sign-in, your account enforces device-bound sessions, which this
 server cannot work with.
+
+The `notebooklm` skill is a second, separate route: it asks questions of
+notebooks by driving Chrome, and saves its own Google login and notebook
+library in `~/.claude/skills/notebooklm/data/`. `install.sh` keeps that folder
+(and any skill's `data/` and `.venv/`) when it re-installs, and this repo
+ignores them so a login can never be committed. The MCP server can create
+notebooks and generate audio overviews; the skill is for asking questions.
 
 ## Not enabled
 
