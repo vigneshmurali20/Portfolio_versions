@@ -659,7 +659,7 @@ export const renderFooter = () => `
       <div class="footer__grid">
         <div class="footer__brand">
           <a class="footer__logo" href="#top" aria-label="${esc(site.fullName)}, back to top">${vMark()}<span>${esc(site.fullName)}</span></a>
-          <p>Product &amp; UI/UX designer in ${esc(site.location)}. Interfaces, motion and brand visuals that feel calm and clear.</p>
+          <p>Product &amp; UI/UX designer. Interfaces, motion and brand visuals that feel calm and clear.</p>
           <span class="footer__status"><span class="dot-live" aria-hidden="true"></span>Open to freelance &amp; full-time work</span>
         </div>
         <nav class="footer__col" aria-label="Footer">
@@ -677,7 +677,7 @@ export const renderFooter = () => `
         <div class="footer__col footer__time">
           <h2>Local time</h2>
           <p class="footer__clock" data-clock>--:--</p>
-          <p class="footer__note">Bangalore, India · usually replies within a day</p>
+          <p class="footer__note">Usually replies within a day</p>
         </div>
       </div>
       <div class="footer__bar">
