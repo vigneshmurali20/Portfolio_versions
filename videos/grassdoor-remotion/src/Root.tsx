@@ -33,7 +33,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition id="S4-Track" component={OnSilk(S4Track)} durationInFrames={90} fps={FPS} width={W} height={H} />
         <Composition id="S5-Credit" component={OnSilk(S5Credit)} durationInFrames={98} fps={FPS} width={W} height={H} />
         <Composition id="S6-OnePlace" component={OnSilk(S6OnePlace)} durationInFrames={69} fps={FPS} width={W} height={H} />
-        <Composition id="S7-Closure" component={OnSilk(S7Closure)} durationInFrames={90} fps={FPS} width={W} height={H} />
+        <Composition id="S7-Closure" component={OnSilk(S7Closure)} durationInFrames={120} fps={FPS} width={W} height={H} />
       </Folder>
     </>
   );

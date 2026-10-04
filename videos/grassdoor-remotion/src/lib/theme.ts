@@ -23,6 +23,6 @@ export const SCENES = [
   { id: "Track", from: 276, dur: 90, bg: "white", label: "LIVE TRACKING" },
   { id: "Credit", from: 358, dur: 98, bg: "silk", label: "CREDIT BACK" },
   { id: "OnePlace", from: 444, dur: 69, bg: "white", label: "ONE PLACE" },
-  { id: "Closure", from: 510, dur: 90, bg: "silk", label: "VISIT US" },
+  { id: "Closure", from: 510, dur: 120, bg: "silk", label: "VISIT US" },
 ] as const;
-export const TOTAL = 600;
+export const TOTAL = 630;

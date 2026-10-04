@@ -1,0 +1,14 @@
+{
+  "total": 21.0,
+  "vo": [
+    { "id": "vo1", "at": 0.70, "text": "Grassdoor is back." },
+    { "id": "vo2", "at": 2.62, "text": "Explore every category, right from your phone." },
+    { "id": "vo3", "at": 6.55, "text": "California's top brands, unboxed." },
+    { "id": "vo4", "at": 9.45, "text": "Track it live. Delivered on time." },
+    { "id": "vo5", "at": 12.15, "text": "Twenty percent credit back, all October." },
+    { "id": "vo6", "at": 14.95, "text": "Everything you need, in one place." },
+    { "id": "vo7", "at": 17.25, "text": "Fast. Premium. Trusted." },
+    { "id": "vo8", "at": 19.25, "text": "Visit grassdoor dot com." }
+  ],
+  "brightCuts": [6.0, 17.0]
+}

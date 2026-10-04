@@ -1,4 +1,5 @@
-import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
+import { Audio } from "@remotion/media";
+import { AbsoluteFill, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { HUD } from "./components/HUD";
 import { Silk } from "./components/Silk";
 import { kk } from "./lib/anim";
@@ -19,7 +20,7 @@ const BrightCuts: React.FC = () => {
 };
 
 /**
- * Grassdoor — 20s vertical showreel spot.
+ * Grassdoor — 21s vertical showreel spot.
  * Silk (WebGL) is the base layer; white scenes iris / flash / blur over it, so every cut is a
  * silk ⇄ #FFFFFF match cut carried by the knob-dot motif.
  */
@@ -27,7 +28,7 @@ export const GrassdoorAd: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
     <AbsoluteFill style={{ background: "#021416" }}>
-      <Silk period={20} />
+      <Silk period={21} />
       <Sequence name="01 Logo" from={0} durationInFrames={70} premountFor={fps}>
         <S1Logo />
       </Sequence>
@@ -46,11 +47,14 @@ export const GrassdoorAd: React.FC = () => {
       <Sequence name="06 One place (white)" from={444} durationInFrames={69} premountFor={fps}>
         <S6OnePlace />
       </Sequence>
-      <Sequence name="07 Closure" from={510} durationInFrames={90} premountFor={fps}>
+      <Sequence name="07 Closure" from={510} durationInFrames={120} premountFor={fps}>
         <S7Closure />
       </Sequence>
       <BrightCuts />
       <HUD />
+      {/* Master soundtrack: Lyria music bed (beat-aligned), Gemini TTS voice-over with sidechain ducking,
+          synthesised SFX on every animation hit. Built by tools/mix.py — stems in public/audio/stem-*.wav. */}
+      <Audio name="Soundtrack" src={staticFile("audio/mix.wav")} premountFor={fps} />
     </AbsoluteFill>
   );
 };
