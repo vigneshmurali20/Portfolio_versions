@@ -19,6 +19,7 @@ or session.
 | AI co-writing (11 skills) | Voice DNA, ICP and business profiles, then LinkedIn posts, X threads, Substack notes, sales emails, how-to guides, thought leadership, bios, LinkedIn profile | Uploaded `ai-co-writing-claude-skills` zip (`voice-dna-creator` also uploaded on its own), in `.claude/skills/` |
 | motion-primitives | 33 animated React components (text effects, morphing dialog, dock, carousel, spotlight, tilt...) built with Motion and Tailwind; adds them by CLI or copies the vendored source | [ibelick/motion-primitives](https://github.com/ibelick/motion-primitives) (MIT), in `.claude/skills/motion-primitives` |
 | find-skills (Skills CLI, `npx skills`) | Searches the open skills ecosystem (skills.sh) for a skill that fits a task and installs it | [vercel-labs/skills](https://github.com/vercel-labs/skills) v1.7.0 (MIT), in `.claude/skills/find-skills`; the CLI runs with `npx`, nothing to install. Search needs `skills.sh`, which this cloud environment blocks |
+| Anthropic official plugins (17) | Core: skill-creator, playground, claude-md-management, claude-code-setup, session-report. Design: canva, figma, adobe-for-creativity, superdesign, miro. Video: runway-api. Code: code-review, pr-review-toolkit, feature-dev, commit-commands, code-simplifier, security-guidance | [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) marketplace (315 plugins, browse with `/plugin`), installed by `install.sh` (needs the `claude` CLI) |
 | claudedesignskills (22 skills) | Three.js, R3F, GSAP, Motion, Babylon.js, Lottie, Rive, Spline and more | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills), in `.claude/skills/` |
 
 ## Use in every project
@@ -132,6 +133,19 @@ library in `~/.claude/skills/notebooklm/data/`. `install.sh` keeps that folder
 (and any skill's `data/` and `.venv/`) when it re-installs, and this repo
 ignores them so a login can never be committed. The MCP server can create
 notebooks and generate audio overviews; the skill is for asking questions.
+
+## Official plugins notes
+
+- Design plugins (Canva, Figma, Adobe, Miro) connect to each service's MCP
+  server and ask you to sign in the first time you use them. Superdesign
+  needs `superdesign login`.
+- runway-api needs a Runway API key as the `RUNWAYML_API_SECRET` environment
+  variable, plus `uv`.
+- security-guidance runs hooks: regex warnings on every edit, an LLM review
+  of the diff at the end of each turn that changed code (extra model usage),
+  and a deeper review on `git commit`. Turn it off with
+  `SECURITY_GUIDANCE_DISABLE=1`, or only the per-turn review with
+  `ENABLE_STOP_REVIEW=0`.
 
 ## Not enabled
 

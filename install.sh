@@ -101,6 +101,28 @@ else
   echo "  ⚠ claude CLI not found; skipped"
 fi
 
+echo "→ Installing plugins from Anthropic's official marketplace"
+# anthropics/claude-plugins-official: browse and install with /plugin.
+if command -v claude >/dev/null 2>&1; then
+  claude plugin marketplace add anthropics/claude-plugins-official >/dev/null 2>&1 \
+    || claude plugin marketplace update claude-plugins-official >/dev/null 2>&1 || true
+  echo "  • claude-plugins-official"
+  # Chosen plugins: core, design, video and code workflow. Design tools sign
+  # in on first use; runway-api needs RUNWAYML_API_SECRET; security-guidance
+  # runs hooks (pattern warnings, an LLM diff review each turn, commit review).
+  for plugin in skill-creator playground claude-md-management claude-code-setup session-report \
+      canva figma adobe-for-creativity superdesign miro runway-api \
+      code-review pr-review-toolkit feature-dev commit-commands code-simplifier security-guidance; do
+    if claude plugin install "$plugin@claude-plugins-official" >/dev/null 2>&1; then
+      echo "  • $plugin"
+    else
+      echo "  ✗ $plugin install failed; run: claude plugin install $plugin@claude-plugins-official" >&2
+    fi
+  done
+else
+  echo "  ⚠ claude CLI not found; skipped"
+fi
+
 echo "→ NotebookLM MCP server (opt-in, local computers only)"
 # notebooklm-mcp-server drives your signed-in Google session, so it is only
 # set up on your own computer, never in cloud sessions. Pinned: it otherwise
