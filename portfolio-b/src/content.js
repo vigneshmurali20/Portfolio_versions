@@ -45,8 +45,7 @@ export const nav = [
 ];
 
 export const hero = {
-  // h1: keyword-first upright line, a benefit in the italic line
-  lines: ['Product & UI/UX design', 'that makes people say yes.'],
+  lines: ['Design that makes', 'people say Yes.'],
   body: 'You’re just one step away from bringing your imagination to life.',
   cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
