@@ -221,7 +221,7 @@ export const testimonials = [
     name: 'Chandrashekar',
     role: 'Founder, Deepvue',
     rating: 5,
-    quote: 'Vignesh led the redesign of our analytics dashboard end to end. Complex fintech data became clear and easy to act on, and every screen he handed over was ready to build.',
+    quote: 'Vignesh led the redesign of our analytics dashboard end to end, which helped us make 2X revenue. Complex fintech data became clear and easy to act on, and every screen he handed over was ready to build.',
   },
   {
     name: 'Gaurav',
