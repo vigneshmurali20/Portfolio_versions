@@ -39,7 +39,7 @@ in `src/content.js` and the card and footer link appear.
 
 | File | What it does |
 | --- | --- |
-| `src/webgl/stage.js` | Two synced canvases. Background: flowing nebula, the glowing planet (the Figma half-circle in 3D) and chrome rings. Foreground: the portrait as a shader plane (rim light, materialise and dissolve), glass tool chips, chrome shapes, particles. The hero title sits between the canvases so the portrait overlaps it, as in Figma. |
+| `src/webgl/stage.js` | Two synced canvases. Background: flowing nebula, the glowing planet (the Figma half-circle in 3D) and chrome rings. Foreground: the portrait as a shader plane (rim light, materialise and dissolve), flat tool icons that come out from behind the portrait on hover or scroll, chrome shapes, particles. Inner pages use only the background canvas. The hero title sits between the canvases so the portrait overlaps it, as in Figma. |
 | `src/webgl/shaders.js` | GLSL for the nebula, planet, portrait and particles |
 | `src/ui.js` | Loader, custom cursor, magnetic buttons, 3D tilt, nav (sliding indicator, hide on scroll, mobile menu with focus trap), local clock |
 | `src/sections.js` | Hero intro and scroll, about word-lighting, services 3D orbit (pinned, scroll or drag, snaps per card), experience timeline, portfolio, marquee, contact form, footer |
