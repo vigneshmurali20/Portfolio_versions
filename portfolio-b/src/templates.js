@@ -154,7 +154,7 @@ const renderHero = () => {
       <p class="hero__body" data-hero-in>${esc(hero.body)}</p>
       <div class="hero__ctas" data-hero-in>
         ${btn(hero.cta.label, hero.cta.href, { iconName: 'arrowUR' })}
-        <button class="btn btn--ghost" type="button" data-reel-open data-magnetic>
+        <button class="btn btn--ghost btn--play" type="button" data-reel-open data-magnetic>
           <span class="btn__play">${icon('play')}</span>
           <span class="btn__roll"><span class="btn__label" data-text="Watch showreel">Watch showreel</span></span>
         </button>

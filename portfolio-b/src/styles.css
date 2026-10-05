@@ -386,6 +386,10 @@ a:focus-visible .vmark {
   border: 1px solid var(--line-2);
   padding: 0 8px 0 24px;
 }
+
+.btn--play {
+  padding: 0 24px 0 8px;
+}
 .btn--ghost:hover {
   border-color: var(--ink);
 }
