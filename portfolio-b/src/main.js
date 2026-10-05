@@ -8,8 +8,11 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
 import Lenis from 'lenis';
+import { injectSpeedInsights } from '@vercel/speed-insights';
 import { site, tools, disciplines, ringCards, workFilters } from './content.js';
 import { canWebGL, createHero3D } from './hero3d.js';
+
+injectSpeedInsights();
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
