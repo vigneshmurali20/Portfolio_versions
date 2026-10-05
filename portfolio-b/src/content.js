@@ -31,9 +31,9 @@ export const site = {
 };
 
 export const meta = {
-  title: 'Product & UI/UX Designer in Bangalore | Vignesh Murali',
+  title: 'Product Designer | UX, Conversion & Growth | Vignesh Murali',
   description:
-    'Bangalore product and UI/UX designer with 4+ years in SaaS, web, app and brand design. Explore Vignesh Murali’s work and enquire about freelance or full-time projects.',
+    'Product designer for startups, agencies, and global teams. I solve user problems with SaaS, website, and app design focused on conversion and business growth.',
 };
 
 // One page, so the nav links jump to sections.
