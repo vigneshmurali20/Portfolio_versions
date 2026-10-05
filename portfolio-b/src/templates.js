@@ -487,7 +487,7 @@ const renderAbout = () => `
     <div class="about__grid">
       <div class="about__photo" data-tilt data-reveal>
         <img src="${site.portraitAbout}" alt="${esc(site.portraitAboutAlt)}" width="928" height="1120" loading="lazy" />
-        <span class="about__sticker">${icon('pin')} ${esc(site.location)}</span>
+        <span class="about__sticker">${icon('pin')} Working worldwide</span>
         <span class="about__clock" data-clock aria-label="Local time in Bangalore">--:--</span>
       </div>
       <div class="about__text">
