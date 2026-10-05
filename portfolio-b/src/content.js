@@ -31,9 +31,9 @@ export const site = {
 };
 
 export const meta = {
-  title: 'Product & UI/UX Designer in Bangalore | Vignesh Murali',
+  title: 'Product Designer | UX, Conversion & Growth | Vignesh Murali',
   description:
-    'Bangalore product and UI/UX designer with 4+ years in SaaS, web, app and brand design. Explore Vignesh Murali’s work and enquire about freelance or full-time projects.',
+    'Product designer for startups, agencies, and global teams. I solve user problems with SaaS, website, and app design focused on conversion and business growth.',
 };
 
 // One page, so the nav links jump to sections.
@@ -48,9 +48,9 @@ export const nav = [
 
 export const hero = {
   lines: ['Design that makes', 'people say Yes.'],
-  body: 'You’re just one step away from bringing your imagination to life.',
+  body: 'I design digital products, websites, and apps that solve user problems and help teams grow through clearer experiences.',
   cta: { label: 'Start your project', href: '#contact' },
-  badge: 'PRODUCT DESIGNER · OPEN TO WORK · BANGALORE · ',
+  badge: 'PRODUCT DESIGNER · WORKING WORLDWIDE · ',
   notes: [
     { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and SAP.' },
     { icon: 'tools', title: ['Ideas that', 'actually move.'], body: 'Motion, brand and campaign visuals.' },
@@ -268,7 +268,7 @@ export const experience = [
 
 // Long bio from the Figma "About me" frame.
 export const aboutLong =
-  'I’m Vignesh Murali, a UI/UX & Graphic Designer skilled in crafting seamless user experiences and visually compelling designs using tools like Figma, Framer and Adobe Suite. I specialize in wireframing, prototyping, branding and creative content across web, product and marketing. With experience working with both Indian and international clients, I deliver holistic design solutions that blend creativity, strategy and clear communication.';
+  'I’m Vignesh Murali, a product designer working with startups, agencies, and teams across markets. I turn user and business needs into clear SaaS products, websites, and apps, and collaborate from early flows through polished UI and developer handoff. My work connects usability with business goals like stronger conversion and sustainable growth.';
 
 // Slider values measured from the Figma bars (fill width / track width).
 export const skills = [

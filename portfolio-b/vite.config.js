@@ -23,6 +23,8 @@ function staticPage(env, mode) {
         .replace(/(<meta name="description" content=")[^"]*/, `$1${page.meta.description}`)
         .replace(/(<meta property="og:title" content=")[^"]*/, `$1${page.meta.title}`)
         .replace(/(<meta property="og:description" content=")[^"]*/, `$1${page.meta.description}`)
+        .replace(/(<meta name="twitter:title" content=")[^"]*/, `$1${page.meta.title}`)
+        .replace(/(<meta name="twitter:description" content=")[^"]*/, `$1${page.meta.description}`)
         .replace('<!--LOADER-->', page.loader)
         .replace('<!--NAV-->', page.nav)
         .replace('<!--MAIN-->', page.main)
