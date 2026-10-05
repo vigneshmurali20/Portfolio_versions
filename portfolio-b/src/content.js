@@ -31,9 +31,9 @@ export const site = {
 };
 
 export const meta = {
-  title: 'Vignesh Murali | Product & UI/UX Designer in Bangalore, India',
+  title: 'Product & UI/UX Designer in Bangalore | Vignesh Murali',
   description:
-    'Vignesh Murali is a product and UI/UX designer in Bangalore, India, with 4+ years of experience in SaaS dashboards, web and app design, motion graphics, graphic design and branding. Available for freelance and full-time work.',
+    'Bangalore product and UI/UX designer with 4+ years in SaaS, web, app and brand design. Explore Vignesh Murali’s work and enquire about freelance or full-time projects.',
 };
 
 // One page, so the nav links jump to sections.
@@ -170,7 +170,7 @@ export const aiTools = [
     group: 'Models & assistants',
     items: [
       { name: 'Claude', si: 'siClaude' },
-      { name: 'ChatGPT', glyph: 'chat', color: '#10A37F' },
+      { name: 'ChatGPT', glyph: 'openai', color: '#111014' },
       { name: 'Gemini', si: 'siGooglegemini' },
       { name: 'Perplexity', si: 'siPerplexity' },
     ],
@@ -318,10 +318,8 @@ export const testimonialsIntro = {
 };
 
 // Clients and the people quoted. The names and brands are real; the quote
-// wording is a DRAFT written for the site. While `testimonialsAreSamples` is
-// true, the section shows a visible "draft" label. Replace each quote with
-// the client's own words (and their permission), then set it to false.
-export const testimonialsAreSamples = true;
+// wording is a draft written for the site. Replace each quote with the
+// client's own words (and their permission) before publishing as a review.
 
 // Brands shown in the "worked with" strip.
 export const brands = ['Grassdoor Logistics', 'Omnigreen', 'Deepvue', 'RetainIQ', 'DigiPro', 'Modish', 'Salesmax'];

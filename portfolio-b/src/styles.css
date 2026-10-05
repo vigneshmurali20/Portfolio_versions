@@ -384,7 +384,7 @@ a:focus-visible .vmark {
   background: var(--card-solid);
   color: var(--ink);
   border: 1px solid var(--line-2);
-  padding: 0 24px 0 8px;
+  padding: 0 8px 0 24px;
 }
 .btn--ghost:hover {
   border-color: var(--ink);
@@ -2618,14 +2618,6 @@ section {
   gap: 24px;
   flex-wrap: wrap;
 }
-.sample-note {
-  max-width: 260px;
-  padding: 10px 14px;
-  border-radius: 14px;
-  border: 1px dashed var(--line-2);
-  font-size: 13px;
-  color: var(--muted);
-}
 .brands {
   display: flex;
   flex-wrap: wrap;
@@ -2661,7 +2653,7 @@ section {
   color: var(--brand-ink);
 }
 .deck {
-  margin-top: 56px;
+  margin-top: 96px;
   display: grid;
   justify-items: center;
 }
@@ -2736,17 +2728,6 @@ section {
 .deck__card figcaption small {
   display: block;
   font-size: 14px;
-  color: var(--muted);
-}
-.deck__sample {
-  margin-left: auto;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px dashed var(--line-2);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   color: var(--muted);
 }
 .deck__nav {

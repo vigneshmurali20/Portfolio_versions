@@ -19,8 +19,8 @@ Figma frame `T9UpObjYsMdFXsJrQvGjRY` node 16-2607.
   Shake, Reset and per-tool buttons give keyboard access to the same features.
 - **Showreel:** inline player, plus a modal from the hero button.
 - **About:** bio, facts, skill meters, experience and a 6-step process line.
-- **Testimonials:** swipeable 3D card deck. These are **sample quotes**, labelled as such
-  on the page. Replace them in `src/content.js` and set `testimonialsAreSamples = false`.
+- **Testimonials:** swipeable 3D card deck. The current quotes are samples; replace them
+  in `src/content.js` with client-approved wording before publishing as reviews.
 - **Contact:** mailto form, copy-email button, phone and Behance links.
 
 Flat buttons and icons, no gradient text. Supports reduced motion, has fallbacks for
@@ -30,6 +30,23 @@ no WebGL and no JS, and is keyboard and screen-reader friendly.
 
 All words, links and data live in `src/content.js`. The page is rendered to static HTML
 at build time from `src/templates.js`.
+
+## Search Console and Analytics
+
+The site includes a canonical URL, Person structured data, a root sitemap and
+an open `robots.txt`. Submit `https://vigneshmurali.com/sitemap.xml` in Google
+Search Console after verifying the domain. DNS verification in your domain
+provider is preferred; if using the HTML meta-tag method, put the verification
+token in `VITE_GOOGLE_SITE_VERIFICATION` before building.
+
+The GA4 Google tag for this site is installed in `index.html`. After deploying,
+confirm live traffic in the GA4 Realtime report.
+
+Google Analytics measurement and Search Console verification are separate:
+add the verified site property and submit the sitemap in Search Console, then
+confirm live traffic in GA4 Realtime after deploying. Search rankings take time
+and depend on content quality, competition, links and crawl/indexing; these
+technical steps do not guarantee a position.
 
 ## Run
 
