@@ -11,7 +11,6 @@ import Lenis from 'lenis';
 import { injectSpeedInsights } from '@vercel/speed-insights';
 import { site, tools, disciplines, ringCards, workFilters } from './content.js';
 import { canWebGL, createHero3D } from './hero3d.js';
-import { initGlobe } from './globe.js';
 
 injectSpeedInsights();
 
@@ -831,8 +830,16 @@ function clock() {
 }
 
 function clientGlobe() {
-  const globe = $('[data-globe]');
-  if (globe && canWebGL()) initGlobe(globe);
+  const atlas = $('[data-client-atlas-root]');
+  if (!atlas) return;
+  const mount = () => import('./ClientAtlas.jsx').then(({ mountClientAtlas }) => mountClientAtlas(atlas));
+  if (!('IntersectionObserver' in window)) { mount(); return; }
+  const observer = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    mount();
+  }, { rootMargin: '600px 0px' });
+  observer.observe(atlas);
 }
 
 /* ------------------------------------------------------------ boot */
