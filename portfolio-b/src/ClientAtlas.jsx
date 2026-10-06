@@ -4,7 +4,8 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import './client-atlas.css';
 import { clientRegions } from './content.js';
-import { REGION_SHAPES, pointInPolygon, sampleRegion } from './globe.js';
+import { pointInPolygon } from './globe.js';
+import { WORLD_LAND_DOTS, CLIENT_REGION_DOTS, CLIENT_COUNTRY_POLYGONS } from './worldMapData.js';
 
 const REGION_COLORS = {
   US: '#C46D4F',
@@ -97,15 +98,17 @@ function ParticleLayer({ points, bounds, color, size, opacity, burst, animate })
 function AtlasMap({ activeCode, hoveredCode, onHover, onSelect, reducedMotion }) {
   const { viewport } = useThree();
   const scale = Math.min(viewport.width / 7, viewport.height / 3.5);
-  const regional = useMemo(() => clientRegions.map((region, index) => {
-    const sampled = sampleRegion(region.code, region.code === 'US' || region.code === 'AU' ? 980 : 700, 273 + index * 89);
-    return { ...region, ...sampled };
+  const regional = useMemo(() => clientRegions.map((region) => {
+    const points = CLIENT_REGION_DOTS[region.code] ?? [];
+    const bounds = points.reduce((box, [lon, lat]) => ({ minLon: Math.min(box.minLon, lon), maxLon: Math.max(box.maxLon, lon), minLat: Math.min(box.minLat, lat), maxLat: Math.max(box.maxLat, lat) }), { minLon: 180, maxLon: -180, minLat: 90, maxLat: -90 });
+    return { ...region, points, bounds };
   }), []);
+  const countryContains = (code, lon, lat) => CLIENT_COUNTRY_POLYGONS[code]?.some((polygon) => pointInPolygon(lon, lat, polygon));
   const handleMove = (event) => {
     event.stopPropagation();
     const longitude = event.point.x / (MAP_WIDTH * scale) * 180;
     const latitude = event.point.y / (MAP_HEIGHT * scale) * 90;
-    const region = clientRegions.find(({ code }) => REGION_SHAPES[code].some((polygon) => pointInPolygon(longitude, latitude, polygon)));
+    const region = clientRegions.find(({ code }) => countryContains(code, longitude, latitude));
     onHover(region?.code ?? null);
     document.body.style.cursor = region ? 'pointer' : '';
   };
@@ -113,12 +116,13 @@ function AtlasMap({ activeCode, hoveredCode, onHover, onSelect, reducedMotion })
     event.stopPropagation();
     const longitude = event.point.x / (MAP_WIDTH * scale) * 180;
     const latitude = event.point.y / (MAP_HEIGHT * scale) * 90;
-    const region = clientRegions.find(({ code }) => REGION_SHAPES[code].some((polygon) => pointInPolygon(longitude, latitude, polygon)));
+    const region = clientRegions.find(({ code }) => countryContains(code, longitude, latitude));
     if (region) onSelect(region.code);
   };
   return (
     <>
       <group scale={[scale, scale, 1]}>
+        <ParticleLayer points={WORLD_LAND_DOTS} bounds={null} color={LAND_COLOR} size={2.2} opacity={0.76} burst={false} animate={false} />
         {regional.map((region) => (
           <ParticleLayer key={region.code} points={region.points} bounds={region.bounds} color={REGION_COLORS[region.code]} size={3.2} opacity={region.code === activeCode || region.code === hoveredCode ? 1 : 0.9} burst={region.code === hoveredCode} animate={!reducedMotion} />
         ))}
@@ -171,7 +175,6 @@ function ClientAtlas() {
       <div className="atlas__visual" ref={visualRef} onPointerLeave={() => { setHoveredCode(null); document.body.style.cursor = ''; }}>
         <div className="atlas__topline"><span>01 / GLOBAL CLIENTS</span><span>HOVER · SELECT</span></div>
         <div className="atlas__map" role="group" aria-label="Interactive dotted world atlas highlighting client countries">
-          <img className="atlas__base-image" src="/images/client-world-dots.svg" alt="" aria-hidden="true" />
           <Canvas orthographic camera={{ position: [0, 0, 10], zoom: 100, near: 0.1, far: 50 }} dpr={[1, 1.5]} frameloop={visible ? 'always' : 'never'} gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }} fallback={<AtlasFallback />}>
             {visible && <AtlasMap activeCode={activeCode} hoveredCode={hoveredCode} onHover={(code) => { setHoveredCode(code); if (code) setActiveCode(code); }} onSelect={(code) => { setActiveCode(code); setHoveredCode(code); }} reducedMotion={reducedMotion} />}
           </Canvas>
