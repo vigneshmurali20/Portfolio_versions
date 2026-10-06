@@ -11,24 +11,24 @@
 .atlas .global__kicker span { background: var(--brand); box-shadow: 0 0 12px rgba(127,86,217,.3); }
 .atlas__visual { position: relative; align-self: stretch; display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 0; width: 100%; }
 .atlas__topline { display: flex; justify-content: space-between; gap: 16px; padding: 0 4px; color: var(--muted); font: 400 9px var(--mono); letter-spacing: .12em; }
-.atlas__map { position: relative; width: 100%; height: clamp(240px, 34vw, 430px); margin-top: 2px; border-radius: 8px; overflow: hidden; background-image: radial-gradient(circle, rgba(44,39,34,.095) .9px, transparent 1px); background-size: 14px 14px; }
+.atlas__map { position: relative; width: 100%; aspect-ratio: 607 / 298; height: auto; margin-top: 2px; border-radius: 8px; overflow: hidden; background: transparent; }
+.atlas__base-image { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: fill; mix-blend-mode: multiply; opacity: .72; pointer-events: none; }
 .atlas__map canvas { position: relative; z-index: 1; width: 100% !important; height: 100% !important; display: block; cursor: crosshair; touch-action: pan-y; }
-.atlas__pin { position: absolute; z-index: 2; display: grid; place-content: center; gap: 2px; width: clamp(64px, 8vw, 104px); aspect-ratio: 1; padding: 8px; border: 1px solid color-mix(in srgb, var(--region-color) 68%, white); border-radius: 50%; background: color-mix(in srgb, var(--region-color) 16%, rgba(255,255,255,.92)); color: color-mix(in srgb, var(--region-color) 88%, #171519); box-shadow: 0 10px 26px -16px color-mix(in srgb, var(--region-color) 75%, transparent); cursor: pointer; transform: translate(-50%,-50%); transition: width 220ms ease, background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease; }
-.atlas__pin::before { position: absolute; inset: 5px; border: 1px solid color-mix(in srgb, var(--region-color) 45%, transparent); border-radius: 50%; content: ''; }
+.atlas__pin { position: absolute; z-index: 2; display: grid; place-content: center; gap: 2px; width: clamp(86px, 10vw, 126px); aspect-ratio: 1; padding: 8px; border: 1px solid color-mix(in srgb, var(--region-color) 68%, white); border-radius: 50%; background: color-mix(in srgb, var(--region-color) 19%, rgba(255,255,255,.95)); color: color-mix(in srgb, var(--region-color) 88%, #171519); box-shadow: none; cursor: pointer; opacity: 0; pointer-events: none; transform: translate(-50%,-50%) scale(.76); transition: opacity 140ms ease, transform 220ms ease, background-color 180ms ease, box-shadow 180ms ease; }
+.atlas__pin::before { position: absolute; inset: -8px; border: 1px solid color-mix(in srgb, var(--region-color) 62%, white); border-radius: 50%; content: ''; opacity: 0; transform: scale(.72); }
 .atlas__pin-code { position: relative; font: 600 11px var(--mono); letter-spacing: .1em; }
 .atlas__pin-count { position: relative; font: 500 8px var(--mono); text-transform: uppercase; }
-.atlas__pin:hover, .atlas__pin.is-hovered { transform: translate(-50%,-50%) scale(1.1); }
-.atlas__pin.is-active { width: clamp(82px, 10vw, 126px); background: color-mix(in srgb, var(--region-color) 28%, rgba(255,255,255,.96)); box-shadow: 0 0 0 7px color-mix(in srgb, var(--region-color) 15%, transparent), 0 14px 35px -14px color-mix(in srgb, var(--region-color) 85%, transparent); }
-.atlas__pin:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+.atlas__pin:hover, .atlas__pin.is-hovered, .atlas__pin:focus-visible { opacity: 1; pointer-events: auto; transform: translate(-50%,-50%) scale(1); }
+.atlas__pin.is-active { background: color-mix(in srgb, var(--region-color) 23%, rgba(255,255,255,.96)); }
+.atlas__pin.is-hovered::before, .atlas__pin:hover::before, .atlas__pin:focus-visible::before { animation: atlas-hover-ring 460ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes atlas-hover-ring { 0% { opacity: 0; transform: scale(.72); } 55% { opacity: .8; transform: scale(1.12); } 100% { opacity: 1; transform: scale(1); } }
 .atlas__regions { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; margin-top: 6px; }
 .atlas__region { min-height: 62px; }
 .atlas__region-name { font-size: 12px; }
 .atlas__region-arrow, .atlas__legend, .atlas__map-label { display: none; }
 @media (max-width: 760px) {
   .global .global__panel.atlas { padding: 24px clamp(16px,4vw,28px); gap: 14px; }
-  .atlas__map { height: clamp(210px,47vw,330px); background-size: 11px 11px; }
-  .atlas__pin { width: 58px; }
-  .atlas__pin.is-active { width: 74px; }
+  .atlas__pin { width: clamp(62px, 12vw, 78px); }
   .atlas__pin-count { font-size: 7px; }
   .atlas__regions { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
@@ -37,10 +37,8 @@
   .atlas__copy .global__total { justify-items: start; margin: 10px 0 0; }
   .atlas__copy .global__total strong { font-size: 26px; }
   .atlas__copy .global__total span { margin-top: 3px; }
-  .atlas__map { height: 200px; }
-  .atlas__pin { width: 48px; padding: 4px; }
-  .atlas__pin.is-active { width: 64px; }
+  .atlas__pin { width: 56px; padding: 4px; }
   .atlas__pin-code { font-size: 9px; }
   .atlas__pin-count { font-size: 6px; }
 }
-@media (prefers-reduced-motion: reduce) { .atlas__pin { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .atlas__pin, .atlas__pin::before { transition: none; animation: none !important; } }
