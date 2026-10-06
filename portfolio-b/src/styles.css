@@ -823,6 +823,7 @@ section {
   margin: 0 auto;
   text-align: center;
   pointer-events: none;
+  transform: translateY(-44px);
 }
 .hero__copy a,
 .hero__copy button,
@@ -4052,6 +4053,9 @@ section {
   }
   .hero__title {
     font-size: clamp(42px, 12vw, 60px);
+  }
+  .hero__copy {
+    transform: translateY(-14px);
   }
   .hero__body {
     font-size: 16px;
