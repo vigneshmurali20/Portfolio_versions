@@ -12,8 +12,8 @@ const REGION_COLORS = {
   AU: '#648B73',
   GB: '#557D99',
 };
-const MAP_WIDTH = 3.45;
-const MAP_HEIGHT = 1.58;
+const MAP_WIDTH = 3.5;
+const MAP_HEIGHT = 1.75;
 const LAND_COLOR = '#8B857D';
 
 const toMap = ([longitude, latitude]) => [longitude / 180 * MAP_WIDTH, latitude / 90 * MAP_HEIGHT, 0];
@@ -127,7 +127,6 @@ function AtlasMap({ activeCode, hoveredCode, onHover, onSelect, reducedMotion })
     onHover(region?.code ?? null);
     document.body.style.cursor = region ? 'pointer' : '';
   };
-  const clearHover = () => { onHover(null); document.body.style.cursor = ''; };
   const selectAtPoint = (event) => {
     event.stopPropagation();
     const longitude = event.point.x / (MAP_WIDTH * scale) * 180;
@@ -140,11 +139,10 @@ function AtlasMap({ activeCode, hoveredCode, onHover, onSelect, reducedMotion })
       <group scale={[scale, scale, 1]}>
         <ParticleLayer points={base} bounds={null} color={LAND_COLOR} size={2.2} opacity={0.76} burst={false} animate={!reducedMotion} />
         {regional.map((region) => (
-          <ParticleLayer key={region.code} points={region.points} bounds={region.bounds} color={REGION_COLORS[region.code]} size={3.2} opacity={region.code === activeCode || region.code === hoveredCode ? 1 : 0.9} burst={region.code === hoveredCode || region.code === activeCode} animate={!reducedMotion} />
+          <ParticleLayer key={region.code} points={region.points} bounds={region.bounds} color={REGION_COLORS[region.code]} size={3.2} opacity={region.code === activeCode || region.code === hoveredCode ? 1 : 0.9} burst={region.code === hoveredCode} animate={!reducedMotion} />
         ))}
-        <AtlasOutlines activeCode={activeCode} hoveredCode={hoveredCode} scale={1} />
-        <mesh position={[0, 0, -0.1]} onPointerMove={handleMove} onPointerLeave={clearHover} onClick={selectAtPoint}>
-          <planeGeometry args={[7.2, 3.25]} />
+        <mesh position={[0, 0, -0.1]} onPointerMove={handleMove} onClick={selectAtPoint}>
+          <planeGeometry args={[7, 3.5]} />
           <meshBasicMaterial transparent opacity={0} depthWrite={false} />
         </mesh>
       </group>
@@ -152,19 +150,7 @@ function AtlasMap({ activeCode, hoveredCode, onHover, onSelect, reducedMotion })
   );
 }
 
-function AtlasFallback({ activeCode }) {
-  const land = [
-    'M75 67l21-28 35-13 22 8 14 22-9 20-21 7-9 21-28 5-19-14z',
-    'M141 111l17 6 12 26-8 30-11 27-13-22-7-34z',
-    'M262 66l26-15 28 4 15 14-11 13-29 4-19-8z',
-    'M300 94l19-12 35 4 27 21-9 22-25 12-13 29-17 13-12-24-11-28z',
-    'M403 151l31-13 34 8 8 17-23 23-35-5-20-14z',
-  ];
-  return <svg className="atlas__fallback-map" viewBox="0 0 560 250" role="img" aria-label="Stylised world map showing client regions">
-    {land.map((path) => <path key={path} d={path} fill="#d8d3cb" />)}
-    {clientRegions.map((region) => <circle key={region.code} cx={region.longitude / 180 * 280 + 280} cy={125 - region.latitude / 90 * 125} r={region.code === activeCode ? 8 : 6} fill={REGION_COLORS[region.code]} />)}
-  </svg>;
-}
+function AtlasFallback() { return null; }
 
 function ClientAtlas() {
   const [activeCode, setActiveCode] = useState(clientRegions[0].code);
@@ -203,15 +189,16 @@ function ClientAtlas() {
       </div>
       <div className="atlas__visual" ref={visualRef} onPointerLeave={() => { setHoveredCode(null); document.body.style.cursor = ''; }}>
         <div className="atlas__topline"><span>01 / GLOBAL CLIENTS</span><span>HOVER · SELECT</span></div>
-        <div className="atlas__map" role="img" aria-label="Interactive dotted world atlas highlighting client countries">
-          <Canvas orthographic camera={{ position: [0, 0, 10], zoom: 100, near: 0.1, far: 50 }} dpr={[1, 1.5]} frameloop={visible ? 'always' : 'never'} gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }} fallback={<AtlasFallback activeCode={activeCode} />}>
+        <div className="atlas__map" role="group" aria-label="Interactive dotted world atlas highlighting client countries">
+          <img className="atlas__base-image" src="/images/client-world-dots.svg" alt="" aria-hidden="true" />
+          <Canvas orthographic camera={{ position: [0, 0, 10], zoom: 100, near: 0.1, far: 50 }} dpr={[1, 1.5]} frameloop={visible ? 'always' : 'never'} gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }} fallback={<AtlasFallback />}>
             {visible && <AtlasMap activeCode={activeCode} hoveredCode={hoveredCode} onHover={(code) => { setHoveredCode(code); if (code) setActiveCode(code); }} onSelect={(code) => { setActiveCode(code); setHoveredCode(code); }} reducedMotion={reducedMotion} />}
           </Canvas>
           {clientRegions.map((region) => {
             const selected = activeCode === region.code;
             const hovered = hoveredCode === region.code;
-            const anchors = { US: { left: '23%', top: '31%' }, GB: { left: '49%', top: '20%' }, AE: { left: '65%', top: '42%' }, AU: { left: '86%', top: '72%' } };
-            return <button key={region.code} type="button" className={`atlas__pin${selected ? ' is-active' : ''}${hovered ? ' is-hovered' : ''}`} style={{ ...anchors[region.code], '--region-color': REGION_COLORS[region.code] }} aria-label={`${region.name}: ${region.count == null ? 'client count pending' : `${region.count} clients`}`} aria-pressed={selected} onClick={() => { setActiveCode(region.code); setHoveredCode(region.code); }} onPointerEnter={() => { setHoveredCode(region.code); setActiveCode(region.code); }} onPointerLeave={() => setHoveredCode(null)} onFocus={() => setActiveCode(region.code)}>
+            const anchors = { US: { left: '23%', top: '28%' }, GB: { left: '49%', top: '20%' }, AE: { left: '65%', top: '37%' }, AU: { left: '87%', top: '64%' } };
+            return <button key={region.code} type="button" className={`atlas__pin${selected ? ' is-active' : ''}${hovered ? ' is-hovered' : ''}`} style={{ ...anchors[region.code], '--region-color': REGION_COLORS[region.code] }} aria-label={`${region.name}: ${region.count == null ? 'client count pending' : `${region.count} clients`}`} aria-pressed={selected} onClick={() => { setActiveCode(region.code); setHoveredCode(region.code); }} onPointerEnter={() => { setHoveredCode(region.code); setActiveCode(region.code); }} onPointerLeave={() => setHoveredCode(null)} onFocus={() => { setActiveCode(region.code); setHoveredCode(region.code); }}>
               <span className="atlas__pin-code">{region.short}</span><span className="atlas__pin-count">{region.count == null ? 'Pending' : region.count}</span>
             </button>;
           })}
