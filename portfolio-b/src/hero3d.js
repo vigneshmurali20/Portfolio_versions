@@ -20,7 +20,7 @@ const easeOut = (t) => 1 - Math.pow(1 - t, 4);
 
 // where the head sits inside images/portrait-hero.png (fractions of the image)
 // ring centre: below the chin, so the front of the ring passes over the chest
-const HEAD = { x: 0.378, y: 0.46 };
+const HEAD = { x: 0.48, y: 0.34 };
 
 export function canWebGL() {
   try {

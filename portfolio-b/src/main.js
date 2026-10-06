@@ -9,7 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
 import Lenis from 'lenis';
 import { injectSpeedInsights } from '@vercel/speed-insights';
-import { site, tools, disciplines, ringCards, workFilters } from './content.js';
+import { site, tools, disciplines, ringCards, workFilters, clientRegions, projectsPerPage } from './content.js';
 import { canWebGL, createHero3D } from './hero3d.js';
 
 injectSpeedInsights();
@@ -259,8 +259,8 @@ function drawWires() {
   if (!svg || getComputedStyle(svg).display === 'none') return;
   const hr = hero.getBoundingClientRect();
   const pr = portraitImg.getBoundingClientRect();
-  const hx = pr.left - hr.left + pr.width * 0.378;
-  const hy = pr.top - hr.top + pr.height * 0.33;
+  const hx = pr.left - hr.left + pr.width * 0.48;
+  const hy = pr.top - hr.top + pr.height * 0.25;
   $$('[data-note]').forEach((note, i) => {
     const r = note.getBoundingClientRect();
     const left = i === 0;
@@ -479,38 +479,61 @@ function workFilter() {
   const grid = $('[data-work]');
   const status = $('[data-filter-status]');
   const buttons = $$('[data-filter]');
+  const more = $('[data-work-more]');
+  const left = $('[data-work-left]');
+  const cards = $$('.card', grid);
+  let key = 'all';
+  let limit = projectsPerPage;
+
+  // "All" pages through the cards; a category shows every match
+  function apply(first = 0) {
+    const state = Flip.getState(cards);
+    let shown = 0;
+    let all = 0;
+    cards.forEach((c) => {
+      const match = key === 'all' || c.dataset.cat === key;
+      if (match) all++;
+      const show = match && (key !== 'all' || all <= limit);
+      c.classList.toggle('is-hidden', !show);
+      if (show) shown++;
+    });
+    if (more) {
+      const rest = key === 'all' ? Math.max(0, all - limit) : 0;
+      more.hidden = rest === 0;
+      left.textContent = rest;
+    }
+    gsap.set(cards, { opacity: 1 });
+    Flip.from(state, {
+      duration: reduced ? 0 : 0.8,
+      ease: 'expo.inOut',
+      scale: true,
+      absolute: true,
+      stagger: 0.02,
+      onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.85, rotationX: -20 }, { opacity: 1, scale: 1, rotationX: 0, duration: 0.8, ease: EASE, stagger: 0.04 }),
+      onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.85, duration: 0.4 }),
+      onComplete: () => ScrollTrigger.refresh(),
+    });
+    const label = workFilters.find((f) => f.key === key)?.label ?? 'All';
+    status.textContent = `Showing ${shown} ${key === 'all' ? '' : `${label} `}projects`;
+    // after "Show more", move focus to the first new card for keyboard users
+    if (first) cards.filter((c) => !c.classList.contains('is-hidden'))[first]?.querySelector('a, div')?.focus?.();
+  }
+
   buttons.forEach((b) =>
     b.addEventListener('click', () => {
-      const key = b.dataset.filter;
+      key = b.dataset.filter;
       buttons.forEach((x) => {
         x.classList.toggle('is-active', x === b);
         x.setAttribute('aria-pressed', String(x === b));
       });
-      const cards = $$('.card', grid);
-      const state = Flip.getState(cards);
-      let shown = 0;
-      cards.forEach((c) => {
-        const show = key === 'all' || c.dataset.cat === key;
-        c.classList.toggle('is-hidden', !show);
-        if (show) shown++;
-      });
-      // wide cards only in the full grid, so filtered rows stay even
-      cards.forEach((c, i) => c.classList.toggle('card--wide', key === 'all' && i % 5 === 0));
-      gsap.set(cards, { opacity: 1 });
-      Flip.from(state, {
-        duration: reduced ? 0 : 0.8,
-        ease: 'expo.inOut',
-        scale: true,
-        absolute: true,
-        stagger: 0.02,
-        onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.85, rotationX: -20 }, { opacity: 1, scale: 1, rotationX: 0, duration: 0.8, ease: EASE }),
-        onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.85, duration: 0.4 }),
-        onComplete: () => ScrollTrigger.refresh(),
-      });
-      const label = workFilters.find((f) => f.key === key)?.label ?? 'All';
-      status.textContent = `Showing ${shown} ${key === 'all' ? '' : `${label} `}projects`;
+      apply();
     }),
   );
+  more?.addEventListener('click', () => {
+    const before = limit;
+    limit += projectsPerPage;
+    apply(before);
+  });
 }
 
 /* ------------------------------------------------------------ disciplines */
@@ -829,8 +852,174 @@ function clock() {
   setInterval(tick, 30000);
 }
 
+function clientGlobe() {
+  const root = $('[data-globe]');
+  if (!root) return;
+  const name = $('[data-globe-name]', root);
+  const total = $('[data-globe-total]', root);
+  const buttons = $$('[data-region]', root);
+  let globe = null;
+
+  // update the copy and buttons for the highlighted country
+  function show(code) {
+    const r = clientRegions.find((x) => x.code === code);
+    if (!r) return;
+    name.textContent = r.name;
+    total.innerHTML = r.count == null ? (r.home ? 'Home base, and clients here too' : 'Clients worked with') : `<strong>${r.count}</strong> ${r.count === 1 ? 'client' : 'clients'}`;
+    buttons.forEach((b) => {
+      const on = b.dataset.region === code;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+  }
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => (globe ? globe.focus(b.dataset.region) : show(b.dataset.region))),
+  );
+
+  if (!canWebGL()) return;
+  const mount = () =>
+    import('./clientGlobe.js')
+      .then(({ createClientGlobe }) => {
+        globe = createClientGlobe({ root, regions: clientRegions, reduced, onFocus: show });
+      })
+      .catch((err) => {
+        console.warn('Client globe disabled:', err);
+        root.classList.add('no-gl');
+      });
+  const io = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      mount();
+    },
+    { rootMargin: '600px 0px' },
+  );
+  io.observe(root);
+}
+
+/* ------------------------------------------------------------ impact counters */
+function impactCounters() {
+  const nums = $$('[data-count-to]');
+  if (!nums.length) return;
+  if (!reduced) {
+    // tiles flip up into place, then the numbers count up
+    gsap.from('.impact__cell', {
+      y: 60,
+      rotationX: -35,
+      opacity: 0,
+      transformPerspective: 1200,
+      transformOrigin: '50% 100%',
+      duration: 1.2,
+      ease: EASE,
+      stagger: 0.07,
+      clearProps: 'transform,opacity',
+      scrollTrigger: { trigger: '[data-impact]', start: 'top 85%', once: true },
+    });
+  }
+  if (reduced) return;
+  // the real numbers stay in place until the grid scrolls in, then all count up together
+  ScrollTrigger.create({
+    trigger: '[data-impact]',
+    start: 'top 80%',
+    once: true,
+    onEnter: () =>
+      nums.forEach((el, i) => {
+        const o = { v: 0 };
+        gsap.to(o, {
+          v: Number(el.dataset.countTo),
+          duration: 1.8,
+          delay: i * 0.06,
+          ease: 'power3.out',
+          onUpdate: () => (el.textContent = Math.round(o.v)),
+        });
+      }),
+  });
+}
+
+/* ------------------------------------------------------------ impact: flip, tabs, charts */
+// workstream cards in the current project flip up into place
+function currentTracks() {
+  if (reduced || !$('.current__tile')) return;
+  gsap.from('.current__tile', {
+    y: 40,
+    rotationX: -35,
+    opacity: 0,
+    transformOrigin: '50% 100%',
+    duration: 0.9,
+    ease: EASE,
+    stagger: 0.1,
+    scrollTrigger: { trigger: '[data-track]', start: 'top 85%', once: true },
+  });
+}
+
+function impactViews() {
+  // flip cards: click, tap, Enter or Space turns a card over
+  $$('[data-flip]').forEach((card) =>
+    card.addEventListener('click', () => {
+      const on = card.getAttribute('aria-pressed') !== 'true';
+      card.setAttribute('aria-pressed', String(on));
+      card.querySelector('.impact__front').setAttribute('aria-hidden', String(on));
+      card.querySelector('.impact__back').setAttribute('aria-hidden', String(!on));
+    }),
+  );
+
+  const tablist = $('.impact__tabs');
+  if (!tablist) return;
+  const tabs = $$('[data-impact-tab]', tablist);
+  const panels = $$('[data-impact-panel]');
+  const bars = $$('.chart__bar');
+
+  function select(view, focus = false) {
+    tablist.dataset.view = view;
+    tabs.forEach((t) => {
+      const on = t.dataset.impactTab === view;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      if (on && focus) t.focus();
+    });
+    panels.forEach((p) => (p.hidden = p.dataset.impactPanel !== view));
+    if (view === 'charts') {
+      // bars grow from the baseline each time the charts open
+      bars.forEach((b) => b.style.setProperty('--grow', reduced ? 1 : 0));
+      requestAnimationFrame(() => requestAnimationFrame(() => bars.forEach((b, i) => {
+        b.style.transitionDelay = reduced ? '0s' : `${i * 60}ms`;
+        b.style.setProperty('--grow', 1);
+      })));
+    }
+    ScrollTrigger.refresh();
+  }
+  tabs.forEach((t) => t.addEventListener('click', () => select(t.dataset.impactTab)));
+  tablist.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const i = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+    const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    select(next.dataset.impactTab, true);
+  });
+
+  // hover a bar: highlight it and spell the number out under the chart
+  const fmt = new Intl.NumberFormat('en-IN');
+  $$('[data-chart]').forEach((chart) => {
+    const tip = $('[data-chart-tip]', chart);
+    $$('.chart__row', chart).forEach((row) => {
+      const show = () => {
+        $$('.chart__row', chart).forEach((r) => r.classList.toggle('is-hot', r === row));
+        tip.textContent = `${row.dataset.label}: ${fmt.format(Number(row.dataset.value))}+`;
+      };
+      row.addEventListener('pointerenter', show);
+      row.addEventListener('pointerleave', () => {
+        row.classList.remove('is-hot');
+        tip.textContent = '';
+      });
+    });
+  });
+}
+
 /* ------------------------------------------------------------ boot */
 startHero3D();
+clientGlobe();
+impactCounters();
+impactViews();
+currentTracks();
 const openDiscipline = disciplineAccordion();
 workFilter();
 toolbox(openDiscipline);
