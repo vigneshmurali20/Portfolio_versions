@@ -48,7 +48,6 @@ export default defineConfig(({ mode }) => ({
       output: {
         codeSplitting: {
           groups: [
-            { name: 'react-vendor', test: /node_modules[\\/]react(?:-dom)?[\\/]/, priority: 20 },
             { name: 'three-vendor', test: /node_modules[\\/]three[\\/]/, priority: 15 },
             { name: 'vendor', test: /node_modules[\\/]/, priority: 5 },
           ],
@@ -56,5 +55,4 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-
 }));
