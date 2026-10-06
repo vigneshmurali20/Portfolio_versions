@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import './client-atlas.css';
 import { clientRegions } from './content.js';
-import { EARTH_LAND, REGION_SHAPES, pointInPolygon, sampleLandGrid, sampleRegion } from './globe.js';
+import { REGION_SHAPES, pointInPolygon, sampleRegion } from './globe.js';
 
 const REGION_COLORS = {
   US: '#C46D4F',
@@ -14,7 +14,6 @@ const REGION_COLORS = {
 };
 const MAP_WIDTH = 3.5;
 const MAP_HEIGHT = 1.75;
-const LAND_COLOR = '#8B857D';
 
 const toMap = ([longitude, latitude]) => [longitude / 180 * MAP_WIDTH, latitude / 90 * MAP_HEIGHT, 0];
 
@@ -95,26 +94,9 @@ function ParticleLayer({ points, bounds, color, size, opacity, burst, animate })
   );
 }
 
-function AtlasOutlines({ activeCode, hoveredCode, scale }) {
-  const features = useMemo(() => {
-    const all = EARTH_LAND.map((polygon, index) => ({ code: `land-${index}`, polygon }));
-    Object.entries(REGION_SHAPES).forEach(([code, polygons]) => polygons.forEach((polygon, index) => all.push({ code: `${code}-${index}`, region: code, polygon })));
-    return all.map((feature) => {
-      const points = feature.polygon.map(toMap).map(([x, y]) => new THREE.Vector3(x, y, 0.025));
-      if (points.length) points.push(points[0].clone());
-      const geometry = new THREE.BufferGeometry().setFromPoints(points);
-      const material = new THREE.LineBasicMaterial({ color: feature.region ? REGION_COLORS[feature.region] : '#8C8780', transparent: true, opacity: feature.region ? 0.55 : 0.28, depthWrite: false });
-      return { ...feature, object: new THREE.Line(geometry, material) };
-    });
-  }, []);
-  useEffect(() => () => features.forEach(({ object }) => { object.geometry.dispose(); object.material.dispose(); }), [features]);
-  return <group scale={[scale, scale, 1]}>{features.map((feature) => <primitive key={feature.code} object={feature.object} />)}</group>;
-}
-
 function AtlasMap({ activeCode, hoveredCode, onHover, onSelect, reducedMotion }) {
   const { viewport } = useThree();
-  const scale = Math.min(viewport.width / 7.25, viewport.height / 3.35);
-  const base = useMemo(() => sampleLandGrid(2.05, EARTH_LAND), []);
+  const scale = Math.min(viewport.width / 7, viewport.height / 3.5);
   const regional = useMemo(() => clientRegions.map((region, index) => {
     const sampled = sampleRegion(region.code, region.code === 'US' || region.code === 'AU' ? 980 : 700, 273 + index * 89);
     return { ...region, ...sampled };
@@ -137,7 +119,6 @@ function AtlasMap({ activeCode, hoveredCode, onHover, onSelect, reducedMotion })
   return (
     <>
       <group scale={[scale, scale, 1]}>
-        <ParticleLayer points={base} bounds={null} color={LAND_COLOR} size={2.2} opacity={0.76} burst={false} animate={!reducedMotion} />
         {regional.map((region) => (
           <ParticleLayer key={region.code} points={region.points} bounds={region.bounds} color={REGION_COLORS[region.code]} size={3.2} opacity={region.code === activeCode || region.code === hoveredCode ? 1 : 0.9} burst={region.code === hoveredCode} animate={!reducedMotion} />
         ))}
