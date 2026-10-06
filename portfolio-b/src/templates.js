@@ -14,6 +14,7 @@ import {
   nav,
   hero,
   clientRegions,
+  currentProject,
   impactStats,
   disciplinesIntro,
   disciplines,
@@ -22,6 +23,7 @@ import {
   workIntro,
   workFilters,
   projects,
+  projectsPerPage,
   showreelIntro,
   aboutLong,
   experience,
@@ -164,7 +166,7 @@ const renderHero = () => {
     </div>
 
     <div class="hero__stage" data-hero-stage>
-      <img class="hero__portrait" src="${site.portrait}" alt="${esc(site.portraitAlt)}" width="768" height="600" fetchpriority="high" data-portrait />
+      <img class="hero__portrait" src="${site.portrait}" alt="${esc(site.portraitAlt)}" width="900" height="800" fetchpriority="high" data-portrait />
       <ul class="hero__ring-fallback" aria-hidden="true">
         <li>UI/UX</li><li>Product</li><li>Motion</li><li>Graphic</li>
       </ul>
@@ -435,17 +437,17 @@ const renderWork = () => {
       </div>
     </div>
     <p class="sr-only" aria-live="polite" data-filter-status></p>
-    <ul class="work__grid" data-work>
+    <ul class="work__grid" id="work-grid" data-work>
       ${projects
         .map((p, i) => {
           const inner = `
-            <span class="card__media"><img src="${p.image}" alt="" width="527" height="309" loading="lazy" /></span>
+            <span class="card__media"><img src="${p.image}" alt="${esc(`${p.title}: ${p.sub}`)}" width="808" height="632" loading="lazy" decoding="async" /></span>
             <span class="card__meta">
               <span class="card__title">${esc(p.title)}</span>
               <span class="card__cat">${esc(p.category)}</span>
               ${p.href ? `<span class="card__go">${icon('arrowUR')}</span>` : ''}
             </span>`;
-          return `<li class="card${i % 5 === 0 ? ' card--wide' : ''}" data-cat="${catKey(p.category)}" data-tilt>
+          return `<li class="card${i >= projectsPerPage ? ' is-hidden' : ''}" data-cat="${catKey(p.category)}" data-tilt>
             ${
               p.href
                 ? `<a class="card__link" href="${esc(p.href)}" target="_blank" rel="noopener" data-cursor="View">${inner}<span class="sr-only">${esc(p.title)}, ${esc(p.category)} (opens Behance in a new tab)</span></a>`
@@ -456,77 +458,176 @@ const renderWork = () => {
         .join('')}
     </ul>
     <div class="work__more" data-reveal>
+      ${projects.length > projectsPerPage ? `<button type="button" class="btn btn--dark work__show" data-work-more aria-controls="work-grid">
+        <span class="btn__label">Show more work</span><sup data-work-left>${projects.length - projectsPerPage}</sup>
+      </button>` : ''}
       ${btn('More on Behance', site.behance, { variant: 'ghost', iconName: 'arrowUR', attrs: 'target="_blank" rel="noopener"' })}
     </div>
   </section>`;
 };
 
 /* ------------------------------------------------------ global clients */
+const regionCount = (r) => (r.count == null ? '' : `${r.count} client${r.count === 1 ? '' : 's'}`);
+
 const renderGlobalClients = () => `
   <section class="global" id="global-clients" aria-labelledby="global-title">
-    ${sectionHead({ eyebrow: 'A world of collaboration', title: ['Good work knows', 'no borders.'], body: 'I’ve partnered with clients across the United States, the UAE, Australia, and the United Kingdom.' }, 'global')}
-    <div class="global__panel atlas" data-client-atlas-root>
-      <div class="atlas__copy">
+    ${sectionHead({ eyebrow: 'A world of collaboration', title: ['Good work knows', 'no borders.'], body: 'From a home base in India, I’ve partnered with clients across the United States, the United Kingdom, the UAE and Australia.' }, 'global')}
+    <div class="global__panel" data-globe>
+      <div class="global__copy">
         <p class="global__kicker"><span></span> Client map</p>
-        <h3 class="global__country" data-globe-name>United States</h3>
-        <div class="global__total" aria-live="polite" aria-atomic="true"><strong data-globe-count>Count pending</strong><span>clients worked with</span></div>
-        <p class="global__hint">Select a country to explore.</p>
-        <div class="atlas__regions" role="group" aria-label="Choose a client country">
-          ${clientRegions.map((region, index) => {
-            const colors = { US: '#C46D4F', AE: '#8B70B7', AU: '#648B73', GB: '#557D99' };
-            return `<button class="atlas__region${index === 0 ? ' is-active' : ''}" style="--region-color:${colors[region.code]}" type="button" aria-pressed="${index === 0}">
-              <span class="atlas__swatch" aria-hidden="true">${esc(region.short)}</span>
-              <span class="atlas__region-copy"><span class="atlas__region-name">${esc(region.name)}</span><span class="atlas__region-count">${region.count == null ? 'Count pending' : `${region.count} clients`}</span></span>
-              <span class="atlas__region-arrow" aria-hidden="true">↗</span>
-            </button>`;
-          }).join('')}
-        </div>
+        <p class="global__country" aria-live="polite" data-globe-name>${esc(clientRegions[0].name)}</p>
+        <p class="global__total" data-globe-total>${regionCount(clientRegions[0]) ? `<strong>${clientRegions[0].count}</strong> ${clientRegions[0].count === 1 ? 'client' : 'clients'}` : 'Clients worked with'}</p>
+        <ul class="global__regions" aria-label="Client countries">
+          ${clientRegions
+            .map(
+              (r, i) => `<li><button type="button" class="global__region${i === 0 ? ' is-active' : ''}" data-region="${r.code}" aria-pressed="${i === 0}" style="--c:${r.color}">
+              <span class="global__region-code">${esc(r.short)}</span>
+              <span class="global__region-name">${esc(r.name)}</span>
+              <span class="global__region-count">${regionCount(r) || (r.home ? 'Home base' : 'Client work')}</span>
+              <span class="global__switch" aria-hidden="true"></span>
+            </button></li>`,
+            )
+            .join('')}
+        </ul>
+        <p class="global__hint">Drag the globe, or pick a country.</p>
       </div>
-      <div class="atlas__visual">
-        <div class="atlas__topline"><span>01 / GLOBAL CLIENTS</span><span>SELECT · EXPLORE</span></div>
-        <div class="atlas__map" role="img" aria-label="Stylised world atlas showing client regions">
-          <svg class="atlas__fallback-map" viewBox="0 0 560 250" aria-hidden="true">
-            <path d="M75 67l21-28 35-13 22 8 14 22-9 20-21 7-9 21-28 5-19-14zM141 111l17 6 12 26-8 30-11 27-13-22-7-34z" fill="#d8d3cb"/>
-            <path d="M262 66l26-15 28 4 15 14-11 13-29 4-19-8zM300 94l19-12 35 4 27 21-9 22-25 12-13 29-17 13-12-24-11-28zM403 151l31-13 34 8 8 17-23 23-35-5-20-14z" fill="#d8d3cb"/>
-            <circle cx="128" cy="71" r="7" fill="#C46D4F"/><circle cx="364" cy="92" r="5" fill="#8B70B7"/><circle cx="488" cy="160" r="7" fill="#648B73"/><circle cx="277" cy="50" r="5" fill="#557D99"/>
-          </svg>
+      <div class="global__visual">
+        <div class="global__globe" data-globe-stage>
+          <canvas data-globe-canvas aria-hidden="true"></canvas>
+          ${clientRegions
+            .map(
+              (r) => `<span class="global__pin" data-pin="${r.code}" style="--c:${r.color}" aria-hidden="true"><b>${esc(r.short)}</b>${r.count == null ? '' : `<i>${r.count}</i>`}</span>`,
+            )
+            .join('')}
+          <div class="global__fallback" aria-hidden="true"></div>
         </div>
-        <div class="atlas__legend" aria-label="Highlighted client countries"><span><i style="--region-color:#C46D4F"></i>US</span><span><i style="--region-color:#8B70B7"></i>UAE</span><span><i style="--region-color:#648B73"></i>AU</span><span><i style="--region-color:#557D99"></i>UK</span></div>
+        <p class="global__drag-note" aria-hidden="true">${icon('hand')} Drag to spin</p>
       </div>
     </div>
   </section>`;
 
 /* ---------------------------------------------------------- impact stats */
+const CHART_GROUPS = [
+  { key: 'product', title: 'Product & brand work', sub: 'Number of projects' },
+  { key: 'volume', title: 'Campaign work at volume', sub: 'Number of designs' },
+];
+
 const renderImpact = () => `
   <section class="impact" id="impact" aria-labelledby="impact-title">
-    ${sectionHead({ eyebrow: 'Designed at scale', title: ['The work,', 'in numbers.'], body: 'From product experiences to high-volume campaign and print design, built to meet real-world needs.' }, 'impact')}
-    <ul class="impact__grid">
-      ${impactStats.map((stat, index) => `<li class="impact__item" data-impact-item>
-        <span class="impact__index">0${index + 1}</span>
-        <strong class="impact__value">${esc(stat.value)}</strong>
-        <span class="impact__label">${esc(stat.label)}</span>
-        <span class="impact__note">${esc(stat.note)}</span>
-      </li>`).join('')}
-    </ul>
+    <div class="impact__top">
+      ${sectionHead({ eyebrow: 'Designed at scale', title: ['The work,', 'in numbers.'], body: 'From product experiences to high-volume campaign and print design, built to meet real-world needs.' }, 'impact')}
+      <div class="impact__tabs" role="tablist" aria-label="View the numbers as">
+        <span class="impact__tab-glider" aria-hidden="true"></span>
+        <button type="button" role="tab" id="impact-tab-cards" aria-controls="impact-cards" aria-selected="true" data-impact-tab="cards">Cards</button>
+        <button type="button" role="tab" id="impact-tab-charts" aria-controls="impact-charts" aria-selected="false" tabindex="-1" data-impact-tab="charts">Charts</button>
+      </div>
+    </div>
+
+    <div class="impact__panel" id="impact-cards" role="tabpanel" aria-labelledby="impact-tab-cards" data-impact-panel="cards">
+      <ul class="impact__grid" data-impact>
+        ${impactStats
+          .map(
+            (s, i) => `<li class="impact__cell impact__cell--${s.size}${i === 0 ? ' impact__cell--dark' : ''}">
+          <button type="button" class="impact__card" aria-pressed="false" data-flip aria-label="${esc(`${s.value}${s.suffix} ${s.label}. Show details`)}">
+            <span class="impact__face impact__front">
+              <span class="impact__index">${String(i + 1).padStart(2, '0')}</span>
+              <strong class="impact__value"><span data-count-to="${s.value}">${s.value}</span>${esc(s.suffix)}</strong>
+              <span class="impact__label">${esc(s.label)}</span>
+              <span class="impact__note">${esc(s.note)}</span>
+              <span class="impact__flip-hint" aria-hidden="true">${icon('reset')} Flip</span>
+            </span>
+            <span class="impact__face impact__back" aria-hidden="true">
+              <span class="impact__index">${esc(s.label)}</span>
+              <span class="impact__back-text">${esc(s.back)}</span>
+              <span class="impact__flip-hint">${icon('reset')} Back</span>
+            </span>
+          </button>
+        </li>`,
+          )
+          .join('')}
+      </ul>
+    </div>
+
+    <div class="impact__panel" id="impact-charts" role="tabpanel" aria-labelledby="impact-tab-charts" data-impact-panel="charts" hidden>
+      <div class="impact__charts">
+        ${CHART_GROUPS.map((g) => {
+          const rows = impactStats.filter((s) => s.group === g.key).sort((x, y) => y.total - x.total);
+          return `<figure class="chart" data-chart>
+            <figcaption><span class="chart__title">${esc(g.title)}</span><span class="chart__sub">${esc(g.sub)}, career to date</span></figcaption>
+            <div class="chart__plot">
+              ${rows
+                .map(
+                  (r) => `<div class="chart__row" data-value="${r.total}" data-label="${esc(r.label)}">
+                <span class="chart__name">${esc(r.label)}</span>
+                <span class="chart__track"><span class="chart__bar" style="--v:${(r.total / rows[0].total).toFixed(4)}"></span></span>
+                <span class="chart__val">${r.value}${esc(r.suffix)}</span>
+              </div>`,
+                )
+                .join('')}
+            </div>
+            <span class="chart__tip" role="status" aria-live="polite" data-chart-tip></span>
+          </figure>`;
+        }).join('')}
+      </div>
+      <p class="chart__foot">Two charts, two scales: product work is counted in projects, campaign work in individual designs.</p>
+    </div>
   </section>`;
 
 /* ------------------------------------------------------- current project */
-const renderCurrentProject = () => `
+const renderCurrentProject = () => {
+  const p = currentProject;
+  return `
   <section class="current" id="current-project" aria-labelledby="current-title">
     <div class="current__card">
       <div class="current__copy">
-        <p class="current__eyebrow"><span></span> In progress</p>
-        <h2 class="current__title" id="current-title">A new project is taking shape.</h2>
-        <p class="current__body">A closer look at the brief, the design decisions, and what ships is coming soon.</p>
-        <a class="current__link" href="#contact">Have a project in mind? <span aria-hidden="true">↗</span></a>
+        <p class="current__eyebrow"><span class="dot-live" aria-hidden="true"></span> ${esc(p.status)}</p>
+        <h2 class="current__title" id="current-title">${esc(p.title)}</h2>
+        <p class="current__body">${esc(p.body)}</p>
+        ${p.tags?.length ? `<ul class="chips current__tags">${p.tags.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+        ${
+          p.link
+            ? `<a class="current__link" href="${esc(p.link)}" target="_blank" rel="noopener">View the project <span aria-hidden="true">↗</span></a>`
+            : '<a class="current__link" href="#contact">Have a project in mind? <span aria-hidden="true">↗</span></a>'
+        }
       </div>
-      <div class="current__preview" aria-hidden="true">
-        <div class="current__preview-top"><span>PROJECT / 001</span><span>CASE STUDY</span></div>
-        <div class="current__preview-art"><span class="current__orb current__orb--one"></span><span class="current__orb current__orb--two"></span><span class="current__wire current__wire--one"></span><span class="current__wire current__wire--two"></span><span class="current__cross">✳</span></div>
-        <div class="current__preview-bottom"><span>Preview in progress</span><span>— / —</span></div>
+      <div class="current__preview" data-tilt>
+        <div class="current__preview-top"><span>PROJECT / 001${p.name ? ` · ${esc(p.name)}` : ''}</span><span>CASE STUDY</span></div>
+        ${
+          p.preview
+            ? `<div class="current__window"><img class="current__img" src="${esc(p.preview)}" alt="${esc(p.previewAlt || `Preview of ${p.title}`)}" width="800" height="5324" loading="lazy" decoding="async" /></div>`
+            : `<div class="current__preview-art" aria-hidden="true">
+          <span class="current__ui current__ui--a"><i></i><i></i><i></i></span>
+          <span class="current__ui current__ui--b"><i></i><i></i></span>
+          <span class="current__ui current__ui--c"></span>
+          <span class="current__scan"></span>
+        </div>`
+        }
+        <div class="current__preview-bottom"><span>${p.preview ? 'Work in progress · hover to pause' : 'Preview coming soon'}</span><span>${new Date().getFullYear()}</span></div>
       </div>
+      ${(p.tracks || [])
+        .map(
+          (t) => `<div class="current__track">
+        <div class="current__track-head">
+          <span class="current__track-tag">${esc(t.tag)}</span>
+          <h3 class="current__track-title">${esc(t.title)}</h3>
+        </div>
+        <ul class="current__track-cards" data-track>
+          ${t.cards
+            .map(
+              (c) => `<li class="current__tile" data-tilt>
+            <span class="current__tile-value">${esc(c.value)}</span>
+            <span class="current__tile-label">${c.live ? '<span class="dot-live" aria-hidden="true"></span>' : ''}${esc(c.label)}</span>
+            <span class="current__tile-note">${esc(c.note)}</span>
+          </li>`,
+            )
+            .join('')}
+        </ul>
+      </div>`,
+        )
+        .join('')}
     </div>
   </section>`;
+};
 
 /* ---------------------------------------------------------------- showreel */
 const renderShowreel = () => `
