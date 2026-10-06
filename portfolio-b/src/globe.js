@@ -1,38 +1,11 @@
-import * as THREE from 'three';
-import { clientRegions } from './content.js';
-
-const RADIUS = 1;
-export const EARTH_LAND = [
-  [[-168, 70], [-148, 72], [-133, 69], [-124, 58], [-132, 54], [-125, 49], [-124, 41], [-117, 33], [-110, 29], [-106, 23], [-98, 17], [-91, 18], [-83, 9], [-78, 8], [-77, 18], [-82, 25], [-80, 31], [-74, 36], [-67, 45], [-58, 51], [-61, 59], [-76, 62], [-91, 70], [-112, 75], [-132, 75], [-151, 72], [-168, 70]],
-  [[-81, 12], [-73, 10], [-63, 10], [-52, 5], [-47, -3], [-50, -12], [-45, -22], [-52, -31], [-67, -55], [-74, -46], [-72, -23], [-78, -7], [-81, 12]],
-  [[-11, 36], [-7, 43], [-10, 49], [-5, 55], [2, 58], [7, 54], [12, 55], [17, 60], [23, 58], [28, 61], [32, 55], [39, 54], [44, 47], [38, 41], [29, 39], [24, 35], [17, 39], [10, 37], [4, 43], [-1, 41], [-6, 36], [-11, 36]],
-  [[-10, 51], [-8, 59], [-15, 64], [-22, 68], [-12, 72], [5, 72], [18, 69], [33, 72], [52, 68], [68, 72], [87, 72], [103, 76], [122, 73], [141, 70], [159, 63], [177, 58], [180, 69], [160, 74], [137, 76], [111, 78], [85, 76], [60, 79], [39, 75], [25, 70], [14, 72], [-2, 68], [-12, 61], [-10, 51]],
-  [[-17, 36], [-4, 35], [8, 37], [19, 33], [31, 31], [35, 24], [43, 12], [51, 12], [49, 2], [43, -12], [39, -23], [33, -34], [21, -35], [12, -18], [7, -6], [-1, 5], [-10, 7], [-16, 18], [-17, 27], [-17, 36]],
-  [[35, 31], [47, 30], [56, 26], [68, 25], [77, 30], [89, 27], [96, 20], [93, 8], [83, 7], [77, 10], [72, 20], [63, 24], [56, 17], [49, 12], [43, 13], [39, 22], [35, 31]],
-  [[96, 20], [107, 22], [119, 19], [128, 12], [133, 3], [127, -5], [119, -9], [112, -7], [107, 1], [101, 6], [96, 12], [96, 20]],
-  [[112, -11], [123, -11], [132, -12], [141, -16], [153, -25], [151, -36], [145, -39], [135, -35], [128, -33], [119, -34], [114, -26], [112, -18], [112, -11]],
-  [[-9, 50], [-6, 58], [-3, 59], [0, 55], [-1, 51], [-4, 50], [-9, 50]],
-  [[129, 31], [132, 34], [136, 36], [141, 42], [144, 44], [142, 36], [137, 33], [133, 31], [129, 31]],
-];
-
-export const REGION_SHAPES = {
-  US: [
-    [[-124.7, 48.4], [-123, 42], [-124.2, 41], [-122, 38], [-120, 35], [-117, 33], [-114.7, 32.7], [-111, 31.3], [-108.2, 31.3], [-106.5, 31.8], [-103, 29.8], [-100, 29], [-97.2, 25.9], [-96, 28.5], [-93.5, 29.7], [-90, 29.1], [-88, 30.3], [-85, 30.2], [-82, 25.2], [-80, 25.5], [-80, 28.5], [-81, 30.8], [-80.5, 33], [-77, 35], [-75.5, 38], [-74, 40], [-72, 41], [-69.8, 43], [-70.5, 45], [-71.5, 45], [-73.3, 45], [-75.5, 44], [-79, 43], [-82.5, 45], [-84.8, 45], [-89.5, 47], [-94.8, 49], [-104, 49], [-111, 49], [-117, 49], [-120, 49], [-123, 49], [-124.7, 48.4]],
-    [[-169, 52], [-165, 55], [-162, 59], [-156, 57], [-152, 60], [-147, 60], [-141, 60], [-141, 69], [-148, 70], [-154, 66], [-162, 64], [-166, 60], [-169, 52]],
-    [[-160.5, 22], [-159.5, 21.5], [-157.5, 21.5], [-156.8, 20.8], [-158.2, 20.5], [-160, 21], [-160.5, 22]],
-  ],
-  AE: [[[51.5, 24.8], [52.4, 24.6], [53.1, 24.2], [54.1, 24.1], [55.1, 24.4], [56.3, 24.9], [56.1, 25.6], [55.6, 25.9], [55.2, 26.1], [54.7, 25.3], [54, 24.9], [53.4, 24.8], [52.8, 25.2], [52.1, 25.3], [51.5, 24.8]]],
-  AU: [[[113, -22], [114.5, -17], [121, -16], [123, -14], [129, -14], [132, -12], [136, -13], [139, -17], [145, -16], [149, -20], [153.5, -26], [151, -34], [146, -39], [138, -36], [133, -35], [129, -33], [123, -34], [116, -35], [114, -30], [113, -22]]],
-  GB: [
-    [[-5.7, 50], [-4.2, 50], [-3.1, 50.2], [-2, 51], [0.2, 51.4], [1.7, 52.8], [1.6, 54.1], [0.8, 55.1], [-1.4, 55.2], [-2, 56.2], [-3.1, 57.2], [-4.5, 57.5], [-5.1, 58.6], [-5.7, 58.5], [-5.3, 57], [-4.3, 56], [-5, 55], [-4.8, 54], [-5.6, 53], [-4.5, 52.2], [-5.7, 50]],
-    [[-7.3, 55.1], [-6.1, 55.2], [-5.4, 54.7], [-5.6, 54], [-6.4, 54], [-7.3, 54.5], [-7.3, 55.1]],
-  ],
-};
-
-
-export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-export function pointInPolygon(x, y, polygon) { let inside = false; for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) { const [xi, yi] = polygon[i]; const [xj, yj] = polygon[j]; const intersects = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi; if (intersects) inside = !inside; } return inside; }
-export function random(seed) { let state = seed >>> 0; return () => { state = (state + 0x6d2b79f5) | 0; let value = Math.imul(state ^ (state >>> 15), 1 | state); value ^= value + Math.imul(value ^ (value >>> 7), 61 | value); return ((value ^ (value >>> 14)) >>> 0) / 4294967296; }; }
-export function sampleLand(count, seed, polygons) { const rng = random(seed); const points = []; let attempts = 0; while (points.length < count && attempts < count * 30) { attempts++; const lon = rng() * 360 - 180; const lat = rng() * 150 - 65; if (polygons.some(poly => pointInPolygon(lon, lat, poly))) points.push([lon, lat]); } return { points, rng }; }
-export function sampleLandGrid(step, polygons) { const points = []; for (let lat = -58; lat <= 78; lat += step) { const rowOffset = Math.round((lat + 58) / step) % 2 ? step / 2 : 0; for (let lon = -178 + rowOffset; lon <= 178; lon += step) if (polygons.some(poly => pointInPolygon(lon, lat, poly))) points.push([lon, lat]); } return points; }
-export function sampleRegion(code, count, seed) { const rng = random(seed); const polygons = REGION_SHAPES[code]; const bounds = polygons.flat().reduce((box, [lon, lat]) => ({ minLon: Math.min(box.minLon, lon), maxLon: Math.max(box.maxLon, lon), minLat: Math.min(box.minLat, lat), maxLat: Math.max(box.maxLat, lat) }), { minLon: 180, maxLon: -180, minLat: 90, maxLat: -90 }); const points = []; let attempts = 0; while (points.length < count && attempts < count * 80) { attempts++; const lon = bounds.minLon + rng() * (bounds.maxLon - bounds.minLon); const lat = bounds.minLat + rng() * (bounds.maxLat - bounds.minLat); if (polygons.some(poly => pointInPolygon(lon, lat, poly))) points.push([lon, lat]); } return { points, rng, bounds }; }
+// Geographic point-in-polygon helper used by the coded atlas interaction.
+export function pointInPolygon(x, y, polygon) {
+  let inside = false;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const [xi, yi] = polygon[i];
+    const [xj, yj] = polygon[j];
+    const intersects = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    if (intersects) inside = !inside;
+  }
+  return inside;
+}
