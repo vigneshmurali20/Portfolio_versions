@@ -823,7 +823,7 @@ section {
   margin: 0 auto;
   text-align: center;
   pointer-events: none;
-  transform: translateY(-44px);
+  transform: translateY(-56px);
 }
 .hero__copy a,
 .hero__copy button,
