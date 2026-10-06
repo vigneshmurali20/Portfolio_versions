@@ -60,6 +60,22 @@ export const hero = {
   tagline: ['Less noise.', 'More clarity.'],
 };
 
+export const clientRegions = [
+  { code: 'US', short: 'US', name: 'United States', count: null, latitude: 39, longitude: -98 },
+  { code: 'AE', short: 'UAE', name: 'United Arab Emirates', count: null, latitude: 24, longitude: 54 },
+  { code: 'AU', short: 'AU', name: 'Australia', count: null, latitude: -25, longitude: 134 },
+  { code: 'GB', short: 'UK', name: 'United Kingdom', count: null, latitude: 54, longitude: -2 },
+];
+
+export const impactStats = [
+  { value: '10+', label: 'Apps & digital products', note: 'Designed to solve real user problems' },
+  { value: '20+', label: 'Conversion-focused websites', note: 'Built to turn visits into action' },
+  { value: '30k+', label: 'Email designs', note: 'Campaigns and lifecycle touchpoints' },
+  { value: '50+', label: 'Logo designs', note: 'Distinct identities, made to last' },
+  { value: '30+', label: 'Motion graphics', note: 'Stories brought into motion' },
+  { value: '20k+', label: 'Print designs', note: 'Creative produced at scale' },
+];
+
 // Cards on the 3D ring around the portrait in the hero.
 export const ringCards = [
   { type: 'text', title: 'UI/UX', sub: 'Calm, clear interfaces', icon: 'cursor', tint: '#E4DAFB', ink: '#6941C6' },
