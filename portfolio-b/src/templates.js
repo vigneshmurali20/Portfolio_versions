@@ -465,31 +465,33 @@ const renderWork = () => {
 const renderGlobalClients = () => `
   <section class="global" id="global-clients" aria-labelledby="global-title">
     ${sectionHead({ eyebrow: 'A world of collaboration', title: ['Good work knows', 'no borders.'], body: 'I’ve partnered with clients across the United States, the UAE, Australia, and the United Kingdom.' }, 'global')}
-    <div class="global__panel">
-      <div class="global__copy">
+    <div class="global__panel atlas" data-client-atlas-root>
+      <div class="atlas__copy">
         <p class="global__kicker"><span></span> Client map</p>
         <h3 class="global__country" data-globe-name>United States</h3>
-        <div class="global__total" aria-live="polite" aria-atomic="true">
-          <strong data-globe-count>Count pending</strong>
-          <span>clients worked with</span>
-        </div>
-        <p class="global__hint">Choose a region to highlight it on the globe.</p>
-        <div class="global__regions" role="group" aria-label="Choose a client region">
-          ${clientRegions
-            .map((region, index) => `<button class="global__region${index === 0 ? ' is-active' : ''}" type="button" data-globe-country="${region.code}" aria-pressed="${index === 0}">
-              <span class="global__region-code">${esc(region.short)}</span>
-              <span class="global__region-name">${esc(region.name)}</span>
-              <span class="global__region-count" data-region-count="${region.code}">${region.count == null ? 'Count pending' : `${region.count} clients`}</span>
-            </button>`)
-            .join('')}
+        <div class="global__total" aria-live="polite" aria-atomic="true"><strong data-globe-count>Count pending</strong><span>clients worked with</span></div>
+        <p class="global__hint">Select a country to explore.</p>
+        <div class="atlas__regions" role="group" aria-label="Choose a client country">
+          ${clientRegions.map((region, index) => {
+            const colors = { US: '#C46D4F', AE: '#8B70B7', AU: '#648B73', GB: '#557D99' };
+            return `<button class="atlas__region${index === 0 ? ' is-active' : ''}" style="--region-color:${colors[region.code]}" type="button" aria-pressed="${index === 0}">
+              <span class="atlas__swatch" aria-hidden="true">${esc(region.short)}</span>
+              <span class="atlas__region-copy"><span class="atlas__region-name">${esc(region.name)}</span><span class="atlas__region-count">${region.count == null ? 'Count pending' : `${region.count} clients`}</span></span>
+              <span class="atlas__region-arrow" aria-hidden="true">↗</span>
+            </button>`;
+          }).join('')}
         </div>
       </div>
-      <div class="global__visual" data-globe>
-        <div class="global__orbit-label" aria-hidden="true">Connecting across time zones <span>✳</span></div>
-        <div class="global__globe" data-globe-stage>
-          <div class="global__fallback" data-globe-fallback aria-hidden="true"><span></span></div>
+      <div class="atlas__visual">
+        <div class="atlas__topline"><span>01 / GLOBAL CLIENTS</span><span>SELECT · EXPLORE</span></div>
+        <div class="atlas__map" role="img" aria-label="Stylised world atlas showing client regions">
+          <svg class="atlas__fallback-map" viewBox="0 0 560 250" aria-hidden="true">
+            <path d="M75 67l21-28 35-13 22 8 14 22-9 20-21 7-9 21-28 5-19-14zM141 111l17 6 12 26-8 30-11 27-13-22-7-34z" fill="#d8d3cb"/>
+            <path d="M262 66l26-15 28 4 15 14-11 13-29 4-19-8zM300 94l19-12 35 4 27 21-9 22-25 12-13 29-17 13-12-24-11-28zM403 151l31-13 34 8 8 17-23 23-35-5-20-14z" fill="#d8d3cb"/>
+            <circle cx="128" cy="71" r="7" fill="#C46D4F"/><circle cx="364" cy="92" r="5" fill="#8B70B7"/><circle cx="488" cy="160" r="7" fill="#648B73"/><circle cx="277" cy="50" r="5" fill="#557D99"/>
+          </svg>
         </div>
-        <p class="global__drag-note" aria-hidden="true">Drag to explore</p>
+        <div class="atlas__legend" aria-label="Highlighted client countries"><span><i style="--region-color:#C46D4F"></i>US</span><span><i style="--region-color:#8B70B7"></i>UAE</span><span><i style="--region-color:#648B73"></i>AU</span><span><i style="--region-color:#557D99"></i>UK</span></div>
       </div>
     </div>
   </section>`;
