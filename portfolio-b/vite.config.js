@@ -40,19 +40,5 @@ export default defineConfig(({ mode }) => ({
   // relative asset URLs, so the build works from any folder or sub-path
   base: './',
   plugins: [staticPage(loadEnv(mode, process.cwd(), ''), mode)],
-  build: {
-    target: 'es2020',
-    assetsInlineLimit: 0,
-    chunkSizeWarningLimit: 900,
-    rolldownOptions: {
-      output: {
-        codeSplitting: {
-          groups: [
-            { name: 'three-vendor', test: /node_modules[\\/]three[\\/]/, priority: 15 },
-            { name: 'vendor', test: /node_modules[\\/]/, priority: 5 },
-          ],
-        },
-      },
-    },
-  },
+  build: { target: 'es2020', assetsInlineLimit: 0, chunkSizeWarningLimit: 900 },
 }));
