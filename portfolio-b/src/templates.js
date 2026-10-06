@@ -13,6 +13,8 @@ import {
   meta,
   nav,
   hero,
+  clientRegions,
+  impactStats,
   disciplinesIntro,
   disciplines,
   toolboxIntro,
@@ -459,6 +461,71 @@ const renderWork = () => {
   </section>`;
 };
 
+/* ------------------------------------------------------ global clients */
+const renderGlobalClients = () => `
+  <section class="global" id="global-clients" aria-labelledby="global-title">
+    ${sectionHead({ eyebrow: 'A world of collaboration', title: ['Good work knows', 'no borders.'], body: 'I’ve partnered with clients across the United States, the UAE, Australia, and the United Kingdom.' }, 'global')}
+    <div class="global__panel">
+      <div class="global__copy">
+        <p class="global__kicker"><span></span> Client map</p>
+        <h3 class="global__country" data-globe-name>United States</h3>
+        <div class="global__total" aria-live="polite" aria-atomic="true">
+          <strong data-globe-count>Count pending</strong>
+          <span>clients worked with</span>
+        </div>
+        <p class="global__hint">Choose a region to highlight it on the globe.</p>
+        <div class="global__regions" role="group" aria-label="Choose a client region">
+          ${clientRegions
+            .map((region, index) => `<button class="global__region${index === 0 ? ' is-active' : ''}" type="button" data-globe-country="${region.code}" aria-pressed="${index === 0}">
+              <span class="global__region-code">${esc(region.short)}</span>
+              <span class="global__region-name">${esc(region.name)}</span>
+              <span class="global__region-count" data-region-count="${region.code}">${region.count == null ? 'Count pending' : `${region.count} clients`}</span>
+            </button>`)
+            .join('')}
+        </div>
+      </div>
+      <div class="global__visual" data-globe>
+        <div class="global__orbit-label" aria-hidden="true">Connecting across time zones <span>✳</span></div>
+        <div class="global__globe" data-globe-stage>
+          <div class="global__fallback" data-globe-fallback aria-hidden="true"><span></span></div>
+        </div>
+        <p class="global__drag-note" aria-hidden="true">Drag to explore</p>
+      </div>
+    </div>
+  </section>`;
+
+/* ---------------------------------------------------------- impact stats */
+const renderImpact = () => `
+  <section class="impact" id="impact" aria-labelledby="impact-title">
+    ${sectionHead({ eyebrow: 'Designed at scale', title: ['The work,', 'in numbers.'], body: 'From product experiences to high-volume campaign and print design, built to meet real-world needs.' }, 'impact')}
+    <ul class="impact__grid">
+      ${impactStats.map((stat, index) => `<li class="impact__item" data-impact-item>
+        <span class="impact__index">0${index + 1}</span>
+        <strong class="impact__value">${esc(stat.value)}</strong>
+        <span class="impact__label">${esc(stat.label)}</span>
+        <span class="impact__note">${esc(stat.note)}</span>
+      </li>`).join('')}
+    </ul>
+  </section>`;
+
+/* ------------------------------------------------------- current project */
+const renderCurrentProject = () => `
+  <section class="current" id="current-project" aria-labelledby="current-title">
+    <div class="current__card">
+      <div class="current__copy">
+        <p class="current__eyebrow"><span></span> In progress</p>
+        <h2 class="current__title" id="current-title">A new project is taking shape.</h2>
+        <p class="current__body">A closer look at the brief, the design decisions, and what ships is coming soon.</p>
+        <a class="current__link" href="#contact">Have a project in mind? <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="current__preview" aria-hidden="true">
+        <div class="current__preview-top"><span>PROJECT / 001</span><span>CASE STUDY</span></div>
+        <div class="current__preview-art"><span class="current__orb current__orb--one"></span><span class="current__orb current__orb--two"></span><span class="current__wire current__wire--one"></span><span class="current__wire current__wire--two"></span><span class="current__cross">✳</span></div>
+        <div class="current__preview-bottom"><span>Preview in progress</span><span>— / —</span></div>
+      </div>
+    </div>
+  </section>`;
+
 /* ---------------------------------------------------------------- showreel */
 const renderShowreel = () => `
   <section class="reel" id="showreel" aria-labelledby="showreel-title">
@@ -697,7 +764,7 @@ export function renderPage() {
     meta,
     loader: renderLoader(),
     nav: renderNav(),
-    main: [renderHero(), renderMarquee(), renderWork(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
+    main: [renderHero(), renderMarquee(), renderWork(), renderGlobalClients(), renderImpact(), renderCurrentProject(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
     footer: renderFooter() + renderDialog(),
   };
 }
