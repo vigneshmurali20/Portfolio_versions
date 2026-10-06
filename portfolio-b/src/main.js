@@ -11,6 +11,7 @@ import Lenis from 'lenis';
 import { injectSpeedInsights } from '@vercel/speed-insights';
 import { site, tools, disciplines, ringCards, workFilters } from './content.js';
 import { canWebGL, createHero3D } from './hero3d.js';
+import { initGlobe } from './globe.js';
 
 injectSpeedInsights();
 
@@ -829,8 +830,14 @@ function clock() {
   setInterval(tick, 30000);
 }
 
+function clientGlobe() {
+  const globe = $('[data-globe]');
+  if (globe && canWebGL()) initGlobe(globe);
+}
+
 /* ------------------------------------------------------------ boot */
 startHero3D();
+clientGlobe();
 const openDiscipline = disciplineAccordion();
 workFilter();
 toolbox(openDiscipline);
