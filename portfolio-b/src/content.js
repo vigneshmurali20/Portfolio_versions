@@ -282,7 +282,7 @@ export const workFilters = [
 
 export const showreelIntro = {
   eyebrow: 'Showreel 2026',
-  title: ['Fifteen seconds', 'of motion.'],
+  title: ['Eighty-four seconds', 'of motion.'],
 };
 
 // Listed oldest first, as in the Figma timeline.
