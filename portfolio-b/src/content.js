@@ -7,8 +7,8 @@
 export const site = {
   name: 'Vignesh',
   fullName: 'Vignesh Murali',
-  role: 'Product Designer',
-  experienceYears: 4,
+  role: 'Product Designer & Design Engineer',
+  experienceYears: 5,
   email: 'vigneshmurali2107@gmail.com',
   phone: '+91 9025934557',
   website: 'vigneshmurali.com',
@@ -31,9 +31,9 @@ export const site = {
 };
 
 export const meta = {
-  title: 'Product Designer | UX, Conversion & Growth | Vignesh Murali',
+  title: 'Product Designer & Design Engineer | AI Design Automation, UX & Growth | Vignesh Murali',
   description:
-    'Product designer for startups, agencies, and global teams. I solve user problems with SaaS, website, and app design focused on conversion and business growth.',
+    'Product designer and design engineer for startups, agencies, and global teams. I design SaaS products, websites, and apps, and build AI workflows that take them from brief to launch faster.',
 };
 
 // One page, so the nav links jump to sections.
@@ -48,11 +48,11 @@ export const nav = [
 
 export const hero = {
   lines: ['Design that makes', 'people say Yes.'],
-  body: 'I design digital products, websites, and apps that solve user problems and help teams grow through clearer experiences.',
+  body: 'I design digital products, websites, and apps, and build the AI workflows that ship them faster.',
   cta: { label: 'Start your project', href: '#contact' },
-  badge: 'PRODUCT DESIGNER · WORKING WORLDWIDE · ',
+  badge: 'PRODUCT DESIGNER · DESIGN ENGINEER · ',
   notes: [
-    { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS and SAP.' },
+    { icon: 'wave', title: ['Interfaces that', 'make sense.'], body: 'UI/UX and product design for SaaS.' },
     { icon: 'tools', title: ['Ideas that', 'actually move.'], body: 'Motion, brand and campaign visuals.' },
   ],
   // latest first
@@ -291,32 +291,71 @@ export const experience = [
     company: 'DigiPro Marketing LM',
     period: 'Nov 2022 to Jun 2024',
     role: 'Graphic Designer',
+    highlight: [
+      'Creative for 7+ international and 5+ Indian clients across 10+ marketing campaigns.',
+      '500+ social media designs, 20+ logos, 50+ videos and 30+ print designs.',
+    ],
     skills: 'Graphic Design, Website Design, Logo Design, Branding & Identity, Promotional Videos, Print Design (e.g., posters, brochures), Motion Graphics, Email Campaign, UI/UX Design.',
   },
   {
     company: 'RetainIQ, Bangalore',
     period: 'Jul 2024 to Sep 2024',
     role: 'Graphic Designer',
+    highlight: [
+      'Designed 20+ responsive email templates, icons, GIFs and campaign assets for global DTC brands.',
+      'Delivered 100% on-time outputs for urgent same-day requests.',
+    ],
     skills: 'Graphic Design, Dynamic Product Design, Branding & Identity, Motion Graphics, Email Campaign, UI/UX Design.',
   },
   {
     company: 'Deepvue, Bangalore',
     period: 'Sep 2024 to Oct 2025',
     role: 'Graphic Designer and UI/UX',
+    highlight: [
+      'Revamped the fintech dashboard UI/UX, leading to a 2× revenue boost.',
+      'Designed DigiLocker identity-verification flows, the partner login, demo booking, brand guidelines and the GFF ’25 event website.',
+      '13+ landing pages, 100+ infographics, 100+ blog thumbnails, 10+ motion graphics and 20+ static product designs.',
+    ],
     skills: 'Product Design, UI/UX Design, Web Design, Visual Design, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Product Release Notes Design.',
   },
   {
-    company: 'Freelance, Bangalore',
+    company: 'Modish Family Salon (freelance)',
     period: 'Jun 2023 to Aug 2025',
-    role: 'Lead Designer and UI/UX',
+    role: 'Design Lead',
+    highlight: [
+      'Led brand and digital design for a multi-location salon brand: identity, stationery and website.',
+      'Designed seasonal campaigns across print, social and in-store channels.',
+    ],
     skills: 'Wireframes, High-Fidelity Prototypes, Booking Flows, Responsive Design, Design Systems, Interaction Design, Website Redesigns, Experience Optimization, Motion Graphics, Video Editing, Logo Design, Email Design, Printable Design (e.g. brochures, flyers), Infographics & Blog Graphics, Landing Page Design, Campaign Creatives, Social Media Post Design, Branding & Identity, Offer Collaterals, Product Launch & Seasonal Campaign Design.',
   },
   {
-    company: 'Grassdoor Logistics',
+    company: 'Grassdoor Logistics / OmniGreen',
     period: 'Oct 2025 to Present',
     role: 'UI/UX and Graphic Designer',
+    highlight: [
+      'Design owner across the B2B platform and five DTC brands of an omnichannel retail business.',
+      'Designing the OmniGreen website and product marketing system, with a page system that launches new pages without new design work.',
+      'Leading 500+ lifecycle email journeys across five consumer brands within two months, on one shared design system.',
+      'Built AI-assisted design automation and journey workflows that cut production time.',
+    ],
     skills: 'UI/UX Design, Graphic Design.',
   },
+];
+
+// Earlier roles from LinkedIn, shown as one compact row under Experience.
+export const earlierRoles = [
+  { org: 'Vellore Institute of Technology', role: 'Design', period: 'Aug 2021 to Mar 2022' },
+  { org: 'BEEP by EventBeep', role: 'Marketing Content Specialist', period: 'Oct 2021 to Dec 2021' },
+  { org: 'Edureka', role: 'Associate Inside Sales Manager', period: 'Aug 2022 to Oct 2022' },
+];
+
+// Honours, publications and education (LinkedIn profile).
+export const recognition = [
+  { title: 'Agri Innovator Award', note: '', kind: 'Award' },
+  { title: 'Publications Award', note: '', kind: 'Award' },
+  { title: 'A biogenetic approach for future crop production', note: 'Research publication', kind: 'Publication' },
+  { title: 'Rice endophytes and their potential applications', note: 'Research publication', kind: 'Publication' },
+  { title: 'B.Sc. Agriculture', note: 'Vellore Institute of Technology, 2018 to 2022', kind: 'Education' },
 ];
 
 // Long bio from the Figma "About me" frame.
