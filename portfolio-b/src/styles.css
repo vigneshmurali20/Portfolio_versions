@@ -901,6 +901,25 @@ section {
   height: clamp(340px, calc(100svh - 380px), 640px);
   pointer-events: none;
 }
+/* desktop: keep the copy clear of the face. Smaller headline, copy sits
+   higher, and the portrait starts below the buttons. Mobile is unchanged. */
+@media (min-width: 1101px) {
+  .hero {
+    padding-top: 108px;
+  }
+  .hero__title {
+    font-size: clamp(44px, 5.4vw, 80px);
+  }
+  .hero__body {
+    margin-top: 18px;
+  }
+  .hero__ctas {
+    margin-top: 22px;
+  }
+  .hero__stage {
+    height: clamp(340px, calc(100svh - 450px), 600px);
+  }
+}
 .hero__portrait {
   position: absolute;
   bottom: 0;
