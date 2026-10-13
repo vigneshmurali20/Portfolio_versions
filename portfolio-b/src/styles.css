@@ -917,7 +917,13 @@ section {
     margin-top: 22px;
   }
   .hero__stage {
-    height: clamp(340px, calc(100svh - 450px), 600px);
+    height: clamp(360px, calc(100svh - 440px), 640px);
+  }
+  /* larger portrait: grows downwards past the fold, so the head keeps its
+     place below the buttons while the figure fills more of the hero */
+  .hero .hero__portrait {
+    height: 122%;
+    bottom: -22%;
   }
 }
 .hero__portrait {
