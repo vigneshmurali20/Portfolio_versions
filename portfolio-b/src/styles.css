@@ -3437,6 +3437,29 @@ section {
   font-size: 14px;
   color: var(--muted);
 }
+.xp__hl {
+  margin: 0 0 8px;
+  padding-left: 16px;
+  font-weight: 550;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.xp__hl li {
+  list-style: disc;
+}
+.xp__hl li::marker {
+  color: var(--brand);
+}
+.xp__hl li + li {
+  margin-top: 4px;
+}
+.xp--recognition {
+  margin-top: clamp(56px, 7vw, 88px);
+}
+.xp--recognition .xp__company {
+  grid-column: span 2;
+  font-size: 22px;
+}
 
 .process {
   position: relative;

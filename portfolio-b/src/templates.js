@@ -27,6 +27,8 @@ import {
   showreelIntro,
   aboutLong,
   experience,
+  earlierRoles,
+  recognition,
   skills,
   processSteps,
   testimonialsIntro,
@@ -700,9 +702,31 @@ const renderAbout = () => `
             <span class="xp__period">${esc(e.period)}</span>
             <span class="xp__company">${esc(e.company)}</span>
             <span class="xp__role">${esc(e.role)}</span>
-            <span class="xp__skills">${esc(skillsShort)}</span>
+            <span class="xp__skills">${e.highlight ? `<ul class="xp__hl">${[].concat(e.highlight).map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}${esc(skillsShort)}</span>
           </li>`;
         }).join('')}
+        <li class="xp__row xp__row--earlier" data-reveal>
+          <span class="xp__period">2021 to 2022</span>
+          <span class="xp__company">Earlier roles</span>
+          <span class="xp__role">Design, content &amp; sales</span>
+          <span class="xp__skills">${earlierRoles.map((r) => `${esc(r.role)}, ${esc(r.org)}`).join(' · ')}</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="xp xp--recognition">
+      <h3 class="xp__title" data-reveal>Recognition &amp; education</h3>
+      <ol class="xp__list">
+        ${recognition
+          .map(
+            (r) => `
+          <li class="xp__row" data-reveal>
+            <span class="xp__period">${esc(r.kind)}</span>
+            <span class="xp__company">${esc(r.title)}</span>
+            <span class="xp__skills">${esc(r.note)}</span>
+          </li>`,
+          )
+          .join('')}
       </ol>
     </div>
 
