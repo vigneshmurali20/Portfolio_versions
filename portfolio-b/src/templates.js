@@ -196,8 +196,9 @@ const renderHero = () => {
 
     <a class="badge" href="#contact" aria-label="Open to work. Get in touch" data-cursor="Hi!">
       <svg viewBox="0 0 120 120" aria-hidden="true">
+        <!-- textLength = ring circumference (2π × 46 ≈ 289), so any badge copy spreads evenly around the circle -->
         <defs><path id="badge-circle" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs>
-        <text><textPath href="#badge-circle">${esc(hero.badge.repeat(1))}</textPath></text>
+        <text><textPath href="#badge-circle" textLength="287" lengthAdjust="spacing">${esc(hero.badge.repeat(1))}</textPath></text>
       </svg>
       ${icon('sparkle', 'badge__star')}
     </a>
