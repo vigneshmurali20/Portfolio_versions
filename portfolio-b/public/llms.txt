@@ -8,8 +8,14 @@ The portfolio focuses on product and UX/UI design for SaaS and web, mobile app d
 
 - [Selected work](https://vigneshmurali.com/#work): Portfolio projects across product, SaaS, web, app, branding, and motion design.
 - [Product design](https://vigneshmurali.com/#disciplines): Product and UX/UI design, including a Deepvue analytics dashboard redesign.
-- [About and experience](https://vigneshmurali.com/#about): Background, capabilities, and design process.
+- [About and experience](https://vigneshmurali.com/#about): Background, capabilities, design process, and featured writing.
 - [Contact](https://vigneshmurali.com/#contact): Contact Vignesh about freelance or full-time opportunities.
+
+## Writing and posts
+
+- [Writing, posts and features](https://vigneshmurali.com/writing/): Everything Vignesh writes and shares across platforms, with summaries.
+- [From 15 to 20 days to hours: automating lifecycle design with n8n, Claude and Figma](https://www.linkedin.com/feed/update/urn:li:share:7514742888027807745/): LinkedIn post on an n8n workflow where a Claude agent extracts brand tokens, Slack gates approval and a Figma agent builds email layouts.
+- [Claude for Startups: a resource for early-stage AI founders](https://www.linkedin.com/feed/update/urn:li:share:7514189422565924864/): LinkedIn post on the Claude for Startups program by Anthropic.
 
 ## Selected project references
 

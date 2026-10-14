@@ -154,15 +154,23 @@ function moveIndicator(link) {
   indicator.style.width = `${r.width}px`;
   indicator.style.transform = `translateX(${r.left - pr.left + 5}px)`;
 }
+// Sections can nest (Writing sits inside About), so the active link is the
+// one whose section started last among those in view.
+const navTriggers = [];
+function syncNav() {
+  const live = navTriggers.filter((t) => t.st.isActive).sort((a, b) => b.st.start - a.st.start);
+  if (live.length) moveIndicator(live[0].link);
+}
 navLinks.forEach((link) => {
   const sec = document.getElementById(link.dataset.section);
   if (!sec) return;
-  ScrollTrigger.create({
+  const st = ScrollTrigger.create({
     trigger: sec,
     start: 'top 45%',
     end: 'bottom 45%',
-    onToggle: (self) => self.isActive && moveIndicator(link),
+    onToggle: syncNav,
   });
+  navTriggers.push({ link, st });
 });
 ScrollTrigger.create({
   trigger: '[data-hero]',
