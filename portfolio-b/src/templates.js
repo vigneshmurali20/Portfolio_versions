@@ -29,6 +29,8 @@ import {
   experience,
   earlierRoles,
   recognition,
+  writingIntro,
+  writing,
   skills,
   processSteps,
   testimonialsIntro,
@@ -715,21 +717,7 @@ const renderAbout = () => `
       </ol>
     </div>
 
-    <div class="xp xp--recognition">
-      <h3 class="xp__title" data-reveal>Recognition &amp; education</h3>
-      <ol class="xp__list">
-        ${recognition
-          .map(
-            (r) => `
-          <li class="xp__row" data-reveal>
-            <span class="xp__period">${esc(r.kind)}</span>
-            <span class="xp__company">${esc(r.title)}</span>
-            <span class="xp__skills">${esc(r.note)}</span>
-          </li>`,
-          )
-          .join('')}
-      </ol>
-    </div>
+${renderWritingTeaser()}
 
     <div class="process" data-process>
       <h3 class="xp__title" data-reveal>How I work</h3>
@@ -884,6 +872,148 @@ const renderDialog = () => `
     <button class="modal__close round-btn" type="button" data-reel-close>${icon('close')}<span class="sr-only">Close showreel</span></button>
     <video class="modal__video" src="${site.showreel}" poster="${site.showreelPoster}" preload="none" controls playsinline width="1920" height="1080"></video>
   </dialog>`;
+
+/* ------------------------------------------------------------------ writing */
+const fmtDate = (iso) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+
+const writingCard = (w, headingTag = 'h4') => `
+  <article class="wcard">
+    <p class="wcard__meta"><span class="wcard__platform">${esc(w.platform)}</span><span>${esc(w.type)}</span><time datetime="${w.date}">${fmtDate(w.date)}</time></p>
+    <${headingTag} class="wcard__title"><a href="${w.url}" target="_blank" rel="noopener">${esc(w.title)}<span class="sr-only"> (opens on ${esc(w.platform)})</span></a></${headingTag}>
+    <p class="wcard__excerpt">${esc(w.excerpt)}</p>
+    <span class="wcard__cta" aria-hidden="true">Read on ${esc(w.platform)} ${icon('arrowUR')}</span>
+  </article>`;
+
+// Home page: up to three featured pieces; an empty slot becomes a link to /writing/.
+const renderWritingTeaser = () => {
+  const featured = writing.filter((w) => w.featured).slice(0, 3);
+  const more = `
+    <li class="writing__item writing__item--more">
+      <a class="wcard wcard--more" href="writing/">
+        <span class="wcard__meta"><span class="wcard__platform">Archive</span></span>
+        <span class="wcard__title">More writing, posts and features across platforms</span>
+        <span class="wcard__cta">See all writing ${icon('arrowR')}</span>
+      </a>
+    </li>`;
+  return `
+    <div class="xp writing">
+      <div class="writing__head" data-reveal>
+        <h3 class="xp__title">${esc(writingIntro.title)}</h3>
+        <a class="writing__all" href="writing/">See all writing ${icon('arrowR')}</a>
+      </div>
+      <ul class="writing__grid">
+        ${featured.map((w) => `<li class="writing__item" data-reveal>${writingCard(w)}</li>`).join('')}
+        ${featured.length < 3 ? more : ''}
+      </ul>
+    </div>`;
+};
+
+// The /writing/ page: every piece as crawlable text, the platform embed on
+// demand, then publications and recognition.
+export function renderWritingPage() {
+  const home = '../';
+  const items = [...writing].sort((a, b) => b.date.localeCompare(a.date));
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        '@id': 'https://vigneshmurali.com/writing/#page',
+        url: 'https://vigneshmurali.com/writing/',
+        name: writingIntro.pageTitle,
+        description: writingIntro.description,
+        isPartOf: { '@type': 'WebSite', url: 'https://vigneshmurali.com/', name: site.fullName },
+        about: { '@id': 'https://vigneshmurali.com/#person' },
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: items.map((w, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            item: {
+              '@type': w.type === 'Post' ? 'SocialMediaPosting' : 'Article',
+              '@id': `https://vigneshmurali.com/writing/#${w.id}`,
+              headline: w.title,
+              description: w.summary,
+              url: w.url,
+              datePublished: w.date,
+              keywords: w.topics.join(', '),
+              author: { '@id': 'https://vigneshmurali.com/#person' },
+              publisher: { '@type': 'Organization', name: w.platform },
+            },
+          })),
+        },
+      },
+      {
+        '@type': 'Person',
+        '@id': 'https://vigneshmurali.com/#person',
+        name: site.fullName,
+        jobTitle: site.role,
+        url: 'https://vigneshmurali.com/',
+        sameAs: [site.linkedin, site.behance],
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vigneshmurali.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Writing', item: 'https://vigneshmurali.com/writing/' },
+        ],
+      },
+    ],
+  };
+  return {
+    title: writingIntro.pageTitle,
+    description: writingIntro.description,
+    jsonld: JSON.stringify(ld).replace(/</g, '\\u003c'),
+    body: `
+  <header class="wpage__nav">
+    <a class="nav__logo" href="${home}" aria-label="${esc(site.fullName)}, home">${wordmark()}</a>
+    <a class="writing__all" href="${home}">${icon('arrowL')} Back to portfolio</a>
+  </header>
+  <main id="main" class="wpage" tabindex="-1">
+    <nav class="wpage__crumbs" aria-label="Breadcrumb"><a href="${home}">Home</a> / <span aria-current="page">Writing</span></nav>
+    <h1 class="wpage__title">${esc(writingIntro.title)}</h1>
+    <p class="wpage__lead">${esc(writingIntro.lead)}</p>
+
+    <ol class="wpage__list">
+      ${items
+        .map(
+          (w) => `
+      <li class="wpage__item" id="${w.id}">
+        ${writingCard(w, 'h2')}
+        <p class="wpage__summary">${esc(w.summary)}</p>
+        <p class="wpage__topics">${w.topics.map((t) => `<span>${esc(t)}</span>`).join('')}</p>
+        ${
+          w.embed
+            ? `<details class="wpage__embed"><summary>Show the original ${esc(w.platform)} post</summary><iframe src="${w.embed}" title="${esc(w.title)} (${esc(w.platform)} post)" loading="lazy" width="504" height="900" allowfullscreen></iframe></details>`
+            : ''
+        }
+      </li>`,
+        )
+        .join('')}
+    </ol>
+
+    <section class="wpage__rec" aria-labelledby="rec-title">
+      <h2 class="xp__title" id="rec-title">Publications &amp; recognition</h2>
+      <ol class="xp__list">
+        ${recognition
+          .map(
+            (r) => `
+        <li class="xp__row">
+          <span class="xp__period">${esc(r.kind)}</span>
+          <span class="xp__company">${esc(r.title)}</span>
+          <span class="xp__skills">${esc(r.note)}</span>
+        </li>`,
+          )
+          .join('')}
+      </ol>
+    </section>
+  </main>
+  <footer class="wpage__foot">
+    <p>© ${new Date().getFullYear()} ${esc(site.fullName)}. <a href="${home}">Portfolio</a> · <a href="${site.linkedin}" target="_blank" rel="noopener">LinkedIn</a> · <a href="${site.behance}" target="_blank" rel="noopener">Behance</a> · <a href="mailto:${site.email}">${esc(site.email)}</a></p>
+  </footer>`,
+  };
+}
 
 export const renderLoader = () => `${wordmark()}`;
 

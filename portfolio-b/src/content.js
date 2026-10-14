@@ -349,13 +349,59 @@ export const earlierRoles = [
   { org: 'Edureka', role: 'Associate Inside Sales Manager', period: 'Aug 2022 to Oct 2022' },
 ];
 
-// Honours, publications and education (LinkedIn profile).
+// Honours, publications and education (LinkedIn profile). Listed on the
+// /writing/ page.
 export const recognition = [
   { title: 'Agri Innovator Award', note: '', kind: 'Award' },
   { title: 'Publications Award', note: '', kind: 'Award' },
   { title: 'A biogenetic approach for future crop production', note: 'Research publication', kind: 'Publication' },
   { title: 'Rice endophytes and their potential applications', note: 'Research publication', kind: 'Publication' },
   { title: 'B.Sc. Agriculture', note: 'Vellore Institute of Technology, 2018 to 2022', kind: 'Education' },
+];
+
+// Writing, posts and features across platforms. The home page shows the
+// `featured` ones (up to three) and /writing/ lists them all. `excerpt` is
+// quoted from the post; `summary` is the longer crawlable description.
+// `embed` is the platform's embed URL (shown on /writing/ on demand).
+export const writingIntro = {
+  title: 'Writing & posts',
+  pageTitle: 'Writing, posts and features | Vignesh Murali',
+  description:
+    'Posts, articles and features by Vignesh Murali on product design, design systems and AI design automation with Claude, Figma MCP and n8n.',
+  lead: 'Notes on product design, design systems and the AI workflows I build to ship design faster. Shared across LinkedIn and other platforms.',
+};
+
+export const writing = [
+  {
+    id: 'n8n-lifecycle-design-automation',
+    title: 'From 15 to 20 days to hours: automating lifecycle design with n8n, Claude and Figma',
+    platform: 'LinkedIn',
+    type: 'Post',
+    date: '2026-10-10',
+    url: 'https://www.linkedin.com/feed/update/urn:li:share:7514742888027807745/',
+    embed: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7514742888027807745',
+    excerpt:
+      '3,000+ emails, SMS, and web popups. That is how many lifecycle assets I designed manually before realizing the way we build creative had to change.',
+    summary:
+      'How a manual lifecycle production cycle became an automated n8n workflow: a webhook takes the client website, a Claude agent turns brand signals into structured tokens, a Slack gate lets stakeholders approve in one click, and a Figma agent builds production-ready email layouts inside the design system.',
+    topics: ['Design automation', 'n8n', 'Claude', 'Figma MCP', 'Design systems', 'Lifecycle design'],
+    featured: true,
+  },
+  {
+    id: 'claude-for-startups',
+    title: 'Claude for Startups: a resource for early-stage AI founders',
+    platform: 'LinkedIn',
+    type: 'Post',
+    date: '2026-10-09',
+    url: 'https://www.linkedin.com/feed/update/urn:li:share:7514189422565924864/',
+    embed: 'https://www.linkedin.com/embed/feed/update/urn:li:share:7514189422565924864',
+    excerpt:
+      'Big resource alert for early-stage AI founders. If you’re building with LLMs, check out the Claude for Startups program by Anthropic.',
+    summary:
+      'A pointer to the Claude for Startups program by Anthropic: API credits for prototyping and scaling, technical office hours, and access to events and founder networks.',
+    topics: ['Claude', 'Anthropic', 'AI startups'],
+    featured: true,
+  },
 ];
 
 // Long bio from the Figma "About me" frame.
