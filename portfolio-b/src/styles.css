@@ -3480,7 +3480,9 @@ section {
 }
 /* Writing & posts: three cards on the home page, full list on /writing/ */
 .writing {
-  margin-top: clamp(56px, 7vw, 88px);
+  /* padding, not margin, so the nav jump lands with the title clear of the fixed bar */
+  margin-top: 0;
+  padding-top: clamp(80px, 9vw, 112px);
 }
 .writing__head {
   display: flex;

@@ -897,7 +897,7 @@ const renderWritingTeaser = () => {
       </a>
     </li>`;
   return `
-    <div class="xp writing">
+    <div class="xp writing" id="writing">
       <div class="writing__head" data-reveal>
         <h3 class="xp__title">${esc(writingIntro.title)}</h3>
         <a class="writing__all" href="writing/">See all writing ${icon('arrowR')}</a>

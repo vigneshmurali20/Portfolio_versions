@@ -43,6 +43,7 @@ export const nav = [
   { href: '#toolbox', label: 'Toolbox' },
   { href: '#ai-lab', label: 'AI Lab' },
   { href: '#about', label: 'About' },
+  { href: '#writing', label: 'Writing' },
   { href: '#contact', label: 'Contact' },
 ];
 
