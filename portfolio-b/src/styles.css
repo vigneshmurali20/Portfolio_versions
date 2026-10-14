@@ -3690,15 +3690,6 @@ section {
   border-radius: 12px;
   background: #fff;
 }
-.wpage__rec {
-  margin-top: 80px;
-}
-.wpage__rec .xp__row {
-  grid-template-columns: 140px 1fr 1fr;
-}
-.wpage__rec .xp__company {
-  font-size: 22px;
-}
 .wpage__foot {
   max-width: var(--max);
   margin: 0 auto;

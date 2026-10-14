@@ -350,16 +350,6 @@ export const earlierRoles = [
   { org: 'Edureka', role: 'Associate Inside Sales Manager', period: 'Aug 2022 to Oct 2022' },
 ];
 
-// Honours, publications and education (LinkedIn profile). Listed on the
-// /writing/ page.
-export const recognition = [
-  { title: 'Agri Innovator Award', note: '', kind: 'Award' },
-  { title: 'Publications Award', note: '', kind: 'Award' },
-  { title: 'A biogenetic approach for future crop production', note: 'Research publication', kind: 'Publication' },
-  { title: 'Rice endophytes and their potential applications', note: 'Research publication', kind: 'Publication' },
-  { title: 'B.Sc. Agriculture', note: 'Vellore Institute of Technology, 2018 to 2022', kind: 'Education' },
-];
-
 // Writing, posts and features across platforms. The home page shows the
 // `featured` ones (up to three) and /writing/ lists them all. `excerpt` is
 // quoted from the post; `summary` is the longer crawlable description.

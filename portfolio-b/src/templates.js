@@ -28,7 +28,6 @@ import {
   aboutLong,
   experience,
   earlierRoles,
-  recognition,
   writingIntro,
   writing,
   skills,
@@ -910,7 +909,7 @@ const renderWritingTeaser = () => {
 };
 
 // The /writing/ page: every piece as crawlable text, the platform embed on
-// demand, then publications and recognition.
+// demand.
 export function renderWritingPage() {
   const home = '../';
   const items = [...writing].sort((a, b) => b.date.localeCompare(a.date));
@@ -993,21 +992,6 @@ export function renderWritingPage() {
         .join('')}
     </ol>
 
-    <section class="wpage__rec" aria-labelledby="rec-title">
-      <h2 class="xp__title" id="rec-title">Publications &amp; recognition</h2>
-      <ol class="xp__list">
-        ${recognition
-          .map(
-            (r) => `
-        <li class="xp__row">
-          <span class="xp__period">${esc(r.kind)}</span>
-          <span class="xp__company">${esc(r.title)}</span>
-          <span class="xp__skills">${esc(r.note)}</span>
-        </li>`,
-          )
-          .join('')}
-      </ol>
-    </section>
   </main>
   <footer class="wpage__foot">
     <p>© ${new Date().getFullYear()} ${esc(site.fullName)}. <a href="${home}">Portfolio</a> · <a href="${site.linkedin}" target="_blank" rel="noopener">LinkedIn</a> · <a href="${site.behance}" target="_blank" rel="noopener">Behance</a> · <a href="mailto:${site.email}">${esc(site.email)}</a></p>
