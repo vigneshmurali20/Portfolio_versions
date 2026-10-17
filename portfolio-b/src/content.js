@@ -395,9 +395,12 @@ export const writing = [
   },
 ];
 
-// Long bio from the Figma "About me" frame.
-export const aboutLong =
-  'I’m Vignesh Murali, a product designer working with startups, agencies, and teams across markets. I turn user and business needs into clear SaaS products, websites, and apps, and collaborate from early flows through polished UI and developer handoff. My work connects usability with business goals like stronger conversion and sustainable growth.';
+// About section copy. In `body`, the word wrapped in *stars* is set in italic.
+export const aboutBrief = {
+  lead: 'Congratulations, you made it this far! By now you probably have a good idea of who I am. If not, here it is again.',
+  body: 'Hey, I’m Vignesh. I’m not a product designer. I’m *the* product designer you’ve been looking for. I don’t just design screens; I create experiences you never imagined. Lately, that means automation and design engineering: building the AI workflows that ship design faster.',
+  motto: ['Find the problem.', 'Imagine the solution.', 'Deliver the product.'],
+};
 
 // Slider values measured from the Figma bars (fill width / track width).
 export const skills = [
@@ -489,7 +492,7 @@ export const projects = [
 ];
 
 // How many project cards show before "Show more"; each click adds this many.
-export const projectsPerPage = 12;
+export const projectsPerPage = 3;
 
 export const testimonialsIntro = {
   eyebrow: 'Kind words',

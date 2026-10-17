@@ -7,7 +7,6 @@ import * as simpleIcons from 'simple-icons';
 import {
   site,
   aiIntro,
-  aboutAi,
   aiPractices,
   aiTools,
   meta,
@@ -25,7 +24,7 @@ import {
   projects,
   projectsPerPage,
   showreelIntro,
-  aboutLong,
+  aboutBrief,
   experience,
   earlierRoles,
   writingIntro,
@@ -462,8 +461,8 @@ const renderWork = () => {
         .join('')}
     </ul>
     <div class="work__more" data-reveal>
-      ${projects.length > projectsPerPage ? `<button type="button" class="btn btn--dark work__show" data-work-more aria-controls="work-grid">
-        <span class="btn__label">Show more work</span><sup data-work-left>${projects.length - projectsPerPage}</sup>
+      ${projects.length > projectsPerPage ? `<button type="button" class="btn btn--dark work__show" data-work-more aria-controls="work-grid" aria-expanded="false">
+        <span class="btn__label" data-work-label>View all work</span><sup data-work-left>${projects.length - projectsPerPage}</sup>
       </button>` : ''}
       ${btn('More on Behance', site.behance, { variant: 'ghost', iconName: 'arrowUR', attrs: 'target="_blank" rel="noopener"' })}
     </div>
@@ -666,8 +665,9 @@ const renderAbout = () => `
       </div>
       <div class="about__text">
         ${sectionHead({ eyebrow: 'About', title: ['Hi, I’m Vignesh.', 'Nice to meet you.'] }, 'about')}
-        <p class="about__bio" data-reveal>${esc(aboutLong)}</p>
-        <p class="about__bio about__bio--ai" data-reveal>${esc(aboutAi)}</p>
+        <p class="about__bio about__bio--lead" data-reveal>${esc(aboutBrief.lead)}</p>
+        <p class="about__bio" data-reveal>${esc(aboutBrief.body).replace(/\*([^*]+)\*/g, '<em class="about__the">$1</em>')}</p>
+        <p class="about__motto" data-reveal>${aboutBrief.motto.map((m) => `<span>${esc(m)}</span>`).join('')}</p>
         <dl class="facts" data-reveal>
           <div><dt>Based in</dt><dd>${esc(site.location)}</dd></div>
           <div><dt>Experience</dt><dd>${site.experienceYears}+ years</dd></div>

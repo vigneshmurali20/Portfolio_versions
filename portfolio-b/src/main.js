@@ -299,16 +299,46 @@ function heroIntro() {
 
 function heroScroll() {
   if (reduced) return;
-  gsap.to('.hero__copy', {
-    yPercent: -18,
-    opacity: 0.1,
-    ease: 'none',
-    scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 35%', scrub: true },
-  });
-  gsap.to('.note--left', { y: -160, rotationZ: -10, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.note--right', { y: -240, rotationZ: 8, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero__wires', { opacity: 0, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: '30% top', scrub: true } });
-  gsap.to(['.hero__trust', '.hero__tag', '.badge'], { y: -80, opacity: 0, ease: 'none', scrollTrigger: { trigger: hero, start: '10% top', end: '60% top', scrub: true } });
+  // Parallax, not fade: each hero layer drifts up at its own speed and stays
+  // readable while it scrolls away.
+  const heroST = (end = 'bottom top') => ({ trigger: hero, start: 'top top', end, scrub: true });
+  gsap.to('.hero__copy', { yPercent: -22, ease: 'none', scrollTrigger: heroST() });
+  gsap.to('.note--left', { y: -160, rotationZ: -10, ease: 'none', scrollTrigger: heroST() });
+  gsap.to('.note--right', { y: -240, rotationZ: 8, ease: 'none', scrollTrigger: heroST() });
+  gsap.to('.hero__wires', { opacity: 0, ease: 'none', scrollTrigger: heroST('30% top') });
+  gsap.to('.hero__trust', { y: -70, ease: 'none', scrollTrigger: heroST() });
+  gsap.to('.hero__tag', { y: -130, ease: 'none', scrollTrigger: heroST() });
+  gsap.to('.badge', { y: -200, rotation: 120, ease: 'none', scrollTrigger: heroST() });
+}
+
+/* ------------------------------------------------------------ parallax */
+// Layers drift at different speeds as they pass through the viewport. They
+// move with the CSS `translate` property (via --py), so they never clash with
+// the GSAP transforms the reveal animations use.
+function parallax() {
+  if (reduced) return;
+  const layer = (sel, px, trigger) =>
+    $$(sel).forEach((el) => {
+      gsap.fromTo(
+        el,
+        { '--py': `${px}px` },
+        { '--py': `${-px}px`, ease: 'none', scrollTrigger: { trigger: trigger ? el.closest(trigger) || el : el, start: 'top bottom', end: 'bottom top', scrub: true } },
+      );
+    });
+  // section headings float a little ahead of their content
+  layer('.sec-head', 36);
+  layer('.xp__title', 24);
+  // images drift inside their frames
+  layer('.card__media img', 22, '.card');
+  layer('.about__photo img', 40, '.about__photo');
+  // cards in a row move at staggered speeds
+  layer('.writing__item:nth-child(1)', 10);
+  layer('.writing__item:nth-child(2)', 34);
+  layer('.writing__item:nth-child(3)', 58);
+  layer('.impact__cell:nth-child(odd)', 14);
+  layer('.impact__cell:nth-child(even)', 40);
+  layer('.process__step:nth-child(even)', 18);
+  layer('.about__motto', 20);
 }
 
 /* ------------------------------------------------------------ loader */
@@ -489,26 +519,34 @@ function workFilter() {
   const buttons = $$('[data-filter]');
   const more = $('[data-work-more]');
   const left = $('[data-work-left]');
+  const moreLabel = $('[data-work-label]');
   const cards = $$('.card', grid);
   let key = 'all';
-  let limit = projectsPerPage;
+  let expanded = false;
 
-  // "All" pages through the cards; a category shows every match
-  function apply(first = 0) {
+  // One row per filter: 3 cards (4 on the two-column tablet grid so the row
+  // stays even); "View all" opens the rest of that filter.
+  const rowSize = () => (getComputedStyle(grid).gridTemplateColumns.split(' ').length === 2 ? 4 : projectsPerPage);
+
+  function apply(focusFrom = 0) {
     const state = Flip.getState(cards);
+    const limit = expanded ? Infinity : rowSize();
     let shown = 0;
     let all = 0;
     cards.forEach((c) => {
       const match = key === 'all' || c.dataset.cat === key;
       if (match) all++;
-      const show = match && (key !== 'all' || all <= limit);
+      const show = match && all <= limit;
       c.classList.toggle('is-hidden', !show);
       if (show) shown++;
     });
+    const label = workFilters.find((f) => f.key === key)?.label ?? 'All';
     if (more) {
-      const rest = key === 'all' ? Math.max(0, all - limit) : 0;
-      more.hidden = rest === 0;
-      left.textContent = rest;
+      const rest = all - rowSize();
+      more.hidden = rest <= 0;
+      left.textContent = expanded ? '' : rest;
+      moreLabel.textContent = expanded ? 'Show less' : key === 'all' ? 'View all work' : `View all ${label}`;
+      more.setAttribute('aria-expanded', String(expanded));
     }
     gsap.set(cards, { opacity: 1 });
     Flip.from(state, {
@@ -521,15 +559,15 @@ function workFilter() {
       onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.85, duration: 0.4 }),
       onComplete: () => ScrollTrigger.refresh(),
     });
-    const label = workFilters.find((f) => f.key === key)?.label ?? 'All';
-    status.textContent = `Showing ${shown} ${key === 'all' ? '' : `${label} `}projects`;
-    // after "Show more", move focus to the first new card for keyboard users
-    if (first) cards.filter((c) => !c.classList.contains('is-hidden'))[first]?.querySelector('a, div')?.focus?.();
+    status.textContent = `Showing ${shown} of ${all} ${key === 'all' ? '' : `${label} `}projects`;
+    // after "View all", move focus to the first new card for keyboard users
+    if (focusFrom) cards.filter((c) => !c.classList.contains('is-hidden'))[focusFrom]?.querySelector('a, div')?.focus?.();
   }
 
   buttons.forEach((b) =>
     b.addEventListener('click', () => {
       key = b.dataset.filter;
+      expanded = false;
       buttons.forEach((x) => {
         x.classList.toggle('is-active', x === b);
         x.setAttribute('aria-pressed', String(x === b));
@@ -538,10 +576,11 @@ function workFilter() {
     }),
   );
   more?.addEventListener('click', () => {
-    const before = limit;
-    limit += projectsPerPage;
-    apply(before);
+    expanded = !expanded;
+    apply(expanded ? rowSize() : 0);
+    if (!expanded) scrollToTarget('#work');
   });
+  apply();
 }
 
 /* ------------------------------------------------------------ disciplines */
@@ -1030,6 +1069,7 @@ impactViews();
 currentTracks();
 const openDiscipline = disciplineAccordion();
 workFilter();
+parallax();
 toolbox(openDiscipline);
 showreel();
 deck();
