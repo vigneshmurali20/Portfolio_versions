@@ -893,7 +893,8 @@ const writingCard = (w, headingTag = 'h4', base = '') => {
 
 // Home page: up to three featured pieces; an empty slot becomes a link to /writing/.
 const renderWritingTeaser = () => {
-  const featured = writing.filter((w) => w.featured).slice(0, 3);
+  // the three most recent featured pieces
+  const featured = writing.filter((w) => w.featured).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
   const more = `
     <li class="writing__item writing__item--more">
       <a class="wcard wcard--more" href="writing/">
