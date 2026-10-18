@@ -876,13 +876,20 @@ const renderDialog = () => `
 const fmtDate = (iso) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 
-const writingCard = (w, headingTag = 'h4') => `
+// `base` turns an on-site piece's root-relative `path` into a working link
+// from the current page ('' on the home page, '../' on /writing/).
+const writingHref = (w, base = '') => (w.path ? base + w.path : w.url);
+
+const writingCard = (w, headingTag = 'h4', base = '') => {
+  const ext = !w.path;
+  return `
   <article class="wcard">
     <p class="wcard__meta"><span class="wcard__platform">${esc(w.platform)}</span><span>${esc(w.type)}</span><time datetime="${w.date}">${fmtDate(w.date)}</time></p>
-    <${headingTag} class="wcard__title"><a href="${w.url}" target="_blank" rel="noopener">${esc(w.title)}<span class="sr-only"> (opens on ${esc(w.platform)})</span></a></${headingTag}>
+    <${headingTag} class="wcard__title"><a href="${writingHref(w, base)}"${ext ? ' target="_blank" rel="noopener"' : ''}>${esc(w.title)}${ext ? `<span class="sr-only"> (opens on ${esc(w.platform)})</span>` : ''}</a></${headingTag}>
     <p class="wcard__excerpt">${esc(w.excerpt)}</p>
-    <span class="wcard__cta" aria-hidden="true">Read on ${esc(w.platform)} ${icon('arrowUR')}</span>
+    <span class="wcard__cta" aria-hidden="true">${ext ? `Read on ${esc(w.platform)} ${icon('arrowUR')}` : `Open the article ${icon('arrowR')}`}</span>
   </article>`;
+};
 
 // Home page: up to three featured pieces; an empty slot becomes a link to /writing/.
 const renderWritingTeaser = () => {
@@ -938,7 +945,7 @@ export function renderWritingPage() {
               datePublished: w.date,
               keywords: w.topics.join(', '),
               author: { '@id': 'https://vigneshmurali.com/#person' },
-              publisher: { '@type': 'Organization', name: w.platform },
+              publisher: w.path ? { '@id': 'https://vigneshmurali.com/#person' } : { '@type': 'Organization', name: w.platform },
             },
           })),
         },
@@ -979,13 +986,15 @@ export function renderWritingPage() {
         .map(
           (w) => `
       <li class="wpage__item" id="${w.id}">
-        ${writingCard(w, 'h2')}
+        ${writingCard(w, 'h2', home)}
         <p class="wpage__summary">${esc(w.summary)}</p>
         <p class="wpage__topics">${w.topics.map((t) => `<span>${esc(t)}</span>`).join('')}</p>
         ${
-          w.embed
-            ? `<details class="wpage__embed"><summary>Show the original ${esc(w.platform)} post</summary><iframe src="${w.embed}" title="${esc(w.title)} (${esc(w.platform)} post)" loading="lazy" width="504" height="900" allowfullscreen></iframe></details>`
-            : ''
+          w.path
+            ? `<details class="wpage__embed wpage__embed--wide" open><summary>Interactive preview</summary><iframe src="${writingHref(w, home)}" title="${esc(w.title)} (interactive)" loading="lazy" width="1180" height="820"></iframe></details>`
+            : w.embed
+              ? `<details class="wpage__embed"><summary>Show the original ${esc(w.platform)} post</summary><iframe src="${w.embed}" title="${esc(w.title)} (${esc(w.platform)} post)" loading="lazy" width="504" height="900" allowfullscreen></iframe></details>`
+              : ''
         }
       </li>`,
         )

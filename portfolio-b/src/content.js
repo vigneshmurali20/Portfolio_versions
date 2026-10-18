@@ -364,6 +364,23 @@ export const writingIntro = {
 
 export const writing = [
   {
+    id: 'agency-control-room',
+    title: 'Agency Control Room: directing a team of AI agents',
+    platform: 'Article',
+    type: 'Interactive',
+    date: '2026-10-16',
+    // on-site piece: `path` is relative to the site root, and the page itself
+    // is the embed (public/writing/agency-control-room/index.html)
+    path: 'writing/agency-control-room/',
+    url: 'https://vigneshmurali.com/writing/agency-control-room/',
+    excerpt:
+      'You direct Atlas, the orchestrator. Atlas runs five team leads, each with its own sub-agents, plus Penny on budgets, a Brand Vault everyone reads, and Vera at the QA gate.',
+    summary:
+      'An interactive map of a multi-agent design agency built with Claude. An orchestrator routes each brief to research, design, video, web and email teams; every agent works to a token budget and pings the director when it is missing a skill, a file, access or a decision; and a QA agent gates delivery.',
+    topics: ['AI agents', 'Claude', 'Multi-agent orchestration', 'Design automation', 'Agent workflows'],
+    featured: true,
+  },
+  {
     id: 'n8n-lifecycle-design-automation',
     title: 'From 15 to 20 days to hours: automating lifecycle design with n8n, Claude and Figma',
     platform: 'LinkedIn',
