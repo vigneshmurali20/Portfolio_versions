@@ -4959,3 +4959,11 @@ section {
 .work__show sup:empty {
   display: none;
 }
+
+/* on-site interactive piece embedded on /writing/ */
+.wpage__embed--wide iframe {
+  max-width: none;
+  height: min(820px, 80vh);
+  background: #17181c;
+  border: 1px solid var(--line-2);
+}

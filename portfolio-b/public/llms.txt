@@ -14,6 +14,8 @@ The portfolio focuses on product and UX/UI design for SaaS and web, mobile app d
 ## Writing and posts
 
 - [Writing, posts and features](https://vigneshmurali.com/writing/): Everything Vignesh writes and shares across platforms, with summaries.
+- [Agency Control Room: directing a team of AI agents](https://vigneshmurali.com/writing/agency-control-room/): Interactive article mapping a multi-agent design agency built with Claude, with an orchestrator, research, design, video, web and email teams, token budgets and a QA gate.
+- [Stop blaming AI for bad designs: a 6-stage system for production-ready AI design](https://www.linkedin.com/feed/update/urn:li:ugcPost:7515621708918194176/): LinkedIn post on getting production-ready AI design with references, a DESIGN.md of tokens, MCP connectors, reusable Skills and React/Three.js know-how.
 - [From 15 to 20 days to hours: automating lifecycle design with n8n, Claude and Figma](https://www.linkedin.com/feed/update/urn:li:share:7514742888027807745/): LinkedIn post on an n8n workflow where a Claude agent extracts brand tokens, Slack gates approval and a Figma agent builds email layouts.
 - [Claude for Startups: a resource for early-stage AI founders](https://www.linkedin.com/feed/update/urn:li:share:7514189422565924864/): LinkedIn post on the Claude for Startups program by Anthropic.
 
