@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 
@@ -10,6 +11,11 @@ function staticPage(env, mode) {
       const mod = ctx.server
         ? await ctx.server.ssrLoadModule('/src/templates.js')
         : await import(new URL('./src/templates.js', import.meta.url).href);
+      const cs = html.match(/<!--CASE_STUDY_HEAD:([a-z0-9-]+)-->/);
+      if (cs) {
+        const page = mod.renderCaseStudyPage(cs[1]);
+        return html.replace(cs[0], page.head).replace(`<!--CASE_STUDY_BODY:${cs[1]}-->`, page.body);
+      }
       if (/writing[\\/]index\.html$/.test(ctx.filename) || ctx.path.startsWith('/writing')) {
         const w = mod.renderWritingPage();
         return html
@@ -44,7 +50,7 @@ function staticPage(env, mode) {
         .replace('<!--FOOTER-->', page.footer);
     },
     handleHotUpdate({ file, server }) {
-      if (/src[\\/](content|templates)\.js$/.test(file)) server.ws.send({ type: 'full-reload' });
+      if (/src[\\/](content|templates|case-studies[\\/].+)\.(js|json)$/.test(file)) server.ws.send({ type: 'full-reload' });
     },
   };
 }
@@ -62,6 +68,15 @@ export default defineConfig(({ mode }) => ({
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         writing: fileURLToPath(new URL('./writing/index.html', import.meta.url)),
+        // case study pages, one per study (rendered by renderCaseStudyPage)
+        ...Object.fromEntries(
+          ['omni-tracker', 'omnicommerce', 'omni-crm', 'agent-canvas', 'jev-laya']
+            .filter((s) => existsSync(new URL(`./src/case-studies/${s}.json`, import.meta.url)))
+            .map((s) => [
+            `cs-${s}`,
+            fileURLToPath(new URL(`./case-studies/${s}/index.html`, import.meta.url)),
+          ]),
+        ),
       },
       output: {
         codeSplitting: {

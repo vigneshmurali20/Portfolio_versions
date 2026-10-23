@@ -9,8 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
 import Lenis from 'lenis';
 import { injectSpeedInsights } from '@vercel/speed-insights';
-import { site, tools, disciplines, ringCards, workFilters, clientRegions, projectsPerPage } from './content.js';
-import { canWebGL, createHero3D } from './hero3d.js';
+import { site, tools, disciplines, ringCards, clientRegions } from './content.js';
 
 injectSpeedInsights();
 
@@ -232,13 +231,26 @@ const hero = $('[data-hero]');
 const portraitImg = $('[data-portrait]');
 let scene = null;
 
-function startHero3D() {
+const canWebGL = () => {
+  try {
+    const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl')));
+  } catch {
+    return false;
+  }
+};
+
+// Three.js (the largest chunk) loads after first paint, so it never delays
+// the portrait (LCP) or the first interaction.
+async function startHero3D() {
   const saveData = navigator.connection?.saveData;
   if (!canWebGL() || saveData) {
     root.classList.add('no-gl');
     return;
   }
   try {
+    await new Promise((r) => ('requestIdleCallback' in window ? requestIdleCallback(r, { timeout: 1500 }) : setTimeout(r, 600)));
+    const { createHero3D } = await import('./hero3d.js');
     scene = createHero3D({
       canvas: $('[data-hero-gl]'),
       hero,
@@ -311,6 +323,46 @@ function heroScroll() {
   gsap.to('.badge', { y: -200, rotation: 120, ease: 'none', scrollTrigger: heroST() });
 }
 
+/* ------------------------------------------------------------ case studies */
+// Stacked sticky cards: as the next card slides over, the covered one eases
+// back and dims. The side index follows the card in view.
+function caseStudies() {
+  const cards = $$('[data-cs-card]');
+  if (!cards.length) return;
+  const links = $$('[data-cs-jump]');
+  const counter = $('[data-cs-current]');
+  const setActive = (i) => {
+    links.forEach((l, j) => (j === i ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current')));
+    if (counter) counter.textContent = i + 1;
+  };
+  cards.forEach((card, i) =>
+    ScrollTrigger.create({ trigger: card, start: 'top 55%', end: 'bottom 45%', onToggle: (st) => st.isActive && setActive(i) }),
+  );
+  if (reduced) return;
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 861px)', () => {
+    cards.slice(0, -1).forEach((card, i) => {
+      const next = cards[i + 1];
+      // the next card's sticky offset, re-read on every refresh (resize)
+      const stickTop = () => parseFloat(getComputedStyle(next).top) || 0;
+      gsap.to($('.cs-card__link', card), {
+        scale: 0.94 - (cards.length - 2 - i) * 0.012,
+        '--shade': 0.28,
+        ease: 'none',
+        scrollTrigger: { trigger: next, start: 'top bottom', end: () => `top ${stickTop()}px`, scrub: true, invalidateOnRefresh: true },
+      });
+    });
+  });
+  // covers rise out of a clip as each card first enters
+  gsap.utils.toArray('.cs-card__media').forEach((m) => {
+    gsap.fromTo(
+      m,
+      { clipPath: 'inset(18% 10% 18% 10% round 24px)' },
+      { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power2.out', scrollTrigger: { trigger: m, start: 'top bottom', end: 'top 72%', scrub: 0.5 } },
+    );
+  });
+}
+
 /* ------------------------------------------------------------ parallax */
 // Layers drift at different speeds as they pass through the viewport. They
 // move with the CSS `translate` property (via --py), so they never clash with
@@ -329,7 +381,6 @@ function parallax() {
   layer('.sec-head', 36);
   layer('.xp__title', 24);
   // images drift inside their frames
-  layer('.card__media img', 22, '.card');
   layer('.about__photo img', 40, '.about__photo');
   // cards in a row move at staggered speeds
   layer('.writing__item:nth-child(1)', 10);
@@ -402,7 +453,6 @@ function reveals() {
   if (reduced) {
     gsap.set('[data-reveal]', { opacity: 1, y: 0 });
     gsap.set('[data-split] .line__in', { y: 0, yPercent: 0 });
-    gsap.set('.card', { opacity: 1 });
     gsap.set('.skill__fill', { scaleX: (i, el) => getComputedStyle(el).getPropertyValue('--v') });
     return;
   }
@@ -420,17 +470,7 @@ function reveals() {
       scrollTrigger: { trigger: h, start: 'top 88%', once: true },
     });
   });
-  // project cards rise out of the page in 3D
-  ScrollTrigger.batch('.card', {
-    start: 'top 92%',
-    once: true,
-    onEnter: (els) =>
-      gsap.fromTo(
-        els,
-        { opacity: 0, y: 80, rotationX: -24, transformPerspective: 1200, transformOrigin: '50% 100%' },
-        { opacity: 1, y: 0, rotationX: 0, duration: 1.3, ease: EASE, stagger: 0.08, clearProps: 'transform' },
-      ),
-  });
+
   $$('.skill__fill').forEach((el) => {
     gsap.to(el, {
       scaleX: getComputedStyle(el).getPropertyValue('--v'),
@@ -510,77 +550,6 @@ function processLine() {
     },
     onEnter: (self) => reduced && self.progress === 0 && steps.forEach((s) => s.classList.add('is-on')),
   });
-}
-
-/* ------------------------------------------------------------ work filters */
-function workFilter() {
-  const grid = $('[data-work]');
-  const status = $('[data-filter-status]');
-  const buttons = $$('[data-filter]');
-  const more = $('[data-work-more]');
-  const left = $('[data-work-left]');
-  const moreLabel = $('[data-work-label]');
-  const cards = $$('.card', grid);
-  let key = 'all';
-  let expanded = false;
-
-  // One row per filter: 3 cards (4 on the two-column tablet grid so the row
-  // stays even); "View all" opens the rest of that filter.
-  const rowSize = () => (getComputedStyle(grid).gridTemplateColumns.split(' ').length === 2 ? 4 : projectsPerPage);
-
-  function apply(focusFrom = 0) {
-    const state = Flip.getState(cards);
-    const limit = expanded ? Infinity : rowSize();
-    let shown = 0;
-    let all = 0;
-    cards.forEach((c) => {
-      const match = key === 'all' || c.dataset.cat === key;
-      if (match) all++;
-      const show = match && all <= limit;
-      c.classList.toggle('is-hidden', !show);
-      if (show) shown++;
-    });
-    const label = workFilters.find((f) => f.key === key)?.label ?? 'All';
-    if (more) {
-      const rest = all - rowSize();
-      more.hidden = rest <= 0;
-      left.textContent = expanded ? '' : rest;
-      moreLabel.textContent = expanded ? 'Show less' : key === 'all' ? 'View all work' : `View all ${label}`;
-      more.setAttribute('aria-expanded', String(expanded));
-    }
-    gsap.set(cards, { opacity: 1 });
-    Flip.from(state, {
-      duration: reduced ? 0 : 0.8,
-      ease: 'expo.inOut',
-      scale: true,
-      absolute: true,
-      stagger: 0.02,
-      onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.85, rotationX: -20 }, { opacity: 1, scale: 1, rotationX: 0, duration: 0.8, ease: EASE, stagger: 0.04 }),
-      onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.85, duration: 0.4 }),
-      onComplete: () => ScrollTrigger.refresh(),
-    });
-    status.textContent = `Showing ${shown} of ${all} ${key === 'all' ? '' : `${label} `}projects`;
-    // after "View all", move focus to the first new card for keyboard users
-    if (focusFrom) cards.filter((c) => !c.classList.contains('is-hidden'))[focusFrom]?.querySelector('a, div')?.focus?.();
-  }
-
-  buttons.forEach((b) =>
-    b.addEventListener('click', () => {
-      key = b.dataset.filter;
-      expanded = false;
-      buttons.forEach((x) => {
-        x.classList.toggle('is-active', x === b);
-        x.setAttribute('aria-pressed', String(x === b));
-      });
-      apply();
-    }),
-  );
-  more?.addEventListener('click', () => {
-    expanded = !expanded;
-    apply(expanded ? rowSize() : 0);
-    if (!expanded) scrollToTarget('#work');
-  });
-  apply();
 }
 
 /* ------------------------------------------------------------ disciplines */
@@ -984,20 +953,6 @@ function impactCounters() {
 }
 
 /* ------------------------------------------------------------ impact: flip, tabs, charts */
-// workstream cards in the current project flip up into place
-function currentTracks() {
-  if (reduced || !$('.current__tile')) return;
-  gsap.from('.current__tile', {
-    y: 40,
-    rotationX: -35,
-    opacity: 0,
-    transformOrigin: '50% 100%',
-    duration: 0.9,
-    ease: EASE,
-    stagger: 0.1,
-    scrollTrigger: { trigger: '[data-track]', start: 'top 85%', once: true },
-  });
-}
 
 function impactViews() {
   // flip cards: click, tap, Enter or Space turns a card over
@@ -1066,9 +1021,8 @@ startHero3D();
 clientGlobe();
 impactCounters();
 impactViews();
-currentTracks();
 const openDiscipline = disciplineAccordion();
-workFilter();
+caseStudies();
 parallax();
 toolbox(openDiscipline);
 showreel();

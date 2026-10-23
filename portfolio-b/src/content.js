@@ -21,7 +21,8 @@ export const site = {
   // One-page résumé for recruiters (public/Vigneshwaran-M-Resume.pdf).
   resume: 'Vigneshwaran-M-Resume.pdf',
   // Low-angle crop (head to hands) of the black-and-white portrait, for the hero.
-  portrait: 'images/portrait-hero.png',
+  portrait: 'images/portrait-hero.webp',
+  portraitSmall: 'images/portrait-hero-560.webp',
   portraitAlt: 'Vignesh in a black turtleneck, photographed from a low angle, hands in his pockets',
   // About section photo (Figma node 1:16257).
   portraitAbout: 'images/portrait-about.jpg',
@@ -38,7 +39,7 @@ export const meta = {
 
 // One page, so the nav links jump to sections.
 export const nav = [
-  { href: '#work', label: 'Work' },
+  { href: '#case-studies', label: 'Case studies' },
   { href: '#disciplines', label: 'Disciplines' },
   { href: '#toolbox', label: 'Toolbox' },
   { href: '#ai-lab', label: 'AI Lab' },
@@ -86,33 +87,6 @@ export const impactStats = [
   { value: 500, suffix: '+', total: 500, label: 'Social media designs', note: 'Campaign series across platforms', group: 'volume', size: 'normal', back: 'Launch, seasonal and always-on series, designed as one consistent system.' },
   { value: 100, suffix: '+', total: 100, label: 'Infographics', note: 'Complex ideas made easy to read', group: 'volume', size: 'normal', back: '100+ infographics and 100+ blog thumbnails that make dense topics easy to scan.' },
 ];
-
-// The "Current project" section. Fill in the details when ready:
-// set preview to an image path (e.g. 'images/current.jpg') and link to a URL.
-export const currentProject = {
-  status: 'In progress',
-  name: 'OmniGreen',
-  title: 'OmniGreen, taking shape.',
-  body: 'Designing the website for OmniGreen, one platform for point of sale, eCommerce, delivery, marketing and compliance. Every page, from home to products, solutions and resources.',
-  tags: ['Web design', 'UI/UX', 'Product', 'Marketing'],
-  // a full-page capture that scrolls slowly inside the preview window
-  preview: 'images/current-omnigreen.webp',
-  previewAlt: 'The OmniGreen home page design, from the hero to the footer',
-  link: null,
-  // workstreams shown as cards under the project, grouped by tag
-  tracks: [
-    {
-      tag: 'Marketing',
-      title: 'Email at scale, for five brands at once',
-      cards: [
-        { value: '500+', label: 'Email journeys', note: 'Designed end to end, from welcome to win-back' },
-        { value: '5', label: 'Brands redesigned', note: 'Five brand aesthetics refreshed at once, on one shared system' },
-        { value: 'Auto', label: 'Self-built journeys', note: 'My own automation, so new journeys ship faster and stay consistent' },
-        { value: '2', label: 'Months', note: 'Delivery window, running now', live: true },
-      ],
-    },
-  ],
-};
 
 // Cards on the 3D ring around the portrait in the hero.
 export const ringCards = [
@@ -268,18 +242,7 @@ export const tools = [
   { key: 'lightroom', name: 'Adobe Lightroom', value: 90, src: 'images/tools/lightroom.png', use: 'Photo grading for campaigns and social.', disciplines: ['graphic'] },
 ];
 
-export const workIntro = {
-  eyebrow: 'Selected work',
-  title: ['Work that ships,', 'and still looks good.'],
-};
 
-export const workFilters = [
-  { key: 'all', label: 'All' },
-  { key: 'uiux', label: 'UI/UX & Web', match: ['UI/UX', 'Web Design', 'App Design'] },
-  { key: 'motion', label: 'Motion', match: ['Motion'] },
-  { key: 'graphic', label: 'Graphic', match: ['Graphic Design'] },
-  { key: 'brand', label: 'Branding', match: ['Branding'] },
-];
 
 export const showreelIntro = {
   eyebrow: 'Showreel 2026',
@@ -453,78 +416,7 @@ export const processSteps = [
   { title: 'Reflection', body: 'Review the results with the team and carry the lessons into the next release.' },
 ];
 
-// Project cards, exported from the "New thumbnail" section in Figma, in the
-// file's series order (1 / 64 onwards). Each image is the full card artwork,
-// title included. Add an `href` to any project to make its card a link.
-export const projects = [
-  { title: 'Motion graphics', sub: 'Kinetic typography', category: 'Motion', image: 'images/projects/motion-graphics-kinetic-typography.webp' },
-  { title: 'Card design', sub: 'Everyday banking', category: 'Graphic Design', image: 'images/projects/card-design-everyday-banking.webp' },
-  { title: 'App design', sub: 'Mobile banking experience', category: 'App Design', image: 'images/projects/app-design-mobile-banking-experience.webp' },
-  { title: 'Iconography', sub: 'Mint visual language', category: 'Graphic Design', image: 'images/projects/iconography-mint-visual-language.webp' },
-  { title: 'Airfield Supply Company', sub: 'Aviation-inspired branding', category: 'Branding', image: 'images/projects/airfield-supply-company-aviation-inspired-brandi.webp' },
-  { title: 'Dashboard', sub: 'Wallet re-engagement', category: 'UI/UX', image: 'images/projects/dashboard-wallet-re-engagement.webp' },
-  { title: 'Stash Dash', sub: 'Running mascot identity', category: 'Branding', image: 'images/projects/stash-dash-running-mascot-identity.webp' },
-  { title: 'STIIIZY', sub: 'Leaf-themed welcome branding', category: 'Branding', image: 'images/projects/stiiizy-leaf-themed-welcome-branding.webp' },
-  { title: 'Motion design', sub: 'Glowing W interface', category: 'Motion', image: 'images/projects/motion-design-glowing-w-interface.webp' },
-  { title: 'Social media', sub: 'Fintech editorial', category: 'Graphic Design', image: 'images/projects/social-media-fintech-editorial.webp' },
-  { title: 'SaaS CRM dashboard', sub: 'Relationship workspace', category: 'UI/UX', image: 'images/projects/saas-crm-dashboard-relationship-workspace.webp' },
-  { title: 'Motion graphics', sub: 'Software interface showcase', category: 'Motion', image: 'images/projects/motion-graphics-software-interface-showcase.webp' },
-  { title: 'SaaS dashboard', sub: 'Data workspace', category: 'UI/UX', image: 'images/projects/saas-dashboard-data-workspace.webp' },
-  { title: 'Deepvue', sub: 'AI-powered risk intelligence', category: 'Web Design', image: 'images/projects/deepvue-ai-powered-risk-intelligence.webp' },
-  { title: 'Deepvue', sub: 'GFF event website', category: 'Web Design', image: 'images/projects/deepvue-gff-event-website.webp' },
-  { title: 'Onboarding screens', sub: 'First impressions', category: 'App Design', image: 'images/projects/onboarding-screens-first-impressions.webp' },
-  { title: 'Deepvue.tech', sub: 'Dashboard revamp', category: 'UI/UX', image: 'images/projects/deepvue-dashboard-revamp.webp', href: 'https://www.behance.net/gallery/226234661/Dashboard-Revamp' },
-  { title: 'AI assisted fintech app', sub: 'Money companion', category: 'App Design', image: 'images/projects/ai-assisted-fintech-app-money-companion.webp', href: 'https://www.behance.net/gallery/231811507/AI-assisted-Fintech-App' },
-  { title: 'Zily', sub: 'AI fashion discovery', category: 'App Design', image: 'images/projects/zily-ai-fashion-discovery.webp' },
-  { title: 'Healthcare landing page', sub: 'Deliver better care', category: 'Web Design', image: 'images/projects/healthcare-landing-page-deliver-better-care.webp' },
-  { title: 'Deepvue', sub: 'Financial connectivity', category: 'Web Design', image: 'images/projects/deepvue-financial-connectivity.webp' },
-  { title: 'Deepvue.tech', sub: 'Brand identity', category: 'Branding', image: 'images/projects/deepvue-brand-identity.webp' },
-  { title: 'Landing page', sub: 'Business website', category: 'Web Design', image: 'images/projects/landing-page-business-website.webp' },
-  { title: 'Flyer', sub: 'Dark promotional print', category: 'Graphic Design', image: 'images/projects/flyer-dark-promotional-print.webp' },
-  { title: 'SaaS landing page', sub: 'Purple product website', category: 'Web Design', image: 'images/projects/saas-landing-page-purple-product-website.webp' },
-  { title: 'Deepvue', sub: 'Partner login', category: 'UI/UX', image: 'images/projects/deepvue-partner-login.webp' },
-  { title: 'Deepvue', sub: 'Book an introduction call', category: 'UI/UX', image: 'images/projects/deepvue-book-an-introduction-call.webp' },
-  { title: 'Modish Family Salon', sub: 'Website', category: 'Web Design', image: 'images/projects/modish-family-salon-website.webp' },
-  { title: 'E-mailer', sub: 'Black and red promotion', category: 'Graphic Design', image: 'images/projects/e-mailer-black-and-red-promotion.webp' },
-  { title: 'Deepvue', sub: 'Where fraud meets its match', category: 'Graphic Design', image: 'images/projects/deepvue-where-fraud-meets-its-match.webp' },
-  { title: 'Deepvue', sub: 'Unified customer insights platform', category: 'Web Design', image: 'images/projects/deepvue-unified-customer-insights-platform.webp' },
-  { title: 'DigiLocker API', sub: 'Social explainer', category: 'Graphic Design', image: 'images/projects/digilocker-api-social-explainer.webp' },
-  { title: 'Music landing page', sub: 'Music without limits', category: 'Web Design', image: 'images/projects/music-landing-page-music-without-limits.webp' },
-  { title: 'THAL', sub: 'The Fitness Coliseum identity', category: 'Branding', image: 'images/projects/thal-the-fitness-coliseum-identity.webp' },
-  { title: 'THAL', sub: 'Gold logo application', category: 'Branding', image: 'images/projects/thal-gold-logo-application.webp' },
-  { title: 'CYN:LR', sub: 'Logo animation', category: 'Motion', image: 'images/projects/cyn-lr-logo-animation.webp' },
-  { title: 'CYN:LR', sub: 'Brand event teaser', category: 'Motion', image: 'images/projects/cyn-lr-brand-event-teaser.webp' },
-  { title: 'CYN:LR', sub: 'Cybernetics H.I.V.E. launch', category: 'Graphic Design', image: 'images/projects/cyn-lr-cybernetics-h-i-v-e-launch.webp' },
-  { title: 'Futuristic mobile home screen', sub: 'Orbital interface', category: 'App Design', image: 'images/projects/futuristic-mobile-home-screen-orbital-interface.webp' },
-  { title: 'Virtual reality app', sub: 'Immersive worlds', category: 'App Design', image: 'images/projects/virtual-reality-app-immersive-worlds.webp' },
-  { title: 'Yoga Book 9i', sub: 'Freedom Sale', category: 'Graphic Design', image: 'images/projects/yoga-book-9i-freedom-sale.webp' },
-  { title: 'Document verification', sub: 'DigiLocker API integration', category: 'UI/UX', image: 'images/projects/document-verification-digilocker-api-integration.webp' },
-  { title: 'T-shirt design', sub: 'Black apparel', category: 'Graphic Design', image: 'images/projects/t-shirt-design-black-apparel.webp' },
-  { title: 'Brand stationery', sub: 'Blue and white touchpoints', category: 'Branding', image: 'images/projects/brand-stationery-blue-and-white-touchpoints.webp' },
-  { title: 'Interior design website', sub: 'Spaces with intention', category: 'Web Design', image: 'images/projects/interior-design-website-spaces-with-intention.webp' },
-  { title: 'CLEAN Reserve', sub: 'H2EAU collection', category: 'Graphic Design', image: 'images/projects/clean-reserve-h2eau-collection.webp' },
-  { title: '2025 Indonesia', sub: 'Re-imagine Innovate Transform', category: 'Graphic Design', image: 'images/projects/2025-indonesia-re-imagine-innovate-transform.webp' },
-  { title: 'Krishaa Collections', sub: 'Burgundy and gold identity', category: 'Branding', image: 'images/projects/krishaa-collections-burgundy-and-gold-identity.webp' },
-  { title: 'Bakery packaging', sub: 'A sweet unboxing', category: 'Graphic Design', image: 'images/projects/bakery-packaging-a-sweet-unboxing.webp' },
-  { title: 'Hydrafacial', sub: 'Skin treatment campaign', category: 'Graphic Design', image: 'images/projects/hydrafacial-skin-treatment-campaign.webp' },
-  { title: 'Modish Salon', sub: 'Gold promotional campaign', category: 'Graphic Design', image: 'images/projects/modish-salon-gold-promotional-campaign.webp' },
-  { title: 'Raaga', sub: 'Skin consultation day', category: 'Graphic Design', image: 'images/projects/raaga-skin-consultation-day.webp' },
-  { title: 'Electric scooter', sub: 'Mobility campaign', category: 'Graphic Design', image: 'images/projects/electric-scooter-mobility-campaign.webp' },
-  { title: 'ONBC', sub: 'Event photo collage', category: 'Graphic Design', image: 'images/projects/onbc-event-photo-collage.webp' },
-  { title: 'E-mail campaign', sub: 'Long-form marketing', category: 'Graphic Design', image: 'images/projects/e-mail-campaign-long-form-marketing.webp' },
-  { title: 'New seasonal release', sub: 'Pistachio campaign', category: 'Graphic Design', image: 'images/projects/new-seasonal-release-pistachio-campaign.webp' },
-  { title: 'DualSense', sub: 'Controller product page', category: 'Web Design', image: 'images/projects/dualsense-controller-product-page.webp' },
-  { title: 'Modish Family Salon', sub: 'Brand identity', category: 'Branding', image: 'images/projects/modish-family-salon-brand-identity.webp' },
-  { title: 'Modish Family Salon', sub: 'Business cards', category: 'Branding', image: 'images/projects/modish-family-salon-business-cards.webp' },
-  { title: 'Architectural light study', sub: 'Violet rhythm', category: 'Graphic Design', image: 'images/projects/architectural-light-study-violet-rhythm.webp' },
-  { title: 'INVEN', sub: 'Premium welcome kit', category: 'Branding', image: 'images/projects/inven-premium-welcome-kit.webp' },
-  { title: '3 G’s', sub: 'Human resources and payroll', category: 'Web Design', image: 'images/projects/3-gs-human-resources-and-payroll.webp' },
-  { title: 'Mobile portfolio showcase', sub: 'Responsive collection', category: 'App Design', image: 'images/projects/mobile-portfolio-showcase-responsive-collection.webp' },
-  { title: 'Femininity Hair Salon', sub: 'Outdoor advertising', category: 'Graphic Design', image: 'images/projects/femininity-hair-salon-outdoor-advertising.webp' },
-];
 
-// How many project cards show before "Show more"; each click adds this many.
-export const projectsPerPage = 3;
 
 export const testimonialsIntro = {
   eyebrow: 'Kind words',

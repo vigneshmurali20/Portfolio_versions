@@ -1,0 +1,340 @@
+{
+  "slug": "agent-canvas",
+  "figmaCanvas": "133:5111",
+  "title": "Agent Canvas",
+  "hero": {
+    "tags": [
+      "Internal tool",
+      "Workflow canvas",
+      "Claude agents",
+      "MCP",
+      "Figma",
+      "UI/UX + Build",
+      "Case study"
+    ],
+    "titleLines": [
+      "Agent Canvas is",
+      "where agent workflows",
+      "become visible."
+    ],
+    "meta": [
+      {
+        "label": "Timeline",
+        "value": "2 days"
+      },
+      {
+        "label": "Scope",
+        "value": "canvas, MCP server, mascots"
+      },
+      {
+        "label": "Project",
+        "value": "Agent Canvas"
+      },
+      {
+        "label": "Designed and built by",
+        "value": "Vignesh Murali"
+      }
+    ],
+    "stats": [
+      {
+        "value": "21",
+        "label": "agents in the lobby"
+      },
+      {
+        "value": "10",
+        "label": "MCP tools"
+      },
+      {
+        "value": "13",
+        "label": "tests passing"
+      },
+      {
+        "value": "6",
+        "label": "mascot species"
+      }
+    ],
+    "about": "Agent Canvas is a drag-and-drop workspace for Claude agents and subagents. Workflows are drawn, checked and exported to run in your own Claude Code, and Claude can read and edit them over MCP. Every agent has a mascot that reacts to its checks."
+  },
+  "modules": [
+    {
+      "n": 1,
+      "name": "01 Hero",
+      "file": "m01.webp",
+      "w": 2000,
+      "h": 1734,
+      "heading": [
+        "Agent Canvas is",
+        "where agent workflows",
+        "become visible."
+      ],
+      "lede": "Agent Canvas is a drag-and-drop workspace for Claude agents and subagents. Workflows are drawn, checked and exported to run in your own Claude Code, and Claude can read and edit them over MCP. Every agent has a mascot that reacts to its checks.",
+      "text": [
+        "Internal tool",
+        "Workflow canvas",
+        "Claude agents",
+        "MCP",
+        "Figma",
+        "UI/UX + Build",
+        "Case study",
+        "Agent Canvas is",
+        "where agent workflows",
+        "become visible.",
+        "Timeline_ 2 days\nScope_ canvas, MCP server, mascots",
+        "Project_ Agent Canvas\nDesigned and built by_ Vignesh Murali",
+        "21",
+        "10",
+        "13",
+        "6",
+        "agents in the lobby",
+        "MCP tools",
+        "tests passing",
+        "mascot species",
+        "About",
+        "Agent Canvas is a drag-and-drop workspace for Claude agents and subagents. Workflows are drawn, checked and exported to run in your own Claude Code, and Claude can read and edit them over MCP. Every agent has a mascot that reacts to its checks."
+      ],
+      "alt": "Agent Canvas hero: where agent workflows become visible, with stats for 21 agents in the lobby, 10 MCP tools, 13 tests passing and 6 mascot species.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 2,
+      "name": "02 At a glance",
+      "file": "m02.webp",
+      "w": 2000,
+      "h": 1456,
+      "pill": "At a glance",
+      "heading": [
+        "One canvas.",
+        "Every agent.",
+        "Two days."
+      ],
+      "lede": "No backend and no shared login: workflows live in the browser and run in each person's own Claude session.",
+      "text": [
+        "At a glance",
+        "One canvas.",
+        "Every agent.",
+        "Two days.",
+        "No backend and no shared login: workflows live in the browser and run in each person's own Claude session.",
+        "01 DRAW",
+        "02 CHECK",
+        "03 CONNECT",
+        "Canvas",
+        "Checks and exports",
+        "MCP and Figma",
+        "Pan, zoom, connect and group nodes, with undo and a minimap.",
+        "Find problems before anything runs, then export to Claude Code.",
+        "Claude reads and edits workflows; Figma nodes and FigJam export.",
+        "—",
+        "21 agents in a lobby",
+        "—",
+        "Cycles, mappings, missing tasks",
+        "—",
+        "10 MCP tools",
+        "—",
+        "Templates and workflow pages",
+        "—",
+        "Runbook and agent installer",
+        "—",
+        "A Figma node",
+        "—",
+        "Per-agent chat",
+        "—",
+        "Page files to share",
+        "—",
+        "FigJam diagram export"
+      ],
+      "alt": "At a glance: one canvas for every agent, built in two days, covering drawing, checks and exports, and MCP and Figma connections.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 3,
+      "name": "03 Problem",
+      "file": "m03.webp",
+      "w": 2000,
+      "h": 1387,
+      "pill": "The problem",
+      "heading": [
+        "Workflows in prompts.",
+        "Rules in heads.",
+        "Nothing to review."
+      ],
+      "lede": "Multi-agent work is hard to share when the only record of it is a prompt.",
+      "text": [
+        "The problem",
+        "Workflows in prompts.",
+        "Rules in heads.",
+        "Nothing to review.",
+        "Multi-agent work is hard to share when the only record of it is a prompt.",
+        "BEFORE",
+        "WITH AGENT CANVAS",
+        "Prompts and memory",
+        "One canvas",
+        "—",
+        "Multi-agent workflows lived in prompts",
+        "—",
+        "One picture of the workflow",
+        "—",
+        "No way to see or check one",
+        "—",
+        "Checks for cycles and gaps",
+        "—",
+        "Hard to hand to a teammate",
+        "—",
+        "Exports and page files to share",
+        "—",
+        "Claude can read it over MCP"
+      ],
+      "alt": "The problem: workflows lived in prompts and memory; a before and after comparison with one Agent Canvas.",
+      "draftRemoved": true,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 4,
+      "name": "04 Process",
+      "file": "m04.webp",
+      "w": 2000,
+      "h": 1717,
+      "pill": "Process",
+      "heading": [
+        "Draw it.",
+        "Check it.",
+        "Connect it."
+      ],
+      "lede": "Each layer was shipped and tested before the next was added.",
+      "text": [
+        "Process",
+        "Draw it.",
+        "Check it.",
+        "Connect it.",
+        "Each layer was shipped and tested before the next was added.",
+        "PHASE 01",
+        "PHASE 02",
+        "PHASE 03",
+        "The canvas",
+        "Trust",
+        "Connect",
+        "See the workflow",
+        "Check and share",
+        "Claude, Figma, mascots",
+        "—",
+        "Pan, zoom, nodes, ports, connections",
+        "—",
+        "Validation for cycles and missing tasks",
+        "—",
+        "MCP server with 10 tools",
+        "—",
+        "Mascots that react to checks",
+        "—",
+        "Groups, undo and a minimap",
+        "—",
+        "Workflow pages and templates",
+        "—",
+        "Figma node and FigJam export",
+        "—",
+        "A lobby of 21 agents",
+        "—",
+        "Runbook, agent installer and page files",
+        "—",
+        "Reviewed and merged",
+        "01",
+        "02",
+        "03",
+        "04",
+        "No backend",
+        "Bring your own key",
+        "Checks first",
+        "Read-only option",
+        "A static site; work stays in the browser.",
+        "Each person uses their own Anthropic key.",
+        "Workflows are validated and exported, not run.",
+        "The MCP server can drop its write tools."
+      ],
+      "alt": "Process in three phases, the canvas, trust and connect, plus four principles from no backend to a read-only option.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 5,
+      "name": "05 What we built",
+      "file": "m05.webp",
+      "w": 2000,
+      "h": 1743,
+      "pill": "The product",
+      "heading": [
+        "What we built.",
+        "A canvas, a server,",
+        "and a crew."
+      ],
+      "text": [
+        "The product",
+        "What we built.",
+        "A canvas, a server,",
+        "and a crew.",
+        "AGENT",
+        "Planner",
+        "INPUT",
+        "AGENT",
+        "APPROVAL",
+        "User brief",
+        "Builder",
+        "Human approval",
+        "FIGMA",
+        "Design check",
+        "Mascots",
+        "MCP server",
+        "Figma",
+        "Six species. Eyes follow the pointer, a poke makes them hop, and their mood follows the node's checks.",
+        "Reads, validates and edits workflow files, and never runs them. Ten tools and ten evaluation questions.",
+        "A Figma node in the workflow, and Share to FigJam turns a workflow into a diagram."
+      ],
+      "alt": "What we built: an example workflow from user brief through planner, design check and builder to human approval, with notes on mascots, the MCP server and Figma.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 6,
+      "name": "06 Today",
+      "file": "m06.webp",
+      "w": 2000,
+      "h": 1370,
+      "pill": "Result",
+      "heading": [
+        "What it does",
+        "today.",
+        "Merged, and honest."
+      ],
+      "text": [
+        "Result",
+        "What it does",
+        "today.",
+        "Merged, and honest.",
+        "21",
+        "10",
+        "13",
+        "10",
+        "agents in the lobby",
+        "MCP tools",
+        "tests passing",
+        "evaluation questions for the MCP server",
+        "Running workflows from the canvas, live multi-user editing, and discovery of your real Claude Code agents. The lobby is still sample data.",
+        "Not yet"
+      ],
+      "alt": "Result today: 21 agents in the lobby, 10 MCP tools, 13 tests passing and 10 evaluation questions, with a list of what is not built yet.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    }
+  ],
+  "cover": {
+    "file": "cover.webp",
+    "w": 1616,
+    "h": 1264
+  },
+  "excluded": [
+    "07 Notes"
+  ],
+  "flags": [
+    "01 Hero: the Meta text in Figma literally uses \"_\" where a colon is meant (e.g. \"Timeline_ 2 days\"); it is visible in the hero image and cover. Meta labels in this JSON drop the \"_\".",
+    "03 Problem: \"Draft, confirm\" pill and \"Problem statement written from the brief; confirm or replace.\" were cut from the image and text; the problem statement itself is unconfirmed (see 07 Notes)."
+  ]
+}

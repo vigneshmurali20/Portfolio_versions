@@ -217,7 +217,8 @@ function curvedPlane(w, h, R) {
 export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, tools, reduced, onReady, onFirstDrag, onHoverCard }) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  // coarse pointers are usually phones: fewer pixels keep the GPU and battery calm
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, matchMedia('(pointer: coarse)').matches ? 1.25 : 2));
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(FOV, 1, 10, 10000);

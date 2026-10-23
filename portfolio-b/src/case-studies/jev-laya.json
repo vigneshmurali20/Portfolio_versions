@@ -1,0 +1,281 @@
+{
+  "slug": "jev-laya",
+  "figmaCanvas": "132:5352",
+  "title": "Jev & Laya",
+  "hero": {
+    "tags": [
+      "Internal tool",
+      "Runs locally",
+      "Mapping",
+      "Bulk upload",
+      "Classification",
+      "Data",
+      "Case study"
+    ],
+    "titleLines": [
+      "8,000+ records",
+      "classified in under",
+      "30 seconds."
+    ],
+    "meta": [
+      {
+        "label": "Status",
+        "value": "In progress"
+      },
+      {
+        "label": "Runs",
+        "value": "On a local device"
+      },
+      {
+        "label": "Project",
+        "value": "Jev & Laya"
+      },
+      {
+        "label": "Built by",
+        "value": "Vignesh Murali"
+      }
+    ],
+    "stats": [
+      {
+        "value": "8,000+",
+        "label": "records handled in one run"
+      },
+      {
+        "value": "<30s",
+        "label": "for the whole run"
+      },
+      {
+        "value": "3",
+        "label": "jobs: map, upload, classify"
+      },
+      {
+        "value": "Local",
+        "label": "on a single device"
+      }
+    ],
+    "about": "Jev and Laya are being integrated locally to measure how much workload they remove. Laya runs on a local device and handles mapping, bulk uploading and classifying records. In one run it mapped, uploaded and classified 8,000+ records in under 30 seconds."
+  },
+  "modules": [
+    {
+      "n": 1,
+      "name": "01 Hero",
+      "file": "m01.webp",
+      "w": 2000,
+      "h": 1780,
+      "heading": [
+        "8,000+ records",
+        "classified in under",
+        "30 seconds."
+      ],
+      "lede": "Jev and Laya are being integrated locally to measure how much workload they remove. Laya runs on a local device and handles mapping, bulk uploading and classifying records. In one run it mapped, uploaded and classified 8,000+ records in under 30 seconds.",
+      "text": [
+        "Internal tool",
+        "Runs locally",
+        "Mapping",
+        "Bulk upload",
+        "Classification",
+        "Data",
+        "Case study",
+        "8,000+ records",
+        "classified in under",
+        "30 seconds.",
+        "Status_ In progress\nRuns_ On a local device",
+        "Project_ Jev & Laya\nBuilt by_ Vignesh Murali",
+        "8,000+",
+        "<30s",
+        "3",
+        "Local",
+        "records handled in one run",
+        "for the whole run",
+        "jobs: map, upload, classify",
+        "on a single device",
+        "About",
+        "Jev and Laya are being integrated locally to measure how much workload they remove. Laya runs on a local device and handles mapping, bulk uploading and classifying records. In one run it mapped, uploaded and classified 8,000+ records in under 30 seconds."
+      ],
+      "alt": "Jev & Laya hero: 8,000+ records classified in under 30 seconds, with stats for records handled, run time, three jobs and a single local device.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 2,
+      "name": "02 At a glance",
+      "file": "m02.webp",
+      "w": 2000,
+      "h": 1400,
+      "pill": "At a glance",
+      "heading": [
+        "Three jobs.",
+        "One device.",
+        "Thirty seconds."
+      ],
+      "lede": "Mapping, uploading and classifying are the repetitive parts of working with a large set of records.",
+      "text": [
+        "At a glance",
+        "Three jobs.",
+        "One device.",
+        "Thirty seconds.",
+        "Mapping, uploading and classifying are the repetitive parts of working with a large set of records.",
+        "01 MAP",
+        "02 UPLOAD",
+        "03 CLASSIFY",
+        "Mapping",
+        "Bulk uploading",
+        "Classifying",
+        "Laya maps the records on the local device.",
+        "The whole set goes up in bulk, not record by record.",
+        "Each record is classified in the same run.",
+        "—",
+        "Runs locally",
+        "—",
+        "Under 30 seconds in total",
+        "—",
+        "8,000+ records",
+        "—",
+        "Part of the same pass",
+        "—",
+        "No manual sorting",
+        "—",
+        "One run"
+      ],
+      "alt": "At a glance: three jobs, mapping, bulk uploading and classifying, on one device in thirty seconds.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 3,
+      "name": "03 Problem",
+      "file": "m03.webp",
+      "w": 2000,
+      "h": 1373,
+      "pill": "The problem",
+      "heading": [
+        "Thousands of records.",
+        "Three repetitive jobs.",
+        "Done by hand."
+      ],
+      "lede": "Mapping, uploading and classifying a large set of records is slow work when it is done manually.",
+      "text": [
+        "The problem",
+        "Thousands of records.",
+        "Three repetitive jobs.",
+        "Done by hand.",
+        "Mapping, uploading and classifying a large set of records is slow work when it is done manually.",
+        "BEFORE",
+        "WITH LAYA, LOCALLY",
+        "By hand",
+        "One local run",
+        "—",
+        "Mapping records one at a time",
+        "—",
+        "One local run does all three",
+        "—",
+        "Uploading them in batches",
+        "—",
+        "8,000+ records in under 30 seconds",
+        "—",
+        "Classifying each record manually",
+        "—",
+        "Runs on a single device"
+      ],
+      "alt": "The problem: thousands of records handled by hand, compared with one local run that does all three jobs.",
+      "draftRemoved": true,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 4,
+      "name": "04 Process",
+      "file": "m04.webp",
+      "w": 2000,
+      "h": 1389,
+      "pill": "How it runs",
+      "heading": [
+        "Explore it.",
+        "Run it locally.",
+        "Measure the saving."
+      ],
+      "lede": "The work is still in progress, so the last step is the one being finished.",
+      "text": [
+        "How it runs",
+        "Explore it.",
+        "Run it locally.",
+        "Measure the saving.",
+        "The work is still in progress, so the last step is the one being finished.",
+        "STEP 01",
+        "STEP 02",
+        "STEP 03",
+        "Explore",
+        "Run",
+        "Result",
+        "Jev and Laya, locally",
+        "On a local device",
+        "8,000+ in under 30 s",
+        "—",
+        "A local integration of Jev and Laya",
+        "—",
+        "Map the records",
+        "—",
+        "The whole run took under 30 seconds",
+        "—",
+        "Aim: measure how much workload they remove",
+        "—",
+        "Bulk upload them",
+        "—",
+        "Workload measurement is still in progress",
+        "—",
+        "Classify them"
+      ],
+      "alt": "How it runs in three steps: explore Jev and Laya locally, run mapping, upload and classification, and measure the result.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 5,
+      "name": "05 The result",
+      "file": "m05.webp",
+      "w": 2000,
+      "h": 2143,
+      "pill": "Result",
+      "heading": [
+        "The result.",
+        "8,000 records.",
+        "Under 30 seconds."
+      ],
+      "text": [
+        "Result",
+        "The result.",
+        "8,000 records.",
+        "Under 30 seconds.",
+        "Class A",
+        "Class B",
+        "Class C",
+        "Class D",
+        "Class E",
+        "1 dot = 8 records. Illustration, not real data.",
+        "8,000+",
+        "<30s",
+        "Local",
+        "records",
+        "whole run",
+        "single device",
+        "In progress",
+        "Measuring how much workload Jev and Laya remove is still under way."
+      ],
+      "alt": "The result: an illustrative dot chart of records across classes A to E, with 8,000+ records, under 30 seconds and a single local device; workload measurement is still in progress.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    }
+  ],
+  "cover": {
+    "file": "cover.webp",
+    "w": 1616,
+    "h": 1264
+  },
+  "excluded": [
+    "06 Notes"
+  ],
+  "flags": [
+    "01 Hero: the Meta text in Figma literally uses \"_\" where a colon is meant (e.g. \"Status_ In progress\"); it is visible in the hero image and cover. Meta labels in this JSON drop the \"_\".",
+    "03 Problem: \"Draft, confirm\" pill and \"Problem statement written from the brief; confirm or replace.\" were cut from the image and text; the problem statement itself is unconfirmed (see 06 Notes).",
+    "05 The result: the dot chart is labelled \"1 dot = 8 records. Illustration, not real data.\" in Figma."
+  ]
+}
