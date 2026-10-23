@@ -6,10 +6,19 @@ The portfolio focuses on product and UX/UI design for SaaS and web, mobile app d
 
 ## Portfolio
 
+- [Case studies](https://vigneshmurali.com/#case-studies): Five products designed and built end to end, from the problem to what shipped.
 - [Selected work](https://vigneshmurali.com/#work): Portfolio projects across product, SaaS, web, app, branding, and motion design.
 - [Product design](https://vigneshmurali.com/#disciplines): Product and UX/UI design, including a Deepvue analytics dashboard redesign.
 - [About and experience](https://vigneshmurali.com/#about): Background, capabilities, design process, and featured writing.
 - [Contact](https://vigneshmurali.com/#contact): Contact Vignesh about freelance or full-time opportunities.
+
+## Case studies
+
+- [Omni Tracker case study](https://vigneshmurali.com/case-studies/omni-tracker/): Omni Tracker is one home for every campaign we run
+- [Omnicommerce website case study](https://vigneshmurali.com/case-studies/omnicommerce/): Omnicommerce is the unified OS for modern retail
+- [Omni CRM case study](https://vigneshmurali.com/case-studies/omni-crm/): Omni CRM is one system for every customer touchpoint.
+- [Agent Canvas case study](https://vigneshmurali.com/case-studies/agent-canvas/): Agent Canvas is where agent workflows become visible.
+- [Jev & Laya case study](https://vigneshmurali.com/case-studies/jev-laya/): 8,000+ records classified in under 30 seconds.
 
 ## Writing and posts
 

@@ -21,7 +21,8 @@ export const site = {
   // One-page résumé for recruiters (public/Vigneshwaran-M-Resume.pdf).
   resume: 'Vigneshwaran-M-Resume.pdf',
   // Low-angle crop (head to hands) of the black-and-white portrait, for the hero.
-  portrait: 'images/portrait-hero.png',
+  portrait: 'images/portrait-hero.webp',
+  portraitSmall: 'images/portrait-hero-560.webp',
   portraitAlt: 'Vignesh in a black turtleneck, photographed from a low angle, hands in his pockets',
   // About section photo (Figma node 1:16257).
   portraitAbout: 'images/portrait-about.jpg',
@@ -39,6 +40,7 @@ export const meta = {
 // One page, so the nav links jump to sections.
 export const nav = [
   { href: '#work', label: 'Work' },
+  { href: '#case-studies', label: 'Case studies' },
   { href: '#disciplines', label: 'Disciplines' },
   { href: '#toolbox', label: 'Toolbox' },
   { href: '#ai-lab', label: 'AI Lab' },
@@ -86,33 +88,6 @@ export const impactStats = [
   { value: 500, suffix: '+', total: 500, label: 'Social media designs', note: 'Campaign series across platforms', group: 'volume', size: 'normal', back: 'Launch, seasonal and always-on series, designed as one consistent system.' },
   { value: 100, suffix: '+', total: 100, label: 'Infographics', note: 'Complex ideas made easy to read', group: 'volume', size: 'normal', back: '100+ infographics and 100+ blog thumbnails that make dense topics easy to scan.' },
 ];
-
-// The "Current project" section. Fill in the details when ready:
-// set preview to an image path (e.g. 'images/current.jpg') and link to a URL.
-export const currentProject = {
-  status: 'In progress',
-  name: 'OmniGreen',
-  title: 'OmniGreen, taking shape.',
-  body: 'Designing the website for OmniGreen, one platform for point of sale, eCommerce, delivery, marketing and compliance. Every page, from home to products, solutions and resources.',
-  tags: ['Web design', 'UI/UX', 'Product', 'Marketing'],
-  // a full-page capture that scrolls slowly inside the preview window
-  preview: 'images/current-omnigreen.webp',
-  previewAlt: 'The OmniGreen home page design, from the hero to the footer',
-  link: null,
-  // workstreams shown as cards under the project, grouped by tag
-  tracks: [
-    {
-      tag: 'Marketing',
-      title: 'Email at scale, for five brands at once',
-      cards: [
-        { value: '500+', label: 'Email journeys', note: 'Designed end to end, from welcome to win-back' },
-        { value: '5', label: 'Brands redesigned', note: 'Five brand aesthetics refreshed at once, on one shared system' },
-        { value: 'Auto', label: 'Self-built journeys', note: 'My own automation, so new journeys ship faster and stay consistent' },
-        { value: '2', label: 'Months', note: 'Delivery window, running now', live: true },
-      ],
-    },
-  ],
-};
 
 // Cards on the 3D ring around the portrait in the hero.
 export const ringCards = [

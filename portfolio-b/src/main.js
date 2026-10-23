@@ -10,7 +10,6 @@ import { Flip } from 'gsap/Flip';
 import Lenis from 'lenis';
 import { injectSpeedInsights } from '@vercel/speed-insights';
 import { site, tools, disciplines, ringCards, workFilters, clientRegions, projectsPerPage } from './content.js';
-import { canWebGL, createHero3D } from './hero3d.js';
 
 injectSpeedInsights();
 
@@ -232,13 +231,26 @@ const hero = $('[data-hero]');
 const portraitImg = $('[data-portrait]');
 let scene = null;
 
-function startHero3D() {
+const canWebGL = () => {
+  try {
+    const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl')));
+  } catch {
+    return false;
+  }
+};
+
+// Three.js (the largest chunk) loads after first paint, so it never delays
+// the portrait (LCP) or the first interaction.
+async function startHero3D() {
   const saveData = navigator.connection?.saveData;
   if (!canWebGL() || saveData) {
     root.classList.add('no-gl');
     return;
   }
   try {
+    await new Promise((r) => ('requestIdleCallback' in window ? requestIdleCallback(r, { timeout: 1500 }) : setTimeout(r, 600)));
+    const { createHero3D } = await import('./hero3d.js');
     scene = createHero3D({
       canvas: $('[data-hero-gl]'),
       hero,
@@ -309,6 +321,45 @@ function heroScroll() {
   gsap.to('.hero__trust', { y: -70, ease: 'none', scrollTrigger: heroST() });
   gsap.to('.hero__tag', { y: -130, ease: 'none', scrollTrigger: heroST() });
   gsap.to('.badge', { y: -200, rotation: 120, ease: 'none', scrollTrigger: heroST() });
+}
+
+/* ------------------------------------------------------------ case studies */
+// Stacked sticky cards: as the next card slides over, the covered one eases
+// back and dims. The side index follows the card in view.
+function caseStudies() {
+  const cards = $$('[data-cs-card]');
+  if (!cards.length) return;
+  const links = $$('[data-cs-jump]');
+  const counter = $('[data-cs-current]');
+  const setActive = (i) => {
+    links.forEach((l, j) => (j === i ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current')));
+    if (counter) counter.textContent = i + 1;
+  };
+  cards.forEach((card, i) =>
+    ScrollTrigger.create({ trigger: card, start: 'top 55%', end: 'bottom 45%', onToggle: (st) => st.isActive && setActive(i) }),
+  );
+  if (reduced) return;
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 861px)', () => {
+    cards.slice(0, -1).forEach((card, i) => {
+      const next = cards[i + 1];
+      const stickTop = parseFloat(getComputedStyle(next).top) || 0;
+      gsap.to($('.cs-card__link', card), {
+        scale: 0.94 - (cards.length - 2 - i) * 0.012,
+        '--shade': 0.28,
+        ease: 'none',
+        scrollTrigger: { trigger: next, start: 'top bottom', end: `top ${stickTop}px`, scrub: true, invalidateOnRefresh: true },
+      });
+    });
+  });
+  // covers rise out of a clip as each card first enters
+  gsap.utils.toArray('.cs-card__media').forEach((m) => {
+    gsap.fromTo(
+      m,
+      { clipPath: 'inset(18% 10% 18% 10% round 24px)' },
+      { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power2.out', scrollTrigger: { trigger: m, start: 'top 95%', end: 'top 45%', scrub: true } },
+    );
+  });
 }
 
 /* ------------------------------------------------------------ parallax */
@@ -984,20 +1035,6 @@ function impactCounters() {
 }
 
 /* ------------------------------------------------------------ impact: flip, tabs, charts */
-// workstream cards in the current project flip up into place
-function currentTracks() {
-  if (reduced || !$('.current__tile')) return;
-  gsap.from('.current__tile', {
-    y: 40,
-    rotationX: -35,
-    opacity: 0,
-    transformOrigin: '50% 100%',
-    duration: 0.9,
-    ease: EASE,
-    stagger: 0.1,
-    scrollTrigger: { trigger: '[data-track]', start: 'top 85%', once: true },
-  });
-}
 
 function impactViews() {
   // flip cards: click, tap, Enter or Space turns a card over
@@ -1066,9 +1103,9 @@ startHero3D();
 clientGlobe();
 impactCounters();
 impactViews();
-currentTracks();
 const openDiscipline = disciplineAccordion();
 workFilter();
+caseStudies();
 parallax();
 toolbox(openDiscipline);
 showreel();

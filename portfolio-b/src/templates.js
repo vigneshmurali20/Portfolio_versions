@@ -4,6 +4,7 @@
  * readers and visitors without JavaScript. src/main.js only adds motion.
  */
 import * as simpleIcons from 'simple-icons';
+import { caseStudies, findCaseStudy } from './case-studies/index.js';
 import {
   site,
   aiIntro,
@@ -13,7 +14,6 @@ import {
   nav,
   hero,
   clientRegions,
-  currentProject,
   impactStats,
   disciplinesIntro,
   disciplines,
@@ -168,7 +168,7 @@ const renderHero = () => {
     </div>
 
     <div class="hero__stage" data-hero-stage>
-      <img class="hero__portrait" src="${site.portrait}" alt="${esc(site.portraitAlt)}" width="900" height="800" fetchpriority="high" data-portrait />
+      <img class="hero__portrait" src="${site.portrait}" srcset="${site.portraitSmall} 560w, ${site.portrait} 900w" sizes="(max-width: 860px) 92vw, 46vw" alt="${esc(site.portraitAlt)}" width="900" height="800" fetchpriority="high" data-portrait />
       <ul class="hero__ring-fallback" aria-hidden="true">
         <li>UI/UX</li><li>Product</li><li>Motion</li><li>Graphic</li>
       </ul>
@@ -576,58 +576,58 @@ const renderImpact = () => `
     </div>
   </section>`;
 
-/* ------------------------------------------------------- current project */
-const renderCurrentProject = () => {
-  const p = currentProject;
+/* ------------------------------------------------------- case studies */
+// The heart of the page: each study is a sticky card that the next one
+// stacks over. The cover carries a view-transition-name shared with the
+// detail page, so opening a study morphs the cover into its header.
+const caseStat = (st) => `<div><dt>${esc(st.label)}</dt><dd>${esc(st.value)}</dd></div>`;
+
+export const renderCaseStudies = (base = '') => {
+  if (!caseStudies.length) return '';
   return `
-  <section class="current" id="current-project" aria-labelledby="current-title">
-    <div class="current__card">
-      <div class="current__copy">
-        <p class="current__eyebrow"><span class="dot-live" aria-hidden="true"></span> ${esc(p.status)}</p>
-        <h2 class="current__title" id="current-title">${esc(p.title)}</h2>
-        <p class="current__body">${esc(p.body)}</p>
-        ${p.tags?.length ? `<ul class="chips current__tags">${p.tags.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
-        ${
-          p.link
-            ? `<a class="current__link" href="${esc(p.link)}" target="_blank" rel="noopener">View the project <span aria-hidden="true">↗</span></a>`
-            : '<a class="current__link" href="#contact">Have a project in mind? <span aria-hidden="true">↗</span></a>'
-        }
-      </div>
-      <div class="current__preview" data-tilt>
-        <div class="current__preview-top"><span>PROJECT / 001${p.name ? ` · ${esc(p.name)}` : ''}</span><span>CASE STUDY</span></div>
-        ${
-          p.preview
-            ? `<div class="current__window"><img class="current__img" src="${esc(p.preview)}" alt="${esc(p.previewAlt || `Preview of ${p.title}`)}" width="800" height="5324" loading="lazy" decoding="async" /></div>`
-            : `<div class="current__preview-art" aria-hidden="true">
-          <span class="current__ui current__ui--a"><i></i><i></i><i></i></span>
-          <span class="current__ui current__ui--b"><i></i><i></i></span>
-          <span class="current__ui current__ui--c"></span>
-          <span class="current__scan"></span>
-        </div>`
-        }
-        <div class="current__preview-bottom"><span>${p.preview ? 'Work in progress · hover to pause' : 'Preview coming soon'}</span><span>${new Date().getFullYear()}</span></div>
-      </div>
-      ${(p.tracks || [])
-        .map(
-          (t) => `<div class="current__track">
-        <div class="current__track-head">
-          <span class="current__track-tag">${esc(t.tag)}</span>
-          <h3 class="current__track-title">${esc(t.title)}</h3>
-        </div>
-        <ul class="current__track-cards" data-track>
-          ${t.cards
+  <section class="cases" id="case-studies" aria-labelledby="case-studies-title" data-cases>
+    ${sectionHead(
+      {
+        eyebrow: 'Case studies',
+        title: ['Problems I’ve solved,', 'start to ship.'],
+        body: `${caseStudies.length} products I designed and built end to end. Each one starts with a real problem and ends with something that shipped.`,
+      },
+      'case-studies',
+    )}
+    <div class="cases__layout">
+      <nav class="cases__index" aria-label="Case studies">
+        <ol>
+          ${caseStudies
             .map(
-              (c) => `<li class="current__tile" data-tilt>
-            <span class="current__tile-value">${esc(c.value)}</span>
-            <span class="current__tile-label">${c.live ? '<span class="dot-live" aria-hidden="true"></span>' : ''}${esc(c.label)}</span>
-            <span class="current__tile-note">${esc(c.note)}</span>
-          </li>`,
+              (c, i) => `<li><a href="#cs-${c.slug}" data-cs-jump="${i}"${i ? '' : ' aria-current="true"'}><span class="cases__index-name">${esc(c.title)}</span><span class="cases__index-kind">${esc(c.kind)}</span></a></li>`,
             )
             .join('')}
-        </ul>
-      </div>`,
-        )
-        .join('')}
+        </ol>
+        <p class="cases__count" aria-hidden="true"><span data-cs-current>1</span> / ${caseStudies.length}</p>
+      </nav>
+      <ol class="cases__stack">
+        ${caseStudies
+          .map((c, i) => {
+            const stats = (c.hero.stats || []).slice(0, 3);
+            const headline = (c.hero.titleLines || []).join(' ');
+            return `
+        <li class="cs-card" id="cs-${c.slug}" style="--accent:${c.accent};--i:${i}" data-cs-card>
+          <a class="cs-card__link" href="${base}${c.base}" data-cursor="Read">
+            <span class="cs-card__media">
+              <img src="${base}${c.base}${c.cover.file.replace('.webp', '-808.webp')}" srcset="${base}${c.base}${c.cover.file.replace('.webp', '-808.webp')} 808w, ${base}${c.base}${c.cover.file} ${c.cover.w}w" sizes="(max-width: 900px) 92vw, 52vw" alt="" width="${c.cover.w}" height="${c.cover.h}" loading="${i ? 'lazy' : 'eager'}" decoding="async" style="view-transition-name: cs-cover-${c.slug}" />
+            </span>
+            <span class="cs-card__body">
+              <span class="cs-card__kind">${esc(c.kind)}</span>
+              <span class="cs-card__title">${esc(c.title)}</span>
+              <span class="cs-card__line">${esc(headline)}</span>
+              ${stats.length ? `<dl class="cs-card__stats">${stats.map(caseStat).join('')}</dl>` : ''}
+              <span class="cs-card__cta">Read the case study ${icon('arrowR')}</span>
+            </span>
+          </a>
+        </li>`;
+          })
+          .join('')}
+      </ol>
     </div>
   </section>`;
 };
@@ -1009,6 +1009,132 @@ export function renderWritingPage() {
   };
 }
 
+/* ------------------------------------------------------ case study pages */
+const moduleLabel = (name) => name.replace(/^\d+\s+/, '');
+
+// /case-studies/<slug>/: a crawlable HTML header (title, meta, numbers,
+// summary, cover), then the Figma modules as images with real alt text,
+// a reading rail, the full text version, and the next study.
+export function renderCaseStudyPage(slug) {
+  const c = findCaseStudy(slug);
+  if (!c) throw new Error(`Unknown case study: ${slug}`);
+  const home = '../../';
+  const i = caseStudies.indexOf(c);
+  const next = caseStudies[(i + 1) % caseStudies.length];
+  const url = `https://vigneshmurali.com/case-studies/${c.slug}/`;
+  const mods = c.modules.filter((m) => m.n !== 1);
+  const headline = (c.hero.titleLines || []).join(' ');
+  const title = `${c.title} case study: ${headline.replace(/\.$/, '')} | Vignesh Murali`;
+  const description = (c.hero.about || headline).replace(/\s+/g, ' ').slice(0, 300);
+  const ld = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': `${url}#case-study`,
+    name: `${c.title} case study`,
+    headline,
+    description,
+    url,
+    image: `${url}${c.cover.file}`,
+    keywords: (c.hero.tags || []).join(', '),
+    author: { '@type': 'Person', '@id': 'https://vigneshmurali.com/#person', name: site.fullName, url: 'https://vigneshmurali.com/' },
+    isPartOf: { '@type': 'WebSite', url: 'https://vigneshmurali.com/', name: site.fullName },
+  };
+  const crumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vigneshmurali.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Case studies', item: 'https://vigneshmurali.com/#case-studies' },
+      { '@type': 'ListItem', position: 3, name: c.title, item: url },
+    ],
+  };
+  const json = (o) => JSON.stringify(o).replace(/</g, '\\u003c');
+  const head = `<title>${esc(title)}</title>
+    <meta name="description" content="${esc(description)}" />
+    <link rel="canonical" href="${url}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:title" content="${esc(`${c.title} case study | Vignesh Murali`)}" />
+    <meta property="og:description" content="${esc(description)}" />
+    <meta property="og:image" content="${url}${c.cover.file}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" as="image" href="${c.cover.file.replace('.webp', '-808.webp')}" imagesrcset="${c.cover.file.replace('.webp', '-808.webp')} 808w, ${c.cover.file} ${c.cover.w}w" imagesizes="(max-width: 900px) 92vw, 46vw" fetchpriority="high" />
+    <script type="application/ld+json">${json(ld)}</script>
+    <script type="application/ld+json">${json(crumbs)}</script>`;
+
+  const body = `
+  <div class="csd-progress" aria-hidden="true"><span data-csd-progress></span></div>
+  <header class="csd-nav">
+    <a class="nav__logo" href="${home}" aria-label="${esc(site.fullName)}, home">${wordmark()}</a>
+    <a class="csd-nav__back" href="${home}#case-studies">${icon('arrowL')} All case studies</a>
+  </header>
+  <main id="main" class="csd" tabindex="-1" style="--accent:${c.accent}">
+    <section class="csd-hero" aria-labelledby="csd-title">
+      <div class="csd-hero__copy">
+        <nav class="csd-crumbs" aria-label="Breadcrumb"><a href="${home}">Home</a> / <a href="${home}#case-studies">Case studies</a> / <span aria-current="page">${esc(c.title)}</span></nav>
+        <p class="csd-kind" data-csd-in>${esc(c.kind)}</p>
+        <h1 class="csd-title" id="csd-title"><span class="csd-title__name" data-csd-in>${esc(c.title)}</span><span class="sr-only">: </span><span class="csd-title__line">${(c.hero.titleLines || []).map((l) => `<span class="csd-line"><span class="csd-line__in">${esc(l)}</span></span>`).join(' ')}</span></h1>
+        ${c.hero.about ? `<p class="csd-about" data-csd-in>${esc(c.hero.about)}</p>` : ''}
+        ${c.hero.tags?.length ? `<ul class="csd-tags" data-csd-in>${c.hero.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
+      </div>
+      <figure class="csd-cover">
+        <img src="${c.cover.file.replace('.webp', '-808.webp')}" srcset="${c.cover.file.replace('.webp', '-808.webp')} 808w, ${c.cover.file} ${c.cover.w}w" sizes="(max-width: 900px) 92vw, 46vw" alt="Cover of the ${esc(c.title)} case study" width="${c.cover.w}" height="${c.cover.h}" fetchpriority="high" style="view-transition-name: cs-cover-${c.slug}" />
+      </figure>
+      ${
+        c.hero.meta?.length || c.hero.stats?.length
+          ? `<div class="csd-facts" data-csd-in>
+        ${c.hero.meta?.length ? `<dl class="csd-meta">${c.hero.meta.map((m) => `<div><dt>${esc(m.label)}</dt><dd>${esc(m.value)}</dd></div>`).join('')}</dl>` : ''}
+        ${c.hero.stats?.length ? `<dl class="csd-stats">${c.hero.stats.map((m) => `<div><dt>${esc(m.label)}</dt><dd>${esc(m.value)}</dd></div>`).join('')}</dl>` : ''}
+      </div>`
+          : ''
+      }
+    </section>
+
+    <div class="csd-body-grid">
+      <nav class="csd-rail" aria-label="Sections of this case study">
+        <ol>${mods.map((m) => `<li><a href="#${slug}-m${m.n}" data-csd-jump>${esc(moduleLabel(m.name))}</a></li>`).join('')}</ol>
+      </nav>
+      <div class="csd-modules">
+        ${mods
+          .map(
+            (m) => `
+        <section class="csd-mod" id="${slug}-m${m.n}" aria-labelledby="${slug}-m${m.n}-h" style="--bg:${m.bg || '#fff'};--ratio:${m.w} / ${m.h}" data-csd-mod>
+          <h2 class="sr-only" id="${slug}-m${m.n}-h">${esc([moduleLabel(m.name), (m.heading || []).join(' ')].filter(Boolean).join(': '))}</h2>
+          <figure class="csd-mod__fig">
+            <img src="${m.file.replace('.webp', '-1000.webp')}" srcset="${m.file.replace('.webp', '-1000.webp')} 1000w, ${m.file} ${m.w}w" sizes="(max-width: 1100px) 100vw, min(1400px, 78vw)" alt="${esc(m.alt)}" width="${m.w}" height="${m.h}" loading="lazy" decoding="async" />
+          </figure>
+        </section>`,
+          )
+          .join('')}
+      </div>
+    </div>
+
+    <details class="csd-text">
+      <summary>Read this case study as text</summary>
+      <div class="csd-text__body">
+        ${mods
+          .map(
+            (m) => `<section><h3>${esc(moduleLabel(m.name))}</h3>${(m.text || []).filter((t) => t.trim() && !/^[—–-]$/.test(t.trim())).map((t) => `<p>${esc(t)}</p>`).join('')}</section>`,
+          )
+          .join('')}
+      </div>
+    </details>
+
+    <section class="csd-next" aria-label="Next case study">
+      <a class="csd-next__link" href="${home}${next.base}" data-cursor="Next">
+        <span class="csd-next__label">Next case study</span>
+        <span class="csd-next__title">${esc(next.title)}</span>
+        <span class="csd-next__line">${esc((next.hero.titleLines || []).join(' '))}</span>
+        <span class="csd-next__media"><img src="${home}${next.base}${next.cover.file.replace('.webp', '-808.webp')}" alt="" width="${next.cover.w}" height="${next.cover.h}" loading="lazy" decoding="async" style="view-transition-name: cs-cover-${next.slug}" /></span>
+      </a>
+    </section>
+  </main>
+  <footer class="wpage__foot">
+    <p>© ${new Date().getFullYear()} ${esc(site.fullName)}. <a href="${home}">Portfolio</a> · <a href="${home}#case-studies">Case studies</a> · <a href="${site.linkedin}" target="_blank" rel="noopener">LinkedIn</a> · <a href="mailto:${site.email}">${esc(site.email)}</a></p>
+  </footer>`;
+  return { head, body };
+}
+
 export const renderLoader = () => `${wordmark()}`;
 
 export function renderPage() {
@@ -1016,7 +1142,7 @@ export function renderPage() {
     meta,
     loader: renderLoader(),
     nav: renderNav(),
-    main: [renderHero(), renderMarquee(), renderWork(), renderGlobalClients(), renderImpact(), renderCurrentProject(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
+    main: [renderHero(), renderMarquee(), renderWork(), renderGlobalClients(), renderImpact(), renderCaseStudies(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
     footer: renderFooter() + renderDialog(),
   };
 }

@@ -1,0 +1,342 @@
+{
+  "slug": "omni-crm",
+  "figmaCanvas": "128:5111",
+  "title": "Omni CRM",
+  "hero": {
+    "tags": [
+      "In-house product",
+      "Customer data platform",
+      "Marketing automation",
+      "Sales CRM",
+      "MCP",
+      "Build",
+      "Case study"
+    ],
+    "titleLines": [
+      "Omni CRM is",
+      "one system for every",
+      "customer touchpoint."
+    ],
+    "meta": [
+      {
+        "label": "Timeline",
+        "value": "2 days"
+      },
+      {
+        "label": "Scope",
+        "value": "21 pages, 46 MCP tools"
+      },
+      {
+        "label": "Project",
+        "value": "Omni CRM"
+      },
+      {
+        "label": "Designed and built by",
+        "value": "Vignesh Murali"
+      }
+    ],
+    "stats": [
+      {
+        "value": "46",
+        "label": "MCP tools Claude can call"
+      },
+      {
+        "value": "21",
+        "label": "pages in the web UI"
+      },
+      {
+        "value": "0",
+        "label": "messages sent by default"
+      },
+      {
+        "value": "2",
+        "label": "days of building"
+      }
+    ],
+    "about": "Omni CRM brings profiles, events, segments, flows, campaigns and a sales pipeline into one small service that Claude can operate through MCP. It is safe by default: nothing is sent until a real channel is connected, and its events can flow to Omni Tracker."
+  },
+  "modules": [
+    {
+      "n": 1,
+      "name": "01 Hero",
+      "file": "m01.webp",
+      "w": 2000,
+      "h": 1734,
+      "heading": [
+        "Omni CRM is",
+        "one system for every",
+        "customer touchpoint."
+      ],
+      "lede": "Omni CRM brings profiles, events, segments, flows, campaigns and a sales pipeline into one small service that Claude can operate through MCP. It is safe by default: nothing is sent until a real channel is connected, and its events can flow to Omni Tracker.",
+      "text": [
+        "In-house product",
+        "Customer data platform",
+        "Marketing automation",
+        "Sales CRM",
+        "MCP",
+        "Build",
+        "Case study",
+        "Omni CRM is",
+        "one system for every",
+        "customer touchpoint.",
+        "Timeline_ 2 days\nScope_ 21 pages, 46 MCP tools",
+        "Project_ Omni CRM\nDesigned and built by_ Vignesh Murali",
+        "46",
+        "21",
+        "0",
+        "2",
+        "MCP tools Claude can call",
+        "pages in the web UI",
+        "messages sent by default",
+        "days of building",
+        "About",
+        "Omni CRM brings profiles, events, segments, flows, campaigns and a sales pipeline into one small service that Claude can operate through MCP. It is safe by default: nothing is sent until a real channel is connected, and its events can flow to Omni Tracker."
+      ],
+      "alt": "Omni CRM hero: one system for every customer touchpoint, with stats for 46 MCP tools, 21 web UI pages, 0 messages sent by default and 2 days of building.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 2,
+      "name": "02 At a glance",
+      "file": "m02.webp",
+      "w": 2000,
+      "h": 1489,
+      "pill": "At a glance",
+      "heading": [
+        "One core.",
+        "Seven modules.",
+        "Two days."
+      ],
+      "lede": "A customer data platform, multichannel automation and a sales CRM that share one module contract.",
+      "text": [
+        "At a glance",
+        "One core.",
+        "Seven modules.",
+        "Two days.",
+        "A customer data platform, multichannel automation and a sales CRM that share one module contract.",
+        "01 DATA",
+        "02 AUTOMATION",
+        "03 SALES",
+        "Customer data",
+        "Journeys and campaigns",
+        "Sales CRM",
+        "Profiles and events, with segments, lists and scoring.",
+        "Flows and campaigns over email, SMS, push and WhatsApp.",
+        "Companies, deals, pipelines, tasks and custom objects.",
+        "—",
+        "Profiles and events",
+        "—",
+        "Flows",
+        "—",
+        "Pipelines",
+        "—",
+        "Segments and lists",
+        "—",
+        "Campaigns",
+        "—",
+        "Custom objects",
+        "—",
+        "Scoring",
+        "—",
+        "Four channels, log transport by default",
+        "—",
+        "Analytics"
+      ],
+      "alt": "At a glance: one core and seven modules across customer data, journeys and campaigns, and a sales CRM.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 3,
+      "name": "03 Problem",
+      "file": "m03.webp",
+      "w": 2000,
+      "h": 1429,
+      "pill": "The problem",
+      "heading": [
+        "Data here.",
+        "Messages there.",
+        "Sales elsewhere."
+      ],
+      "lede": "Customer data, messaging and sales usually sit in separate tools, so nothing sees the whole customer.",
+      "text": [
+        "The problem",
+        "Data here.",
+        "Messages there.",
+        "Sales elsewhere.",
+        "Customer data, messaging and sales usually sit in separate tools, so nothing sees the whole customer.",
+        "BEFORE",
+        "WITH OMNI CRM",
+        "Separate tools",
+        "One workspace",
+        "—",
+        "Profiles and events in one tool, messaging in another",
+        "—",
+        "One profile per customer, with every event",
+        "—",
+        "A sales pipeline in a third",
+        "—",
+        "Flows and campaigns built on the same data",
+        "—",
+        "Nothing Claude could operate end to end",
+        "—",
+        "A sales pipeline beside the marketing",
+        "—",
+        "46 MCP tools so Claude can run it"
+      ],
+      "alt": "The problem: data, messages and sales sit in separate tools; a before and after comparison with one Omni CRM workspace.",
+      "draftRemoved": true,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 4,
+      "name": "04 Process",
+      "file": "m04.webp",
+      "w": 2000,
+      "h": 1861,
+      "pill": "Process",
+      "heading": [
+        "Core first.",
+        "Modules in parallel.",
+        "Claude in the loop."
+      ],
+      "lede": "A module contract meant each feature could be built and tested on its own.",
+      "text": [
+        "Process",
+        "Core first.",
+        "Modules in parallel.",
+        "Claude in the loop.",
+        "A module contract meant each feature could be built and tested on its own.",
+        "PHASE 01",
+        "PHASE 02",
+        "PHASE 03",
+        "Foundation",
+        "Modules",
+        "Operate and ship",
+        "Core and contract",
+        "Built side by side",
+        "Claude, security, UI",
+        "—",
+        "Server, profiles and events",
+        "—",
+        "Segments and lists",
+        "—",
+        "MCP server: 46 tools, stdio and HTTP",
+        "—",
+        "Authentication and API keys",
+        "—",
+        "Messaging and flows",
+        "—",
+        "Hardened public endpoints, then a security pass",
+        "—",
+        "A module contract every feature plugs into",
+        "—",
+        "Analytics and sales",
+        "—",
+        "Omni Tracker connector",
+        "—",
+        "21-page web UI",
+        "—",
+        "Demo mode, Docker and a Vercel look-around",
+        "—",
+        "Import from Figma",
+        "01",
+        "02",
+        "03",
+        "04",
+        "Core first",
+        "Safe by default",
+        "Claude can run it",
+        "Security as we go",
+        "One contract, then everything else.",
+        "Messages are stored, not sent, until a channel is connected.",
+        "46 MCP tools cover the service.",
+        "Public endpoints hardened, then a review."
+      ],
+      "alt": "Process in three phases, foundation, modules and operate and ship, plus four principles from core first to security as we go.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 5,
+      "name": "05 What we built",
+      "file": "m05.webp",
+      "w": 2000,
+      "h": 1743,
+      "pill": "The product",
+      "heading": [
+        "What we built.",
+        "A core, seven modules,",
+        "one operator."
+      ],
+      "text": [
+        "The product",
+        "What we built.",
+        "A core, seven modules,",
+        "one operator.",
+        "Messaging",
+        "Segments and lists",
+        "Flows",
+        "Core",
+        "profiles · events",
+        "Analytics",
+        "MCP · 46 tools",
+        "Sales pipeline",
+        "Lean core",
+        "Safe channels",
+        "Import from Figma",
+        "Node's built-in SQLite and HTTP server, with no runtime dependencies in the core.",
+        "Email, SMS, push and WhatsApp sit behind a log transport until a real one is connected.",
+        "Paste a link and get email, in-app or page HTML saved as a template."
+      ],
+      "alt": "What we built: a core with profiles and events surrounded by segments and lists, messaging, flows, analytics, sales pipeline and MCP with 46 tools.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    },
+    {
+      "n": 6,
+      "name": "06 Today",
+      "file": "m06.webp",
+      "w": 2000,
+      "h": 1370,
+      "pill": "Result",
+      "heading": [
+        "What it does",
+        "today.",
+        "Working, and open."
+      ],
+      "text": [
+        "Result",
+        "What it does",
+        "today.",
+        "Working, and open.",
+        "46",
+        "21",
+        "0",
+        "3",
+        "MCP tools",
+        "UI pages",
+        "runtime dependencies in the core",
+        "ways to run: demo, Docker, Vercel look-around",
+        "The Docker image has not been built in CI yet, and the Vercel copy is a demo only: its data resets and scheduled sends do not run there.",
+        "In progress"
+      ],
+      "alt": "Result today: 46 MCP tools, 21 UI pages, 0 runtime dependencies in the core and 3 ways to run, with a note on work in progress.",
+      "draftRemoved": false,
+      "bg": "#0a0c10"
+    }
+  ],
+  "cover": {
+    "file": "cover.webp",
+    "w": 1616,
+    "h": 1264
+  },
+  "excluded": [
+    "07 Notes"
+  ],
+  "flags": [
+    "01 Hero: the Meta text in Figma literally uses \"_\" where a colon is meant (e.g. \"Timeline_ 2 days\"); it is visible in the hero image and cover. Meta labels in this JSON drop the \"_\".",
+    "03 Problem: \"Draft, confirm\" pill and \"Problem statement written from the brief; confirm or replace.\" were cut from the image and text; the problem statement itself is unconfirmed (see 07 Notes)."
+  ]
+}
