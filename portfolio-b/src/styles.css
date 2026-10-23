@@ -4861,7 +4861,7 @@ section {
 .cs-card__kind {
   font-size: 13px;
   font-weight: 650;
-  color: color-mix(in srgb, var(--accent) 70%, var(--ink));
+  color: color-mix(in srgb, var(--accent) 52%, var(--ink));
 }
 .cs-card__title {
   font-family: var(--serif);
@@ -5039,7 +5039,7 @@ section {
   margin: 28px 0 0;
   font-weight: 650;
   font-size: 14px;
-  color: color-mix(in srgb, var(--accent) 72%, var(--ink));
+  color: color-mix(in srgb, var(--accent) 52%, var(--ink));
 }
 .csd-title {
   margin: 10px 0 0;
