@@ -7,7 +7,6 @@ The portfolio focuses on product and UX/UI design for SaaS and web, mobile app d
 ## Portfolio
 
 - [Case studies](https://vigneshmurali.com/#case-studies): Five products designed and built end to end, from the problem to what shipped.
-- [Selected work](https://vigneshmurali.com/#work): Portfolio projects across product, SaaS, web, app, branding, and motion design.
 - [Product design](https://vigneshmurali.com/#disciplines): Product and UX/UI design, including a Deepvue analytics dashboard redesign.
 - [About and experience](https://vigneshmurali.com/#about): Background, capabilities, design process, and featured writing.
 - [Contact](https://vigneshmurali.com/#contact): Contact Vignesh about freelance or full-time opportunities.

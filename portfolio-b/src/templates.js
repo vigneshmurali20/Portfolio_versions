@@ -19,10 +19,6 @@ import {
   disciplines,
   toolboxIntro,
   tools,
-  workIntro,
-  workFilters,
-  projects,
-  projectsPerPage,
   showreelIntro,
   aboutBrief,
   experience,
@@ -422,52 +418,6 @@ const renderToolbox = () => `
       </div>
     </div>
   </section>`;
-
-/* ---------------------------------------------------------------- work */
-const renderWork = () => {
-  const catKey = (cat) => (workFilters.find((f) => f.match && f.match.includes(cat)) || { key: 'all' }).key;
-  return `
-  <section class="work" id="work" aria-labelledby="work-title">
-    <div class="work__top">
-      ${sectionHead(workIntro, 'work')}
-      <div class="filters" role="group" aria-label="Filter projects" data-filters>
-        ${workFilters
-          .map((f) => {
-            const n = f.key === 'all' ? projects.length : projects.filter((p) => catKey(p.category) === f.key).length;
-            return `<button type="button" class="filter${f.key === 'all' ? ' is-active' : ''}" data-filter="${f.key}" aria-pressed="${f.key === 'all'}">${esc(f.label)}<sup>${n}</sup></button>`;
-          })
-          .join('')}
-      </div>
-    </div>
-    <p class="sr-only" aria-live="polite" data-filter-status></p>
-    <ul class="work__grid" id="work-grid" data-work>
-      ${projects
-        .map((p, i) => {
-          const inner = `
-            <span class="card__media"><img src="${p.image}" alt="${esc(`${p.title}: ${p.sub}`)}" width="808" height="632" loading="lazy" decoding="async" /></span>
-            <span class="card__meta">
-              <span class="card__title">${esc(p.title)}</span>
-              <span class="card__cat">${esc(p.category)}</span>
-              ${p.href ? `<span class="card__go">${icon('arrowUR')}</span>` : ''}
-            </span>`;
-          return `<li class="card${i >= projectsPerPage ? ' is-hidden' : ''}" data-cat="${catKey(p.category)}" data-tilt>
-            ${
-              p.href
-                ? `<a class="card__link" href="${esc(p.href)}" target="_blank" rel="noopener" data-cursor="View">${inner}<span class="sr-only">${esc(p.title)}, ${esc(p.category)} (opens Behance in a new tab)</span></a>`
-                : `<div class="card__link">${inner}</div>`
-            }
-          </li>`;
-        })
-        .join('')}
-    </ul>
-    <div class="work__more" data-reveal>
-      ${projects.length > projectsPerPage ? `<button type="button" class="btn btn--dark work__show" data-work-more aria-controls="work-grid" aria-expanded="false">
-        <span class="btn__label" data-work-label>View all work</span><sup data-work-left>${projects.length - projectsPerPage}</sup>
-      </button>` : ''}
-      ${btn('More on Behance', site.behance, { variant: 'ghost', iconName: 'arrowUR', attrs: 'target="_blank" rel="noopener"' })}
-    </div>
-  </section>`;
-};
 
 /* ------------------------------------------------------ global clients */
 const regionCount = (r) => (r.count == null ? '' : `${r.count} client${r.count === 1 ? '' : 's'}`);
@@ -1142,7 +1092,7 @@ export function renderPage() {
     meta,
     loader: renderLoader(),
     nav: renderNav(),
-    main: [renderHero(), renderMarquee(), renderWork(), renderGlobalClients(), renderImpact(), renderCaseStudies(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
+    main: [renderHero(), renderMarquee(), renderCaseStudies(), renderGlobalClients(), renderImpact(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
     footer: renderFooter() + renderDialog(),
   };
 }

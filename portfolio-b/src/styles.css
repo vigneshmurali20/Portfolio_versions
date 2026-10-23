@@ -1241,7 +1241,6 @@ section {
 }
 
 /* ---------------------------------------------------------------- work */
-.work,
 .global,
 .impact,
 .cases,
@@ -1254,152 +1253,6 @@ section {
   max-width: calc(var(--max) + var(--gutter) * 2);
   margin: 0 auto;
   padding: clamp(96px, 12vw, 160px) var(--gutter) 0;
-}
-.work__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 5px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.55);
-}
-.filter {
-  padding: 9px 16px;
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink-2);
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-}
-.filter sup {
-  margin-left: 4px;
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-}
-.filter:hover {
-  background: rgba(17, 16, 20, 0.06);
-}
-.filter.is-active {
-  background: var(--ink);
-  color: var(--paper);
-}
-.filter.is-active sup {
-  color: #fff;
-}
-.work__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 48px;
-  perspective: 1400px;
-}
-.card {
-  transform-style: preserve-3d;
-}
-.card.is-hidden {
-  display: none;
-}
-.card__link {
-  display: block;
-  height: 100%;
-  padding: 10px 10px 0;
-  border-radius: 24px;
-  background: var(--card-solid);
-  border: 1px solid var(--line);
-  transition:
-    box-shadow 0.5s var(--ease),
-    border-color 0.3s;
-}
-.card:hover .card__link {
-  box-shadow: var(--shadow-lg);
-  border-color: var(--line-2);
-}
-.card__media {
-  display: block;
-  overflow: hidden;
-  border-radius: 16px;
-  aspect-ratio: 808 / 632;
-  background: var(--paper-2);
-}
-.card__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1s var(--ease);
-}
-.card:hover .card__media img {
-  transform: scale(1.05);
-}
-.card__meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 6px 16px;
-}
-.card__title {
-  font-weight: 650;
-  font-size: 17px;
-}
-.card__cat {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.card__go {
-  margin-left: auto;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid var(--line-2);
-  transition:
-    background-color 0.3s,
-    color 0.3s,
-    transform 0.5s var(--ease);
-}
-.card:hover .card__go {
-  background: var(--ink);
-  color: var(--paper);
-  transform: rotate(45deg);
-}
-.work__more {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 40px;
-}
-.work__show {
-  gap: 10px;
-  padding: 0 24px;
-}
-.work__show[hidden] {
-  display: none;
-}
-.work__show sup {
-  display: grid;
-  place-items: center;
-  min-width: 28px;
-  height: 22px;
-  padding: 0 6px;
-  border-radius: 999px;
-  background: rgba(244, 242, 238, 0.16);
-  font: 600 11px var(--mono);
-  line-height: 1;
 }
 
 /* ------------------------------------------------------- global clients */
@@ -1968,7 +1821,6 @@ section {
     font-size: 12px;
   }
 }
-
 
 /* workstream cards under the project, e.g. the marketing email sprint */
 /* the page design scrolls slowly inside a browser-like window */
@@ -3946,9 +3798,6 @@ section {
 .js [data-split] .line__in {
   transform: translateY(105%);
 }
-.js .card {
-  opacity: 0;
-}
 
 /* ---------------------------------------------------------------- responsive */
 @media (max-width: 1180px) {
@@ -3989,9 +3838,6 @@ section {
   .hero__trust,
   .hero__tag {
     display: none;
-  }
-  .work__grid {
-    grid-template-columns: repeat(2, 1fr);
   }
   .disc__list {
     flex-direction: column;
@@ -4073,12 +3919,6 @@ section {
   }
   .hero__ctas .btn {
     height: 48px;
-  }
-  .work__grid {
-    grid-template-columns: 1fr;
-  }
-  .filters {
-    border-radius: 22px;
   }
   .facts {
     grid-template-columns: 1fr;
@@ -4503,7 +4343,6 @@ section {
   color: var(--muted);
 }
 
-
 /* --------------------------------------------------------- interactive atlas */
 .global .global__panel.atlas {
   grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
@@ -4657,14 +4496,12 @@ section {
 .about__motto {
   translate: 0 var(--py, 0px);
 }
-.card__media img,
 .about__photo img {
   translate: 0 var(--py, 0px);
   scale: 1.14;
 }
 @media (prefers-reduced-motion: reduce) {
-  .card__media img,
-  .about__photo img {
+.about__photo img {
     scale: 1;
   }
 }
@@ -4703,9 +4540,6 @@ section {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--brand-ink);
-}
-.work__show sup:empty {
-  display: none;
 }
 
 /* on-site interactive piece embedded on /writing/ */
