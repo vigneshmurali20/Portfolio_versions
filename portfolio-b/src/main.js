@@ -9,7 +9,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
 import Lenis from 'lenis';
 import { injectSpeedInsights } from '@vercel/speed-insights';
-import { site, tools, disciplines, ringCards, clientRegions } from './content.js';
+import { site, tools, disciplines, haloTools, clientRegions } from './content.js';
+import { cinematic } from './cinematic.js';
 
 injectSpeedInsights();
 
@@ -256,12 +257,12 @@ async function startHero3D() {
       hero,
       portraitImg,
       portraitSrc: site.portrait,
-      cards: ringCards,
+      cards: haloTools,
       tools,
       reduced,
       onReady: () => root.classList.add('gl-ready'),
       onFirstDrag: () => $('.hero__hint')?.classList.add('is-done'),
-      onHoverCard: (on) => setCursorLabel(on ? 'Drag' : ''),
+      onHoverCard: (name) => setCursorLabel(typeof name === 'string' ? name : name ? 'Drag' : ''),
     });
     $('[data-hero-gl]').addEventListener('webglcontextlost', () => {
       root.classList.remove('gl-ready');
@@ -346,7 +347,9 @@ function caseStudies() {
       // the next card's sticky offset, re-read on every refresh (resize)
       const stickTop = () => parseFloat(getComputedStyle(next).top) || 0;
       gsap.to($('.cs-card__link', card), {
-        scale: 0.94 - (cards.length - 2 - i) * 0.012,
+        scale: 0.89 - (cards.length - 2 - i) * 0.012,
+        rotationX: -5,
+        transformPerspective: 1400,
         '--shade': 0.28,
         ease: 'none',
         scrollTrigger: { trigger: next, start: 'top bottom', end: () => `top ${stickTop()}px`, scrub: true, invalidateOnRefresh: true },
@@ -1017,6 +1020,7 @@ function impactViews() {
 }
 
 /* ------------------------------------------------------------ boot */
+cinematic({ hero, reduced });
 startHero3D();
 clientGlobe();
 impactCounters();
@@ -1032,7 +1036,7 @@ clock();
 currentlyTicker();
 processLine();
 reveals();
-heroScroll();
+// The cinematic timeline owns the hero layers; avoid competing scroll tweens.
 runLoader().then(() => {
   drawWires();
   ScrollTrigger.refresh();

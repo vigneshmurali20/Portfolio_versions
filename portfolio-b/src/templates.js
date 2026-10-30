@@ -13,6 +13,7 @@ import {
   meta,
   nav,
   hero,
+  haloTools,
   clientRegions,
   impactStats,
   disciplinesIntro,
@@ -147,6 +148,7 @@ const renderHero = () => {
   return `
   <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
     <canvas class="hero__gl" aria-hidden="true" data-hero-gl></canvas>
+    <p class="sr-only">Design and automation tools: Figma, Framer, Webflow, n8n, Make, Zapier and Claude.</p>
     <div class="hero__copy">
       <h1 class="hero__title" id="hero-title">
         <span class="sr-only">${esc(l1)} ${esc(l2)}</span>
@@ -166,7 +168,7 @@ const renderHero = () => {
     <div class="hero__stage" data-hero-stage>
       <img class="hero__portrait" src="${site.portrait}" srcset="${site.portraitSmall} 560w, ${site.portrait} 900w" sizes="(max-width: 860px) 92vw, 46vw" alt="${esc(site.portraitAlt)}" width="900" height="800" fetchpriority="high" data-portrait />
       <ul class="hero__ring-fallback" aria-hidden="true">
-        <li>UI/UX</li><li>Product</li><li>Motion</li><li>Graphic</li>
+        ${haloTools.map((tool, i) => `<li style="--hx:${50 + Math.cos(i / haloTools.length * Math.PI * 2) * 47}%;--hy:${50 + Math.sin(i / haloTools.length * Math.PI * 2) * 43}%"><img src="${tool.src}" alt="" width="36" height="36" loading="lazy" /></li>`).join('')}
       </ul>
     </div>
 
