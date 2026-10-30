@@ -1,5 +1,5 @@
 /*
- * Version B — all site copy and data. Facts (experience, projects, links,
+ * Version B: all site copy and data. Facts (experience, projects, links,
  * skills) come from the Figma file (figma.com/design/T9UpObjYsMdFXsJrQvGjRY)
  * and match Version A. Edit this file to change words or links.
  */
@@ -49,8 +49,8 @@ export const nav = [
 ];
 
 export const hero = {
-  lines: ['Design that makes', 'people say Yes.'],
-  body: 'I design digital products, websites, and apps, and build the AI workflows that ship them faster.',
+  lines: ['Creative systems.', 'Built to move you.'],
+  body: 'I’m Vignesh, a creative systems architect connecting design, motion, and AI automation to take ideas from concept to launch.',
   cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · DESIGN ENGINEER · ',
   notes: [
@@ -88,17 +88,15 @@ export const impactStats = [
   { value: 100, suffix: '+', total: 100, label: 'Infographics', note: 'Complex ideas made easy to read', group: 'volume', size: 'normal', back: '100+ infographics and 100+ blog thumbnails that make dense topics easy to scan.' },
 ];
 
-// Cards on the 3D ring around the portrait in the hero.
-export const ringCards = [
-  { type: 'text', title: 'UI/UX', sub: 'Calm, clear interfaces', icon: 'cursor', tint: '#E4DAFB', ink: '#6941C6' },
-  { type: 'image', src: 'images/projects/deepvue-dashboard-revamp.webp' },
-  { type: 'text', title: 'Motion', sub: 'Ideas that move', icon: 'play', tint: '#DDF7C8', ink: '#3B7D0F' },
-  { type: 'image', src: 'images/projects/motion-graphics-software-interface-showcase.webp' },
-  { type: 'text', title: 'Product', sub: 'Dashboards that make sense', icon: 'grid', tint: '#FFE3CC', ink: '#C4560C' },
-  { type: 'image', src: 'images/projects/ai-assisted-fintech-app-money-companion.webp' },
-  { type: 'text', title: 'Graphic', sub: 'Campaigns with one voice', icon: 'shapes', tint: '#D3F2FB', ink: '#0B7A99' },
-  { type: 'image', src: 'images/projects/deepvue-brand-identity.webp' },
-  { type: 'text', title: 'Branding', sub: 'Identities with a system', icon: 'star', tint: '#FCDDEB', ink: '#B4246A' },
+// Design and automation marks in the hollow halo above the portrait.
+export const haloTools = [
+  { name: 'Figma', src: 'images/tools/figma.png' },
+  { name: 'n8n', src: 'images/tools/halo/n8n.svg' },
+  { name: 'Framer', src: 'images/tools/framer.png' },
+  { name: 'Make', src: 'images/tools/halo/make.svg' },
+  { name: 'Webflow', src: 'images/tools/webflow.png' },
+  { name: 'Zapier', src: 'images/tools/halo/zapier.svg' },
+  { name: 'Claude', src: 'images/tools/halo/claude.svg' },
 ];
 
 export const disciplinesIntro = {
@@ -115,7 +113,7 @@ export const disciplines = [
     preview: 'wire',
     body: 'Research-led flows, wireframes and high-fidelity prototypes for web and mobile. I design screens that are easy to scan and quick to build.',
     deliverables: ['User flows', 'Wireframes', 'Prototypes', 'Design systems', 'Landing pages'],
-    project: { label: 'Landing Page — SaaS', href: 'https://www.behance.net/gallery/230687789/Landing-Page-SaaS', image: 'images/projects/saas-landing-page-purple-product-website.webp' },
+    project: { label: 'Landing Page: SaaS', href: 'https://www.behance.net/gallery/230687789/Landing-Page-SaaS', image: 'images/projects/saas-landing-page-purple-product-website.webp' },
   },
   {
     key: 'product',
@@ -124,7 +122,7 @@ export const disciplines = [
     preview: 'dash',
     body: 'End-to-end product work, from the problem statement to shipped UI. At Deepvue I led the analytics dashboard revamp for complex fintech data.',
     deliverables: ['Dashboards', 'Booking flows', 'App design', 'Release notes', 'Handoff'],
-    project: { label: 'Dashboard Revamp — Deepvue', href: 'https://www.behance.net/gallery/226234661/Dashboard-Revamp', image: 'images/projects/deepvue-dashboard-revamp.webp' },
+    project: { label: 'Dashboard Revamp: Deepvue', href: 'https://www.behance.net/gallery/226234661/Dashboard-Revamp', image: 'images/projects/deepvue-dashboard-revamp.webp' },
   },
   {
     key: 'motion',
@@ -142,7 +140,7 @@ export const disciplines = [
     preview: 'poster',
     body: 'Campaign creatives, social series, email design, print and merchandise. Systems that keep every touchpoint on brand.',
     deliverables: ['Campaigns', 'Social media', 'Email design', 'Print & merch', 'Branding'],
-    project: { label: 'Flyer Automation — Brand', href: 'https://www.behance.net/gallery/230710601/Flyer-Automation-Brand', image: 'images/projects/flyer-dark-promotional-print.webp' },
+    project: { label: 'Flyer Automation: Brand', href: 'https://www.behance.net/gallery/230710601/Flyer-Automation-Brand', image: 'images/projects/flyer-dark-promotional-print.webp' },
   },
   {
     key: 'logo',
