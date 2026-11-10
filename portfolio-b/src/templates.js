@@ -5,6 +5,7 @@
  */
 import * as simpleIcons from 'simple-icons';
 import { caseStudies, findCaseStudy } from './case-studies/index.js';
+import { SITE_URL } from './site-url.js';
 import {
   site,
   aiIntro,
@@ -878,12 +879,12 @@ export function renderWritingPage() {
     '@graph': [
       {
         '@type': 'CollectionPage',
-        '@id': 'https://vigneshmurali.com/writing/#page',
-        url: 'https://vigneshmurali.com/writing/',
+        '@id': `${SITE_URL}/writing/#page`,
+        url: `${SITE_URL}/writing/`,
         name: writingIntro.pageTitle,
         description: writingIntro.description,
-        isPartOf: { '@type': 'WebSite', url: 'https://vigneshmurali.com/', name: site.fullName },
-        about: { '@id': 'https://vigneshmurali.com/#person' },
+        isPartOf: { '@type': 'WebSite', url: `${SITE_URL}/`, name: site.fullName },
+        about: { '@id': `${SITE_URL}/#person` },
         mainEntity: {
           '@type': 'ItemList',
           itemListElement: items.map((w, i) => ({
@@ -891,31 +892,31 @@ export function renderWritingPage() {
             position: i + 1,
             item: {
               '@type': w.type === 'Post' ? 'SocialMediaPosting' : 'Article',
-              '@id': `https://vigneshmurali.com/writing/#${w.id}`,
+              '@id': `${SITE_URL}/writing/#${w.id}`,
               headline: w.title,
               description: w.summary,
-              url: w.url,
+              url: w.path ? `${SITE_URL}/${w.path}` : w.url,
               datePublished: w.date,
               keywords: w.topics.join(', '),
-              author: { '@id': 'https://vigneshmurali.com/#person' },
-              publisher: w.path ? { '@id': 'https://vigneshmurali.com/#person' } : { '@type': 'Organization', name: w.platform },
+              author: { '@id': `${SITE_URL}/#person` },
+              publisher: w.path ? { '@id': `${SITE_URL}/#person` } : { '@type': 'Organization', name: w.platform },
             },
           })),
         },
       },
       {
         '@type': 'Person',
-        '@id': 'https://vigneshmurali.com/#person',
+        '@id': `${SITE_URL}/#person`,
         name: site.fullName,
         jobTitle: site.role,
-        url: 'https://vigneshmurali.com/',
+        url: `${SITE_URL}/`,
         sameAs: [site.linkedin, site.behance],
       },
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vigneshmurali.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Writing', item: 'https://vigneshmurali.com/writing/' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+          { '@type': 'ListItem', position: 2, name: 'Writing', item: `${SITE_URL}/writing/` },
         ],
       },
     ],
@@ -973,7 +974,7 @@ export function renderCaseStudyPage(slug) {
   const home = '../../';
   const i = caseStudies.indexOf(c);
   const next = caseStudies[(i + 1) % caseStudies.length];
-  const url = `https://vigneshmurali.com/case-studies/${c.slug}/`;
+  const url = `${SITE_URL}/case-studies/${c.slug}/`;
   const mods = c.modules.filter((m) => m.n !== 1);
   const headline = (c.hero.titleLines || []).join(' ');
   const title = `${c.title} case study: ${headline.replace(/\.$/, '')} | Vignesh Murali`;
@@ -988,15 +989,15 @@ export function renderCaseStudyPage(slug) {
     url,
     image: `${url}${c.cover.file}`,
     keywords: (c.hero.tags || []).join(', '),
-    author: { '@type': 'Person', '@id': 'https://vigneshmurali.com/#person', name: site.fullName, url: 'https://vigneshmurali.com/' },
-    isPartOf: { '@type': 'WebSite', url: 'https://vigneshmurali.com/', name: site.fullName },
+    author: { '@type': 'Person', '@id': `${SITE_URL}/#person`, name: site.fullName, url: `${SITE_URL}/` },
+    isPartOf: { '@type': 'WebSite', url: `${SITE_URL}/`, name: site.fullName },
   };
   const crumbs = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://vigneshmurali.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Case studies', item: 'https://vigneshmurali.com/#case-studies' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Case studies', item: `${SITE_URL}/#case-studies` },
       { '@type': 'ListItem', position: 3, name: c.title, item: url },
     ],
   };

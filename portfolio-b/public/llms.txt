@@ -6,23 +6,23 @@ The portfolio focuses on product and UX/UI design for SaaS and web, mobile app d
 
 ## Portfolio
 
-- [Case studies](https://vigneshmurali.com/#case-studies): Five products designed and built end to end, from the problem to what shipped.
-- [Product design](https://vigneshmurali.com/#disciplines): Product and UX/UI design, including a Deepvue analytics dashboard redesign.
-- [About and experience](https://vigneshmurali.com/#about): Background, capabilities, design process, and featured writing.
-- [Contact](https://vigneshmurali.com/#contact): Contact Vignesh about freelance or full-time opportunities.
+- [Case studies](__SITE_URL__/#case-studies): Five products designed and built end to end, from the problem to what shipped.
+- [Product design](__SITE_URL__/#disciplines): Product and UX/UI design, including a Deepvue analytics dashboard redesign.
+- [About and experience](__SITE_URL__/#about): Background, capabilities, design process, and featured writing.
+- [Contact](__SITE_URL__/#contact): Contact Vignesh about freelance or full-time opportunities.
 
 ## Case studies
 
-- [Omni Tracker case study](https://vigneshmurali.com/case-studies/omni-tracker/): Omni Tracker is one home for every campaign we run
-- [Omnicommerce website case study](https://vigneshmurali.com/case-studies/omnicommerce/): Omnicommerce is the unified OS for modern retail
-- [Omni CRM case study](https://vigneshmurali.com/case-studies/omni-crm/): Omni CRM is one system for every customer touchpoint.
-- [Agent Canvas case study](https://vigneshmurali.com/case-studies/agent-canvas/): Agent Canvas is where agent workflows become visible.
-- [Jev & Laya case study](https://vigneshmurali.com/case-studies/jev-laya/): 8,000+ records classified in under 30 seconds.
+- [Omni Tracker case study](__SITE_URL__/case-studies/omni-tracker/): Omni Tracker is one home for every campaign we run
+- [Omnicommerce website case study](__SITE_URL__/case-studies/omnicommerce/): Omnicommerce is the unified OS for modern retail
+- [Omni CRM case study](__SITE_URL__/case-studies/omni-crm/): Omni CRM is one system for every customer touchpoint.
+- [Agent Canvas case study](__SITE_URL__/case-studies/agent-canvas/): Agent Canvas is where agent workflows become visible.
+- [Jev & Laya case study](__SITE_URL__/case-studies/jev-laya/): 8,000+ records classified in under 30 seconds.
 
 ## Writing and posts
 
-- [Writing, posts and features](https://vigneshmurali.com/writing/): Everything Vignesh writes and shares across platforms, with summaries.
-- [Agency Control Room: directing a team of AI agents](https://vigneshmurali.com/writing/agency-control-room/): Interactive article mapping a multi-agent design agency built with Claude, with an orchestrator, research, design, video, web and email teams, token budgets and a QA gate.
+- [Writing, posts and features](__SITE_URL__/writing/): Everything Vignesh writes and shares across platforms, with summaries.
+- [Agency Control Room: directing a team of AI agents](__SITE_URL__/writing/agency-control-room/): Interactive article mapping a multi-agent design agency built with Claude, with an orchestrator, research, design, video, web and email teams, token budgets and a QA gate.
 - [Stop blaming AI for bad designs: a 6-stage system for production-ready AI design](https://www.linkedin.com/feed/update/urn:li:ugcPost:7515621708918194176/): LinkedIn post on getting production-ready AI design with references, a DESIGN.md of tokens, MCP connectors, reusable Skills and React/Three.js know-how.
 - [From 15 to 20 days to hours: automating lifecycle design with n8n, Claude and Figma](https://www.linkedin.com/feed/update/urn:li:share:7514742888027807745/): LinkedIn post on an n8n workflow where a Claude agent extracts brand tokens, Slack gates approval and a Figma agent builds email layouts.
 - [Claude for Startups: a resource for early-stage AI founders](https://www.linkedin.com/feed/update/urn:li:share:7514189422565924864/): LinkedIn post on the Claude for Startups program by Anthropic.

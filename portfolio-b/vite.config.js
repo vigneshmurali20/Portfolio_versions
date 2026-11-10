@@ -1,6 +1,8 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
+import { SITE_URL, SITE_URL_TOKEN } from './src/site-url.js';
 
 // Renders the page from src/content.js into index.html at build time, so the
 // content ships as static HTML (good for SEO, no-JS visitors and screen readers).
@@ -8,6 +10,7 @@ function staticPage(env, mode) {
   return {
     name: 'static-page',
     async transformIndexHtml(html, ctx) {
+      html = html.replaceAll(SITE_URL_TOKEN, SITE_URL);
       const mod = ctx.server
         ? await ctx.server.ssrLoadModule('/src/templates.js')
         : await import(new URL('./src/templates.js', import.meta.url).href);
@@ -48,6 +51,13 @@ function staticPage(env, mode) {
         .replace('<!--NAV-->', page.nav)
         .replace('<!--MAIN-->', page.main)
         .replace('<!--FOOTER-->', page.footer);
+    },
+    // public/ files are copied as they are, so fill in the site address after
+    writeBundle(opts) {
+      for (const f of ['sitemap.xml', 'robots.txt', 'llms.txt', 'writing/agency-control-room/index.html']) {
+        const file = join(opts.dir, f);
+        if (existsSync(file)) writeFileSync(file, readFileSync(file, 'utf8').replaceAll(SITE_URL_TOKEN, SITE_URL));
+      }
     },
     handleHotUpdate({ file, server }) {
       if (/src[\\/](content|templates|case-studies[\\/].+)\.(js|json)$/.test(file)) server.ws.send({ type: 'full-reload' });
