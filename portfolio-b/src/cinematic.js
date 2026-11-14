@@ -13,9 +13,9 @@ export function cinematic({ hero, reduced }) {
   const backdrop = document.createElement('div');
   backdrop.className = 'cinema-backdrop';
   backdrop.setAttribute('aria-hidden', 'true');
-  backdrop.textContent = 'IN MOTION';
+  backdrop.textContent = 'SIGNAL / 01';
   hero.prepend(backdrop);
-  ['back', 'near'].forEach((depth) => {
+  if (hero.dataset.heroWorld !== 'scan') ['back', 'near'].forEach((depth) => {
     const cloud = document.createElement('div');
     cloud.className = `cinema-cloud cinema-cloud--${depth}`;
     cloud.setAttribute('aria-hidden', 'true');

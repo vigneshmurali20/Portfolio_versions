@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { createHeroWorld } from './heroWorld.js';
 import { createCloudAtmosphere } from './cloudAtmosphere.js';
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -30,6 +31,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   const mobile = () => matchMedia('(max-width: 860px)').matches;
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile() ? 1.25 : 2));
   const scene = new THREE.Scene();
+  const heroWorld = createHeroWorld({ THREE, scene, reduced });
   const camera = new THREE.PerspectiveCamera(30, 1, 1, 10000);
   const atmosphere = createCloudAtmosphere({ scene, camera, hero, reduced });
   const portraitMaterial = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, opacity: reduced ? 1 : 0 });
@@ -93,6 +95,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     camera.position.set(0, 0, distance); camera.far = distance * 4; camera.updateProjectionMatrix();
     state.photo = { x: pr.left - hr.left + pr.width / 2 - state.width / 2, y: state.height / 2 - (pr.top - hr.top + pr.height / 2), w: pr.width, h: pr.height };
     state.radius = clamp(pr.width * 0.18, mobile() ? 84 : 135, mobile() ? 96 : 155);
+    heroWorld.resize(state.width, state.height);
   }
 
   function point(e) {
@@ -134,6 +137,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     portraitParticles.scale.set(p.w * push, p.h * push, 1);
     portraitParticles.position.copy(portrait.position);
     particleMaterial.uniforms.uTime.value = now / 1000;
+    heroWorld.update(now / 1000, progress, state.pointer);
     particleMaterial.uniforms.uProgress.value = progress;
     particleMaterial.uniforms.uAlpha.value = intro * 0.42;
     const px = (state.pointer.x * state.width * 0.5 - p.x) / Math.max(1, p.w);
@@ -224,7 +228,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   });
   return { ready, renderer, destroy() {
     state.disposed = true; cancelAnimationFrame(raf); observer.disconnect(); resize.disconnect();
-    atmosphere.destroy();
+    atmosphere.destroy(); heroWorld.destroy();
     hero.removeEventListener('pointermove', point); hero.removeEventListener('pointerleave', leave);
     canvas.removeEventListener('pointerdown', down); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
     portraitMaterial.map?.dispose(); portraitMaterial.dispose(); portraitGeometry.dispose();
