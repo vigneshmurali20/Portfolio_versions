@@ -5225,43 +5225,41 @@ section {
   }
 }
 
-/* Hero-only cyberpunk particle scan world */
-.hero {
-  --scan-cyan: #f0a067; --scan-violet: #64d7d3; --scan-ink: #070910;
-  position: relative; isolation: isolate; overflow: clip;
-  min-height: min(920px, 100svh); color: #f3f4f7;
-  background: radial-gradient(ellipse at 70% 58%, rgba(115,47,18,.18) 0%, transparent 35%), radial-gradient(ellipse at 23% 70%, rgba(7,91,106,.16) 0%, transparent 38%), #050607;
-}
-.hero::before { content:''; position:absolute; inset:0; z-index:-1; pointer-events:none; opacity:.38;
-  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(221,138,77,.035) 4px, transparent 5px),
-  radial-gradient(ellipse at 70% 65%, transparent 20%, rgba(5,6,7,.62) 85%); }
-.hero::after { content:''; position:absolute; inset:0; z-index:8; pointer-events:none; opacity:.11;
-  background-image: radial-gradient(rgba(184,219,235,.9) .55px, transparent .7px); background-size:5px 5px; mix-blend-mode:screen; }
-.hero .hero__copy { position:relative; z-index:5; text-align:left; width:min(47%,610px); margin-left:var(--gutter); padding-top:clamp(132px,18vh,205px); }
-.hero .hero__copy h1, .hero .hero__title { color:#f2f4fa; text-shadow:0 0 24px rgba(244,151,85,.12), 2px 0 rgba(244,151,85,.12), -2px 0 rgba(72,203,196,.1); }
-.hero .hero__copy p { color:rgba(227,232,243,.74); }
-.hero .hero__copy .btn--primary { background:var(--scan-cyan); color:#080a10; box-shadow:0 0 26px rgba(240,160,103,.2); }
-.hero .hero__copy .btn--ghost { border-color:rgba(240,160,103,.42); color:#f5f5fa; background:rgba(10,12,22,.56); }
-.hero .hero__gl { position:absolute; inset:0; z-index:2; pointer-events:none; }
-.hero .hero__stage { position:absolute; z-index:3; inset:10% 2% 0 38%; width:auto; height:auto; pointer-events:none; }
-.hero .hero__portrait { position:absolute; inset:auto 0 0 auto; width:min(100%,760px); height:96%; object-fit:contain; object-position:center bottom; }
-.hero .hero__copy { z-index:5; }
-.hero .hero__angel, .hero .hero__rays { display:none !important; }
-.hero .note { z-index:4; border:1px solid rgba(240,160,103,.2); background:rgba(10,13,22,.68); color:#f2f4fa; box-shadow:0 0 30px rgba(240,160,103,.07); backdrop-filter:blur(14px); }
-.hero .note__body { color:rgba(227,232,243,.67); }
-.hero .hero__hint { z-index:6; color:rgba(209,225,237,.72); border-color:rgba(101,243,255,.24); background:rgba(7,9,16,.68); }
-.hero .hero__trust, .hero .hero__tag, .hero .badge { z-index:5; }
 
-.hero .cinema-backdrop { color:rgba(240,160,103,.045); }
-.hero .cinema-cloud { display:none !important; }
-.hero .hero__tag, .hero .hero__trust, .hero .badge { border-color:rgba(105,212,208,.2); background:rgba(9,12,21,.62); color:rgba(240,246,255,.82); backdrop-filter:blur(12px); }
-@media(max-width:860px){
- .hero{min-height:850px;min-height:100svh}
- .hero .hero__copy{width:auto;margin:0 var(--gutter);padding-top:clamp(112px,16vh,160px);text-align:center}
- .hero .hero__stage{inset:28% -8% 0 12%;height:auto;width:auto}
- .hero .hero__portrait{width:100%;height:100%;object-fit:contain;object-position:center bottom}
- .hero .hero__gl{opacity:.84}
- .hero .hero__copy h1,.hero .hero__title{font-size:clamp(48px,13vw,88px)}
- .hero .note{display:none}
+/* Hero scan-forest: only the backdrop is being art-directed in this pass. */
+.hero {
+  position:relative; isolation:isolate; overflow:clip; color:#f0f1ec;
+  background:#030404;
 }
-@media(prefers-reduced-motion:reduce){.hero::before{background:radial-gradient(ellipse at 72% 58%,#151329 0%,#0b0c14 44%,#07080d 82%)}}
+.hero::before {
+  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(ellipse at 52% 58%,rgba(118,145,104,.13),transparent 38%),
+    radial-gradient(ellipse at 52% 73%,rgba(76,104,60,.12),transparent 34%),
+    linear-gradient(180deg,#030404 0%,#030404 24%,rgba(3,4,4,.65) 62%,#030404 100%);
+}
+.hero::after { content:none; }
+.hero .hero__gl { position:absolute; inset:0; z-index:2; pointer-events:none; }
+.hero .hero__stage {
+  position:absolute; z-index:3; inset:10% 2% 0 38%; width:auto; height:auto; pointer-events:none;
+}
+.hero .hero__portrait {
+  position:absolute; right:0; left:auto; bottom:0; top:auto;
+  width:auto; height:auto; max-width:none; max-height:none;
+  object-fit:contain; object-position:right bottom; transform:none;
+}
+.hero .hero__copy {
+  position:relative; z-index:5; width:min(47%,610px); margin:0 0 0 var(--gutter);
+  padding-top:clamp(132px,18vh,205px); text-align:left;
+}
+.hero .hero__title { color:#f1f1ec; text-shadow:0 1px 20px rgba(0,0,0,.6); }
+.hero .hero__body { color:rgba(226,229,220,.72); }
+.hero .hero__angel, .hero .hero__rays, .hero .cinema-cloud, .hero .cinema-backdrop { display:none !important; }
+.hero .note, .hero .hero__tag, .hero .hero__trust, .hero .badge, .hero .hero__hint {
+  color:#e3e6de; border-color:rgba(213,224,204,.2); background:rgba(8,10,8,.64);
+  box-shadow:0 10px 40px rgba(0,0,0,.24); backdrop-filter:blur(12px);
+}
+@media(max-width:860px) {
+  .hero .hero__copy { width:auto; margin:0 var(--gutter); padding-top:clamp(112px,16vh,160px); text-align:center; }
+  .hero .hero__stage { inset:30% 2% 0 2%; }
+  .hero .hero__portrait { object-position:center bottom; }
+}
