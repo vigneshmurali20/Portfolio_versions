@@ -311,6 +311,14 @@ export const earlierRoles = [
   { org: 'Edureka', role: 'Associate Inside Sales Manager', period: 'Aug 2022 to Oct 2022' },
 ];
 
+// Behance projects shown under the case studies as embeds. Add a project
+// by its id (the number in its Behance URL) and title; projects that already
+// have a case study above are left out.
+export const behanceProjects = [
+  { id: '258483967', title: 'Back Office' },
+  { id: '258482697', title: 'Kiosk Redesign' },
+];
+
 // Writing, posts and features across platforms. The home page shows the
 // `featured` ones (up to three) and /writing/ lists them all. `excerpt` is
 // quoted from the post; `summary` is the longer crawlable description.
