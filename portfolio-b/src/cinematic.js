@@ -25,19 +25,24 @@ export function cinematic({ hero, reduced }) {
       scrollTrigger: {
         trigger: hero,
         start: 'top top',
-        end: () => `+=${Math.round(innerHeight * (desktop ? 1.45 : 0.7))}`,
+        // the hero never holds the page: the next section rises through it
+        // while it dives, so there is no stop and no empty screen
+        end: () => `+=${Math.round(innerHeight * (desktop ? 1 : 0.7))}`,
         pin: true,
+        pinSpacing: false,
         scrub: 0.65,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => { hero.cinemaProgress = self.progress; },
       },
     });
-    shot.to('.hero__copy', { y: desktop ? -90 : -45, opacity: 0, ease: 'power2.in', duration: 0.7 }, 0.2)
+    shot.to('.hero__copy', { y: desktop ? -90 : -45, opacity: 0, ease: 'power2.in', duration: 0.42 }, 0.05)
       .to('.cinema-backdrop', { xPercent: -12, scale: 1.18, opacity: 0.02, ease: 'none', duration: 1 }, 0)
       .to('.hero__trust, .hero__tag, .badge', { opacity: 0, y: -50, duration: 0.4 }, 0)
       .to('.cinema-scroll__track i', { scaleX: 1, ease: 'none', duration: 1 }, 0)
       .to('.cinema-scroll', { opacity: 0, duration: 0.15 }, 0.85);
+    // the hero flies past the lens as the next section arrives
+    shot.to('[data-hero-gl], .hero__stage', { scale: 1.18, opacity: 0, ease: 'power2.in', duration: 0.45 }, 0.55);
     shot.to('.cinema-cloud--back', { xPercent: 6, yPercent: -8, scale: 1.08, ease: 'none', duration: 1 }, 0)
       .to('.cinema-cloud--near', { xPercent: -12, yPercent: -25, scale: 1.35, ease: 'none', duration: 1 }, 0);
     return () => {

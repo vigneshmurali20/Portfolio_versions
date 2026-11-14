@@ -587,7 +587,7 @@ export const renderCaseStudies = (base = '') => {
   </section>`;
 };
 
-// More projects, embedded from Behance. Each iframe loads only when it nears
+// More projects from Behance: self-hosted covers that link out. (Previously iframes; each iframe loaded only when it neared
 // the viewport, and a plain link keeps the project reachable (and crawlable)
 // if the embed is blocked.
 const renderBehanceMore = () => `
@@ -601,10 +601,10 @@ const renderBehanceMore = () => `
             .map(
               (p) => `
           <li class="bh-card" data-reveal>
-            <div class="bh-card__frame">
-              <img src="images/behance/${p.id}.webp" alt="Cover of ${esc(p.title)}" width="808" height="632" loading="lazy" decoding="async" />
-              <iframe src="https://www.behance.net/embed/project/${p.id}?ilo0=1" title="${esc(p.title)}, a project on Behance" width="404" height="316" loading="lazy" allowfullscreen allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-            </div>
+            <a class="bh-card__frame" href="https://www.behance.net/gallery/${p.id}/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="Open">
+              <img src="images/behance/${p.id}.webp" alt="" width="808" height="632" loading="lazy" decoding="async" />
+              <span class="bh-card__scan" aria-hidden="true">Scanned · Behance</span>
+            </a>
             <a class="bh-card__link" href="https://www.behance.net/gallery/${p.id}/" target="_blank" rel="noopener">${esc(p.title)} ${icon('arrowUR')}<span class="sr-only"> (opens Behance in a new tab)</span></a>
           </li>`,
             )
@@ -815,7 +815,6 @@ export const renderFooter = () => `
         <div class="footer__brand">
           <a class="footer__logo" href="#top" aria-label="${esc(site.fullName)}, back to top">${vMark()}<span>${esc(site.fullName)}</span></a>
           <p>Product &amp; UI/UX designer. Interfaces, motion and brand visuals that feel calm and clear.</p>
-          <span class="footer__status"><span class="dot-live" aria-hidden="true"></span>Open to freelance &amp; full-time work</span>
         </div>
         <nav class="footer__col" aria-label="Footer">
           <h2>Explore</h2>
@@ -1153,20 +1152,15 @@ export function renderPage() {
     main: [
       renderWorldChrome(),
       inWorld('heaven', renderHero()),
-      inWorld('heaven', renderMarquee()),
-      renderDescent('fall'),
       inWorld('earth', renderCaseStudies()),
       inWorld('earth', renderGlobalClients()),
       inWorld('earth', renderImpact()),
       inWorld('earth', renderDisciplines()),
-      renderDescent('dive'),
       inWorld('ocean', renderToolbox()),
       inWorld('ocean', renderAiLab()),
       inWorld('ocean', renderShowreel()),
-      renderDescent('trench'),
       inWorld('abyss', renderAbout()),
       inWorld('abyss', renderTestimonials()),
-      renderDescent('fire'),
       inWorld('hell', renderContact()),
     ].join('\n'),
     footer: inWorld('hell', renderFooter()) + renderDialog(),

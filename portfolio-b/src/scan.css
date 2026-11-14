@@ -288,3 +288,286 @@ p {
   border: 1px solid var(--line);
   backdrop-filter: blur(14px);
 }
+
+/* no eyebrow labels above headings: the headings carry the section */
+.eyebrow { display: none !important; }
+.eyebrow + .sec-title,
+.sec-head > .sec-title:first-child { margin-top: 0; }
+
+/* ---------------------------------------------------- contrast fixes
+   Leftovers from the light theme that turned into dark-on-dark text. */
+.chips li,
+.chips a { background: rgba(127, 220, 234, 0.05); color: var(--ink); }
+.disc__body .chips li {
+  border-color: var(--line-2);
+  background: rgba(127, 220, 234, 0.06);
+  color: var(--ink);
+}
+.cs-card__kind { color: var(--brand-ink); }
+.impact__tabs button[aria-selected='true'] { color: #021013; }
+.impact__tab-glider { background: var(--brand); }
+.global__region-code { color: color-mix(in srgb, var(--c) 45%, #ffffff); border-color: color-mix(in srgb, var(--c) 70%, #ffffff); }
+.global__region.is-active .global__region-code { color: #021013; background: color-mix(in srgb, var(--c) 45%, #ffffff); }
+.footer__col .footer__hi { background: var(--brand); color: #021013; }
+.footer__col .footer__hi:hover { background: var(--brand-ink); color: #021013; }
+.tool-stack__more a { background: var(--card-solid); color: var(--ink); border: 1px solid var(--line-2); }
+
+/* ---------------------------------------------------------------- drone
+   The pointer is a small survey drone. A cyan reticle marks the exact
+   point; the drone trails it, banks with its velocity (main.js), spins its
+   rotors and casts a soft shadow. Over links it closes in with a lock-on
+   bracket; labels ride under it as a tag. */
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor .cursor { mix-blend-mode: normal; color: var(--ink); }
+}
+.cursor__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 0;
+  background:
+    linear-gradient(var(--brand), var(--brand)) center / 2px 100% no-repeat,
+    linear-gradient(var(--brand), var(--brand)) center / 100% 2px no-repeat;
+  opacity: 0.9;
+}
+.cursor__ring {
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  display: block;
+  transition: width 0.45s var(--ease), height 0.45s var(--ease);
+}
+.cursor__tilt {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+  animation: drone-hover 2.4s ease-in-out infinite;
+}
+@keyframes drone-hover { 50% { translate: 0 -2px; } }
+.cursor__shadow {
+  position: absolute;
+  inset: 22% 18%;
+  translate: 8px 16px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent);
+  filter: blur(3px);
+}
+.drone { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000) drop-shadow(0 0 6px rgba(127, 220, 234, 0.25)); }
+.drone__arms { color: #c9d4d6; }
+.drone__body { fill: #0c1214; stroke: #e8eef0; stroke-width: 2; }
+.drone__cam { fill: #e8eef0; }
+.drone__rotor circle { fill: rgba(200, 235, 245, 0.08); stroke: rgba(200, 235, 245, 0.35); stroke-width: 1; }
+.drone__rotor path { stroke: #e8eef0; stroke-width: 2; stroke-linecap: round; }
+.drone__rotor {
+  transform-box: view-box;
+  transform-origin: var(--x) var(--y);
+  animation: drone-spin 0.18s linear infinite;
+}
+.drone__rotor:nth-child(even) { animation-direction: reverse; }
+@keyframes drone-spin { to { transform: rotate(360deg); } }
+.drone__led--front { fill: var(--brand); animation: drone-blink 1.2s steps(1) infinite; }
+.drone__led--rear { fill: var(--signal, #ff6a4d); }
+@keyframes drone-blink { 50% { opacity: 0.2; } }
+
+/* over a link: the drone closes in and a lock-on bracket appears */
+.cursor.is-hover .cursor__ring { width: 44px; height: 44px; }
+.cursor.is-hover .cursor__dot {
+  opacity: 1;
+  width: 34px;
+  height: 34px;
+  background:
+    linear-gradient(var(--brand), var(--brand)) left top / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) left top / 2px 8px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right top / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right top / 2px 8px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) left bottom / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) left bottom / 2px 8px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right bottom / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right bottom / 2px 8px no-repeat;
+  transition: width 0.3s var(--ease), height 0.3s var(--ease);
+}
+.cursor.is-down .cursor__tilt { scale: 0.86; }
+
+/* labels ride under the drone as a small tag */
+.cursor .cursor__label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  translate: -50% 6px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: var(--brand);
+  color: #021013;
+  white-space: nowrap;
+}
+.cursor.is-label .cursor__ring { width: 56px; height: 56px; background: none; }
+.cursor.is-label .cursor__dot { opacity: 0.9; }
+@media (prefers-reduced-motion: reduce) {
+  .cursor__tilt, .drone__rotor, .drone__led--front { animation: none; }
+}
+
+
+/* ------------------------------------------------------- hero hand-off
+   As the hero scrolls out its own black field fades, revealing the page's
+   particle city behind it, so the flight never cuts. */
+html .hero.hero { background: rgb(3 4 4 / calc(1 - var(--hero-exit, 0))) !important; }
+html .hero.hero::before { opacity: calc(1 - var(--hero-exit, 0)); }
+
+/* ------------------------------------------------------- materialize
+   Media resolves out of halftone dots, then a scan line passes over it. */
+@property --mz { syntax: '<length>'; inherits: false; initial-value: 0px; }
+.mz {
+  position: relative;
+  -webkit-mask-image: radial-gradient(circle, #000 var(--mz), transparent calc(var(--mz) + 0.6px));
+  mask-image: radial-gradient(circle, #000 var(--mz), transparent calc(var(--mz) + 0.6px));
+  -webkit-mask-size: 7px 7px;
+  mask-size: 7px 7px;
+  transition: --mz 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.mz.is-in { --mz: 6px; }
+.mz.is-done { -webkit-mask-image: none; mask-image: none; }
+.mz::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(127, 220, 234, 0.32) 48%, rgba(220, 250, 255, 0.6) 50%, transparent 52%) 0 -60% / 100% 60% no-repeat;
+  opacity: 0;
+}
+.mz.is-in::after { animation: mz-scan 1.3s ease-out forwards; }
+@keyframes mz-scan {
+  0% { opacity: 1; background-position: 0 -60%; }
+  85% { opacity: 1; }
+  100% { opacity: 0; background-position: 0 160%; }
+}
+
+/* --------------------------------------------------------------- HUD */
+.hud { position: fixed; inset: 14px; z-index: 120; pointer-events: none; color: var(--brand); font-family: var(--mono); }
+.hud__c { position: absolute; width: 22px; height: 22px; border: 0 solid rgba(127, 220, 234, 0.55); }
+.hud__c--tl { left: 0; top: 0; border-width: 1px 0 0 1px; }
+.hud__c--tr { right: 0; top: 0; border-width: 1px 1px 0 0; }
+.hud__c--bl { left: 0; bottom: 0; border-width: 0 0 1px 1px; }
+.hud__c--br { right: 0; bottom: 0; border-width: 0 1px 1px 0; }
+.hud__read {
+  position: absolute;
+  bottom: 8px;
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(178, 238, 246, 0.8);
+}
+.hud__read b { font-weight: 500; color: var(--ink); }
+.hud__read--bl { left: 32px; }
+.hud__read--br { right: 32px; }
+/* the hero's own scroll caption is replaced by the HUD */
+.cinema-scroll { display: none !important; }
+@media (max-width: 860px) {
+  .hud { inset: 8px; }
+  .hud__read--br { display: none; }
+}
+
+/* ------------------------------------------------------- fixes */
+/* Behance covers read as scans and link out */
+.bh-card__frame { display: block; }
+.bh-card__frame img { filter: grayscale(0.35) contrast(1.05); transition: filter 0.4s, transform 0.8s var(--ease); }
+.bh-card__frame:hover img { filter: none; transform: scale(1.03); }
+.bh-card__scan {
+  position: absolute; left: 10px; bottom: 10px; z-index: 2;
+  padding: 3px 7px; border-radius: 3px;
+  background: rgba(3, 4, 4, 0.72); color: var(--brand);
+  font: 500 10px var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+}
+/* the showreel sits in the scan palette until it plays in full colour */
+.reel__video { filter: grayscale(1) contrast(1.15) brightness(0.75); transition: filter 0.6s; }
+.reel.is-playing .reel__video { filter: none; }
+.reel__frame::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(127, 220, 234, 0.06) 0 1px, transparent 1px 3px);
+  transition: opacity 0.6s;
+}
+.reel.is-playing .reel__frame::before { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .mz, .mz.is-in { transition: none; }
+  .mz.is-in::after { animation: none; }
+}
+
+
+/* ------------------------------------------------------- match cut edge
+   The first section of each layer carries a hairline on its top edge. When
+   the particle field collapses to a line at mid-screen (world.js), that
+   edge is exactly there and glows (--beam), so the beam becomes the edge. */
+main > [data-world]:not([data-world='heaven']) { position: relative; }
+main > [data-world]:not([data-world='heaven'])::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(127, 220, 234, calc(var(--beam, 0) * 0.9)) 12%, rgba(220, 250, 255, var(--beam, 0)) 50%, rgba(127, 220, 234, calc(var(--beam, 0) * 0.9)) 88%, transparent);
+  box-shadow: 0 0 calc(var(--beam, 0) * 24px) rgba(127, 220, 234, calc(var(--beam, 0) * 0.8));
+}
+
+
+/* -------------------------------------------------------- toolbox dock
+   The drop slot is a scanner landing pad: range rings, a crosshair and a
+   radar sweep. It locks on (bracket ring) while a tool hovers over it and
+   goes solid once a tool is docked. Same size and place as before, so the
+   physics snapping in playground.js is unchanged. */
+.tb__slot {
+  border: 1px solid rgba(127, 220, 234, 0.35);
+  border-radius: 50%;
+  overflow: hidden;
+  color: var(--brand);
+  background:
+    linear-gradient(rgba(127, 220, 234, 0.25), rgba(127, 220, 234, 0.25)) center / 1px 100% no-repeat,
+    linear-gradient(rgba(127, 220, 234, 0.25), rgba(127, 220, 234, 0.25)) center / 100% 1px no-repeat,
+    repeating-radial-gradient(circle, transparent 0 15px, rgba(127, 220, 234, 0.14) 15px 16px),
+    radial-gradient(circle, rgba(127, 220, 234, 0.1), rgba(3, 4, 4, 0.6) 70%);
+  box-shadow: 0 0 30px -6px rgba(127, 220, 234, 0.35), inset 0 0 24px rgba(127, 220, 234, 0.08);
+}
+.tb__slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(127, 220, 234, 0.4), rgba(127, 220, 234, 0) 22%);
+  animation: dock-sweep 2.8s linear infinite;
+  pointer-events: none;
+}
+@keyframes dock-sweep { to { transform: rotate(360deg); } }
+.tb__slot-label {
+  position: relative;
+  z-index: 1;
+  padding: 3px 6px;
+  border-radius: 3px;
+  background: rgba(3, 4, 4, 0.75);
+  color: var(--brand);
+  font-size: 10px;
+}
+.tb__slot-ring {
+  inset: -8px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--brand);
+}
+.tb__slot.is-target {
+  border-color: var(--brand);
+  background-color: rgba(127, 220, 234, 0.12);
+}
+.tb__slot.is-target .tb__slot-ring { animation: dock-lock 1.6s linear infinite; }
+@keyframes dock-lock { to { transform: rotate(-360deg); } }
+.tb__slot.is-full {
+  border-style: solid;
+  border-color: var(--brand);
+  box-shadow: 0 0 40px -4px rgba(127, 220, 234, 0.6), inset 0 0 30px rgba(127, 220, 234, 0.15);
+}
+.tb__slot.is-full::before { animation-duration: 6s; opacity: 0.5; }
+@media (prefers-reduced-motion: reduce) {
+  .tb__slot::before, .tb__slot.is-target .tb__slot-ring { animation: none; }
+}

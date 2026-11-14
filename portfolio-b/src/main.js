@@ -87,6 +87,19 @@ if (finePointer && cursor) {
     },
     { passive: true },
   );
+  // the drone banks toward where it is flying: tilt follows its velocity
+  const tilt = $('.cursor__tilt', cursor);
+  if (tilt && !reduced) {
+    let px = 0, py = 0, bank = 0, pitch = 0;
+    gsap.ticker.add(() => {
+      const x = gsap.getProperty(ring, 'x'), y = gsap.getProperty(ring, 'y');
+      const vx = x - px, vy = y - py;
+      px = x; py = y;
+      bank += (Math.max(-28, Math.min(28, vx * 1.6)) - bank) * 0.18;
+      pitch += (Math.max(-22, Math.min(22, vy * 1.4)) - pitch) * 0.18;
+      tilt.style.transform = `perspective(200px) rotateY(${bank}deg) rotateX(${-pitch}deg) rotate(${bank * 0.35}deg)`;
+    });
+  }
   document.addEventListener('pointerleave', () => cursor.classList.add('is-hidden'));
   window.addEventListener('pointerdown', () => cursor.classList.add('is-down'));
   window.addEventListener('pointerup', () => cursor.classList.remove('is-down'));
@@ -373,12 +386,10 @@ function caseStudies() {
 /* ------------------------------------------------------------ descents */
 // The fall band's clouds race upward faster than the page, so you drop
 // through them rather than scroll past them.
-function descents() {
-  // Between layers the backdrop dives (world.js). The band copy decodes out
-  // of scan noise as it arrives: each glyph cycles through random marks
-  // before locking, left to right.
-  const glyphs = '01<>/|=+*#%@';
-  const decode = (el) => {
+// Text decodes out of scan noise: each glyph cycles through random marks
+// before locking, left to right.
+const glyphs = '01<>/|=+*#%@';
+function decode(el) {
     const final = el.dataset.text;
     if (reduced) { el.textContent = final; return; }
     const start = performance.now(), dur = 900 + final.length * 18;
@@ -393,11 +404,17 @@ function descents() {
       if (t < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
-  };
-  // display headings glitch once as they arrive
+}
+
+function descents() {
+  // Between layers the backdrop dives (world.js); band copy decodes in.
+  // display headings decode out of noise and glitch once as they arrive
   $$('.sec-title, .contact__title').forEach((h) => {
     if (reduced) return;
+    const lines = $$('.line__in', h).filter((el) => el.children.length === 0);
+    lines.forEach((el) => { el.dataset.text = el.textContent; });
     ScrollTrigger.create({ trigger: h, start: 'top 82%', once: true, onEnter: () => {
+      lines.forEach(decode);
       h.classList.add('is-glitch');
       setTimeout(() => h.classList.remove('is-glitch'), 700);
     } });
@@ -426,6 +443,73 @@ function descents() {
   });
 }
 
+
+
+/* ------------------------------------------------------------ depth flow */
+// Every block in a section flies forward out of the depth on its own as it
+// enters, in reading order, and rushes past the lens as it leaves, like the
+// particle dive behind it. Scrubbed to scroll, so it plays both ways. At rest
+// every block sits at z = 0, so interaction is unchanged. Cards in the
+// case-study stack are left alone: they are sticky and stack on their own.
+const DEPTH_BLOCKS = [
+  '[data-reveal]', '.sec-title', '.contact__title', '.ai-tile', '.xp__row', '.bh-card', '.deck',
+  '.impact__panel', '.global__panel', '.tb__stage', '.tb__info', '.footer__card', '.disc__list',
+].join(', ');
+function depthFlow() {
+  if (reduced) return;
+  const scope = $$('main > section:not(.hero), footer.footer');
+  // the case-study index stays pinned beside the stack until the section ends
+  const all = scope.flatMap((sec) => $$(DEPTH_BLOCKS, sec)).filter((el) => !el.closest('.hero, .cs-card, .cases__layout'));
+  // only the outermost block of a nest moves, so nothing doubles up
+  const blocks = all.filter((el) => !all.some((o) => o !== el && o.contains(el)));
+  blocks.forEach((el) => {
+    gsap.set(el, { opacity: 1, y: 0 }); // the depth flight replaces the old fade-up
+    const total = () => el.offsetHeight + innerHeight;
+    const inD = () => Math.min(0.6, (innerHeight * 0.42) / total());
+    const outD = () => Math.min(0.4, (innerHeight * 0.3) / total());
+    gsap.timeline({
+      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.35, invalidateOnRefresh: true },
+    })
+      .fromTo(el, { z: -900, opacity: 0, transformPerspective: 1000 }, { z: 0, opacity: 1, ease: 'power3.out', duration: inD })
+      .to(el, { duration: () => Math.max(0.0001, 1 - inD() - outD()) })
+      .to(el, { z: 480, opacity: 0, ease: 'power2.in', duration: outD });
+  });
+}
+
+/* ------------------------------------------------------------ HUD + materialize */
+// Media resolves out of halftone dots with a scan line (scan.css .mz), once,
+// as it enters the viewport.
+function materialize() {
+  const els = $$('.cs-card__media, .bh-card__frame, .about__photo, .reel__frame, .ai-tile');
+  els.forEach((el) => el.classList.add('mz'));
+  if (reduced) { els.forEach((el) => el.classList.add('is-in', 'is-done')); return; }
+  els.forEach((el) => {
+    ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => {
+      el.classList.add('is-in');
+      setTimeout(() => el.classList.add('is-done'), 1300);
+    } });
+  });
+}
+// The drone-feed frame: section code, depth with scroll, cursor position, clock.
+function hud() {
+  const el = $('[data-hud]');
+  if (!el) return;
+  const sec = $('[data-hud-sec]', el), depth = $('[data-hud-depth]', el);
+  const hx = $('[data-hud-x]', el), hy = $('[data-hud-y]', el), clock = $('[data-hud-clock]', el);
+  const names = { heaven: '01 SURFACE', earth: '02 WORK', ocean: '03 SYSTEMS', abyss: '04 PERSON', hell: '05 SIGNAL' };
+  const pad = (n) => String(Math.max(0, Math.round(n))).padStart(4, '0');
+  const onScroll = () => {
+    depth.textContent = pad(scrollY / 6);
+    const now = names[root.dataset.worldNow] || names.heaven;
+    if (sec.textContent !== now) { sec.dataset.text = now; sec.textContent = now; decode(sec); }
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  addEventListener('pointermove', (e) => { hx.textContent = pad(e.clientX); hy.textContent = pad(e.clientY); }, { passive: true });
+  const tick = () => { clock.textContent = new Date().toTimeString().slice(0, 8); };
+  tick(); setInterval(tick, 1000);
+}
+
 /* ------------------------------------------------------------ parallax */
 // Layers drift at different speeds as they pass through the viewport. They
 // move with the CSS `translate` property (via --py), so they never clash with
@@ -449,8 +533,6 @@ function parallax() {
   layer('.writing__item:nth-child(1)', 10);
   layer('.writing__item:nth-child(2)', 34);
   layer('.writing__item:nth-child(3)', 58);
-  layer('.impact__cell:nth-child(odd)', 14);
-  layer('.impact__cell:nth-child(even)', 40);
   layer('.process__step:nth-child(even)', 18);
   layer('.about__motto', 20);
 }
@@ -519,10 +601,11 @@ function reveals() {
     gsap.set('.skill__fill', { scaleX: (i, el) => getComputedStyle(el).getPropertyValue('--v') });
     return;
   }
+  // blocks outside the depth flow (hero, case-study cards) keep the fade-up
   ScrollTrigger.batch('[data-reveal]', {
     start: 'top 88%',
     once: true,
-    onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 1.1, ease: EASE, stagger: 0.08 }),
+    onEnter: (els) => gsap.to(els.filter((el) => el.closest('.hero, .cs-card')), { opacity: 1, y: 0, duration: 1.1, ease: EASE, stagger: 0.08 }),
   });
   $$('[data-split]').forEach((h) => {
     gsap.fromTo($$('.line__in', h), { y: 0, yPercent: 105 }, {
@@ -1089,6 +1172,9 @@ impactViews();
 const openDiscipline = disciplineAccordion();
 caseStudies();
 descents();
+materialize();
+hud();
+depthFlow();
 parallax();
 toolbox(openDiscipline);
 showreel();

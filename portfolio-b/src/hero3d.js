@@ -253,6 +253,9 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     camera.lookAt(camera.position.x * 0.4, camera.position.y * 0.4, 0);
 
     background.update(time, progress, intro);
+    // hand-off: the hero fades its own field so the page's field continues the flight
+    const exit = reduced ? 0 : smooth(0.5, 1, progress);
+    hero.style.setProperty('--hero-exit', exit.toFixed(3));
     foreground.update(time, progress, intro);
 
     const p = state.photo;
