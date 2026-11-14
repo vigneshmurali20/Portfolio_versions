@@ -13,20 +13,8 @@ export function cinematic({ hero, reduced }) {
   const backdrop = document.createElement('div');
   backdrop.className = 'cinema-backdrop';
   backdrop.setAttribute('aria-hidden', 'true');
-  backdrop.textContent = 'IN MOTION';
+  backdrop.textContent = 'SIGNAL / 01';
   hero.prepend(backdrop);
-  ['back', 'near'].forEach((depth) => {
-    const cloud = document.createElement('div');
-    cloud.className = `cinema-cloud cinema-cloud--${depth}`;
-    cloud.setAttribute('aria-hidden', 'true');
-    const image = new Image();
-    image.alt = '';
-    image.decoding = 'async';
-    image.addEventListener('load', () => cloud.classList.add('is-loaded'));
-    image.src = `${import.meta.env.BASE_URL}images/cloud-foreground.webp`;
-    cloud.append(image);
-    hero.append(cloud);
-  });
   if (reduced) return;
 
   const mm = gsap.matchMedia();
