@@ -288,3 +288,8 @@ p {
   border: 1px solid var(--line);
   backdrop-filter: blur(14px);
 }
+
+/* no eyebrow labels above headings: the headings carry the section */
+.eyebrow { display: none !important; }
+.eyebrow + .sec-title,
+.sec-head > .sec-title:first-child { margin-top: 0; }
