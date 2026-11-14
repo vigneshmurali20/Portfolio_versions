@@ -36,6 +36,45 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   const portraitGeometry = new THREE.PlaneGeometry(1, 1);
   const portrait = new THREE.Mesh(portraitGeometry, portraitMaterial);
   portrait.renderOrder = 1; scene.add(portrait);
+
+  // A second, independent point layer samples the cutout silhouette. It stays
+  // almost still in the portrait, then loosens into the journey as you scroll
+  // and scatters away from the pointer on hover.
+  const particleMaterial = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: {
+      uTime: { value: 0 }, uProgress: { value: 0 }, uAlpha: { value: 0 },
+      uPointer: { value: new THREE.Vector3(0, 0, 0) },
+    },
+    vertexShader: `uniform float uTime; uniform float uProgress; uniform vec3 uPointer;
+      attribute float aSeed; varying float vAlpha; varying float vSeed;
+      void main() {
+        vec3 p = position;
+        vec2 away = p.xy - uPointer.xy;
+        float d = length(away);
+        float hover = uPointer.z * exp(-d * 15.0);
+        float spread = uProgress * (0.018 + aSeed * 0.045) + hover * 0.075;
+        p.xy += normalize(away + vec2(0.0001)) * spread;
+        p.z += hover * 0.12 + sin(uTime * 1.25 + aSeed * 6.283) * 0.004;
+        vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+        gl_Position = projectionMatrix * mvPosition;
+        gl_PointSize = 1.45 + aSeed * 1.5 + hover * 2.0;
+        vAlpha = 0.3 + aSeed * 0.7;
+        vSeed = aSeed;
+      }`,
+    fragmentShader: `uniform float uAlpha; varying float vAlpha; varying float vSeed;
+      void main() {
+        float r = length(gl_PointCoord - vec2(0.5));
+        float dot = 1.0 - smoothstep(0.18, 0.5, r);
+        vec3 lilac = vec3(0.66, 0.55, 1.0);
+        vec3 warm = vec3(1.0, 0.76, 0.48);
+        gl_FragColor = vec4(mix(lilac, warm, vSeed * 0.28), dot * vAlpha * uAlpha);
+      }`,
+  });
+  const particleGeometry = new THREE.BufferGeometry();
+  const portraitParticles = new THREE.Points(particleGeometry, particleMaterial);
+  portraitParticles.renderOrder = 2; scene.add(portraitParticles);
+
   const halo = new THREE.Group(); scene.add(halo);
   const logos = [];
   const state = { width: 1, height: 1, photo: { x: 0, y: 0, w: 1, h: 1 }, radius: 1, angle: 0, velocity: 0, intro: reduced ? 1 : 0, pointer: { x: 0, y: 0, inside: false }, dragging: false, lastX: 0, ready: false, visible: true, disposed: false };
@@ -92,6 +131,14 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     portrait.scale.set(p.w * push, p.h * push, 1);
     portrait.position.set(p.x * (1 - smooth(0.1, 0.9, progress) * 0.65), p.y - progress * state.height * 0.08 - (1 - intro) * 20, 0);
     portraitMaterial.opacity = intro;
+    portraitParticles.scale.set(p.w * push, p.h * push, 1);
+    portraitParticles.position.copy(portrait.position);
+    particleMaterial.uniforms.uTime.value = now / 1000;
+    particleMaterial.uniforms.uProgress.value = progress;
+    particleMaterial.uniforms.uAlpha.value = intro * 0.42;
+    const px = (state.pointer.x * state.width * 0.5 - p.x) / Math.max(1, p.w);
+    const py = (-state.pointer.y * state.height * 0.5 - p.y) / Math.max(1, p.h);
+    particleMaterial.uniforms.uPointer.value.set(px, py, state.pointer.inside && px > -0.65 && px < 0.65 && py > -0.65 && py < 0.65 ? 1 : 0);
 
     // A genuinely hollow halo ABOVE the hair, with a clear center. Billboards
     // stay facing the camera while their x/y/z positions travel around it.
@@ -148,6 +195,23 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   ]).then(([photo, images]) => {
     if (state.disposed) return;
     portraitMaterial.map = texture(photo); portraitMaterial.needsUpdate = true;
+    const sample = document.createElement('canvas');
+    const sampleWidth = 144, sampleHeight = Math.round(sampleWidth * photo.height / photo.width);
+    sample.width = sampleWidth; sample.height = sampleHeight;
+    const sampleContext = sample.getContext('2d', { willReadFrequently: true });
+    sampleContext.drawImage(photo, 0, 0, sampleWidth, sampleHeight);
+    const pixels = sampleContext.getImageData(0, 0, sampleWidth, sampleHeight).data;
+    const positions = [], seeds = [];
+    for (let y = 0; y < sampleHeight; y += 2) {
+      for (let x = 0; x < sampleWidth; x += 2) {
+        const at = (y * sampleWidth + x) * 4;
+        if (pixels[at + 3] < 72) continue;
+        positions.push(x / sampleWidth - 0.5, 0.5 - y / sampleHeight, 0.008);
+        seeds.push(Math.random());
+      }
+    }
+    particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    particleGeometry.setAttribute('aSeed', new THREE.Float32BufferAttribute(seeds, 1));
     images.forEach(({ tool, image }) => {
       const material = new THREE.MeshBasicMaterial({ map: logoTexture(image), transparent: true, depthWrite: false, opacity: 0 });
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
@@ -164,6 +228,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     hero.removeEventListener('pointermove', point); hero.removeEventListener('pointerleave', leave);
     canvas.removeEventListener('pointerdown', down); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
     portraitMaterial.map?.dispose(); portraitMaterial.dispose(); portraitGeometry.dispose();
+    particleGeometry.dispose(); particleMaterial.dispose();
     logos.forEach(({ mesh, material }) => { mesh.geometry.dispose(); material.map?.dispose(); material.dispose(); }); renderer.dispose();
   } };
 }

@@ -159,6 +159,13 @@ void main(){
       col+=vec3(1.,.5,.15)*exp(-abs(uv.y+n-fr)*28.)*.6;
     }
   }
+  // a shared drift field threads every chapter together. In the light
+  // sky it reads as fine silver points; deeper down it picks up each world's
+  // own color and movement, like a route continuing behind the story.
+  vec2 field = uv * vec2(uRes.x / uRes.y, 1.0);
+  float trail = dots(field, vec2(76.0, 46.0), vec2(t * 0.018, -t * 0.024 + uWorld * 0.6), 0.035, 37.0);
+  vec3 trailColor = mix(vec3(0.78, 0.70, 1.0), vec3(0.78, 0.91, 0.94), clamp(uWorld / 4.0, 0.0, 1.0));
+  col += trailColor * trail * 0.11;
   // fine grain keeps the gradients from banding
   col+=(hash(uv*uRes+t)-.5)*.018;
   gl_FragColor=vec4(col,1.);
