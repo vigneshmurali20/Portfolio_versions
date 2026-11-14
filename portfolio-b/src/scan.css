@@ -495,3 +495,21 @@ html .hero.hero::before { opacity: calc(1 - var(--hero-exit, 0)); }
   .mz, .mz.is-in { transition: none; }
   .mz.is-in::after { animation: none; }
 }
+
+
+/* ------------------------------------------------------- match cut edge
+   The first section of each layer carries a hairline on its top edge. When
+   the particle field collapses to a line at mid-screen (world.js), that
+   edge is exactly there and glows (--beam), so the beam becomes the edge. */
+main > [data-world]:not([data-world='heaven']) { position: relative; }
+main > [data-world]:not([data-world='heaven'])::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(127, 220, 234, calc(0.12 + var(--beam, 0) * 0.88)) 12%, rgba(220, 250, 255, calc(0.12 + var(--beam, 0) * 0.88)) 50%, rgba(127, 220, 234, calc(0.12 + var(--beam, 0) * 0.88)) 88%, transparent);
+  box-shadow: 0 0 calc(var(--beam, 0) * 24px) rgba(127, 220, 234, calc(var(--beam, 0) * 0.8));
+}

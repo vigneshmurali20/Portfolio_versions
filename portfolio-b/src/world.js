@@ -111,10 +111,16 @@ export function createWorld({ reduced }) {
   // scroll keyframes: each band moves w from n to n + 1 while it crosses mid-screen
   let keys = [];
   const measure = () => {
-    keys = [...document.querySelectorAll('[data-descent]')].map((band, n) => {
-      const r = band.getBoundingClientRect();
-      const top = r.top + scrollY;
-      return { start: top - innerHeight * 0.75, end: top + r.height - innerHeight * 0.25, from: n };
+    // Sections sit back to back. The boundary into each layer is the first
+    // section of that layer: the cut runs while its top edge travels from the
+    // bottom of the screen to the top, and peaks (m = 0.5) when that edge is
+    // exactly at mid-screen, where the particle field has collapsed to a line.
+    keys = [];
+    WORLDS.slice(1).forEach((w, n) => {
+      const first = document.querySelector(`main [data-world="${w}"], footer[data-world="${w}"]`);
+      if (!first) return;
+      const top = first.getBoundingClientRect().top + scrollY;
+      keys.push({ start: top - innerHeight, end: top, from: n, el: first });
     });
   };
   const worldAt = (y) => {
@@ -170,41 +176,44 @@ export function createWorld({ reduced }) {
     const uniforms = {
       uMix: { value: 0 }, uTime: { value: 0 }, uPx: { value: renderer.getPixelRatio() },
       uTintA: { value: new THREE.Color() }, uTintB: { value: new THREE.Color() }, uH: { value: 800 },
+      uBeam: { value: new THREE.Color(0.5, 0.86, 0.92) },
     };
     const material = new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms,
       vertexShader: `
         uniform float uMix; uniform float uTime; uniform float uPx; uniform float uH;
-        uniform vec3 uTintA; uniform vec3 uTintB;
+        uniform vec3 uTintA; uniform vec3 uTintB; uniform vec3 uBeam;
         attribute vec3 aTo; attribute float aLumA; attribute float aLumB; attribute float aSeed;
         varying vec3 vColor; varying float vAlpha;
-        float ease(float t) { return t * t * (3.0 - 2.0 * t); }
         void main() {
-          // first half: dive through the current formation (it rushes past
-          // the lens); second half: the next one rises out of the depth
+          // The match cut. First half: the current formation collapses, in
+          // screen space, onto one horizontal line at mid-screen. Second half:
+          // the line opens out into the next formation. The line sits where
+          // the incoming section's top edge is at that moment, so the scan
+          // beam becomes the section's edge.
           float m = uMix;
-          float outT = clamp(m * 2.0 - aSeed * 0.25, 0.0, 1.0);
-          float inT = clamp(m * 2.0 - 1.0 + (1.0 - aSeed) * 0.25, 0.0, 1.0);
-          vec3 a = position, b = aTo;
-          vec3 swirl = vec3(sin(aSeed * 61.0 + uTime), cos(aSeed * 37.0 + uTime * 0.8), 0.0);
-          a.z += pow(outT, 1.6) * (9.0 + aSeed * 8.0);
-          a.xy += swirl.xy * outT * 0.6;
-          b.z -= pow(1.0 - inT, 1.4) * (18.0 + aSeed * 10.0);
-          b.xy += swirl.xy * (1.0 - inT) * 1.2;
           bool useB = m > 0.5;
-          vec3 p = useB ? b : a;
-          // idle breathing
-          p.y += sin(uTime * 0.3 + aSeed * 40.0) * 0.02;
-          vec4 mv = modelViewMatrix * vec4(p, 1.0);
-          gl_Position = projectionMatrix * mv;
-          float depth = max(0.2, -mv.z);
-          float speed = useB ? (1.0 - inT) : outT;
-          gl_PointSize = clamp((1.6 + aSeed * 1.2) * uPx * (uH / 900.0) * 7.0 / depth * (1.0 + speed * 2.5), 1.0, 26.0);
+          vec3 p = useB ? aTo : position;
+          p.y += sin(uTime * 0.3 + aSeed * 40.0) * 0.02;   // idle breathing
+          vec4 clip = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+          float depth = max(0.2, clip.w);
+          // collapse amount: 0 at rest, 1 on the line; staggered per point so
+          // the line gathers and releases like a scan rather than all at once
+          float c = useB ? 1.0 - smoothstep(0.5, 0.92 - aSeed * 0.12, m) : smoothstep(0.08 + aSeed * 0.12, 0.5, m);
+          c = c * c * (3.0 - 2.0 * c);
+          vec2 ndc = clip.xy / clip.w;
+          float spread = (fract(aSeed * 7.31) * 2.0 - 1.0) * 1.08;
+          vec2 line = vec2(mix(ndc.x, spread, 0.6), (fract(aSeed * 3.7) - 0.5) * 0.006);
+          vec2 q = mix(ndc, line, c);
+          gl_Position = vec4(q * clip.w, clip.z, clip.w);
+          float size = (1.6 + aSeed * 1.2) * uPx * (uH / 900.0) * 7.0 / depth;
+          gl_PointSize = clamp(mix(size, 1.6 * uPx, c), 1.0, 22.0);
           float lum = useB ? aLumB : aLumA;
-          vColor = (useB ? uTintB : uTintA) * lum;
+          vec3 tint = useB ? uTintB : uTintA;
+          vColor = mix(tint * lum, uBeam * 1.4, c);          // the beam glows cyan
           float fog = 1.0 - smoothstep(14.0, 30.0, depth);
-          float near = smoothstep(0.25, 1.4, depth);   // fade as points pass the lens
-          vAlpha = fog * near * (0.75 - speed * 0.35);
+          float near = smoothstep(0.25, 1.4, depth);
+          vAlpha = mix(fog * near * 0.75, 0.9, c);
         }`,
       fragmentShader: `
         varying vec3 vColor; varying float vAlpha;
@@ -219,6 +228,7 @@ export function createWorld({ reduced }) {
     scene.add(points);
 
     let base = -1;
+    let lastBeam = null;
     const load = (i) => {
       const a = F[i], b = F[Math.min(i + 1, F.length - 1)];
       posA.array.set(a.pos); posB.array.set(b.pos); lumA.array.set(a.lum); lumB.array.set(b.lum);
@@ -250,8 +260,14 @@ export function createWorld({ reduced }) {
       const i = Math.min(F.length - 1, Math.floor(w));
       if (i !== base) { base = i; load(i); }
       let m = w - i;
-      if (reduced) m = m < 0.5 ? 0 : 1; // no flight: a straight swap
+      if (reduced) m = m < 0.5 ? 0 : 1; // no collapse: a straight swap
       uniforms.uMix.value = m;
+      // the incoming section's top edge glows while the beam sits on it
+      const k = keys[i];
+      const glow = k && m > 0 ? Math.max(0, 1 - Math.abs(m - 0.5) * 4) : 0;
+      if (k && k.el) k.el.style.setProperty('--beam', glow.toFixed(3));
+      if (lastBeam && lastBeam !== k?.el) lastBeam.style.setProperty('--beam', '0');
+      lastBeam = k?.el;
       uniforms.uTime.value = reduced ? 0 : now / 1000;
       // a slow drift and pointer parallax; reading inside a layer moves the
       // camera forward a little so the field never feels frozen
