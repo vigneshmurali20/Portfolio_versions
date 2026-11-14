@@ -444,3 +444,53 @@ html:not(.world-live) .world {
 :is([data-world='earth'], [data-world='ocean'], [data-world='abyss'], [data-world='hell']) .impact__cell--dark .impact__front :is(.impact__index, .impact__note) {
   color: var(--muted);
 }
+
+/* ------------------------------------------------------------ scan hero
+   The heaven storyline is retired. The hero is a dark lidar forest, so the
+   nav reads light-on-dark while it sits over it, and the altimeter is gone. */
+.altimeter { display: none !important; }
+:root[data-world-now='heaven'] :is(.nav, .sheet) {
+  --paper: #070908;
+  --paper-2: #0d110f;
+  --card: rgba(220, 235, 215, 0.06);
+  --card-solid: #0d110f;
+  --ink: #eef1ea;
+  --ink-2: #cfd6cb;
+  --muted: #8f9a8c;
+  --line: rgba(220, 235, 215, 0.12);
+  --line-2: rgba(220, 235, 215, 0.22);
+  --brand: #cfe3b0;
+  --brand-ink: #e1efc9;
+  --brand-soft: rgba(207, 227, 176, 0.12);
+}
+:root[data-world-now='heaven'] .nav__logo { color: var(--ink); }
+
+/* Layered hero: the WebGL canvas holds background, subject and foreground;
+   the DOM portrait only sets the subject's rect (and is the no-WebGL
+   fallback). The stage keeps the photo's natural 941:1672 ratio. */
+html .hero.hero { padding-top: clamp(112px, 15vh, 170px); min-height: max(100svh, 760px); background: #030404 !important; }
+html .hero.hero::before { background: radial-gradient(ellipse at 52% 52%, rgba(60, 110, 150, 0.16), transparent 50%), linear-gradient(180deg, #02040a 0%, transparent 40%); }
+html .hero .hero__copy.hero__copy { padding-top: 0; }
+html .hero .hero__stage.hero__stage {
+  inset: auto clamp(16px, 5vw, 96px) 0 auto;
+  height: 92%;
+  width: auto;
+  aspect-ratio: 941 / 1672;
+}
+html .hero .hero__stage .hero__portrait {
+  position: absolute; inset: 0; left: 0; bottom: 0;
+  width: 100% !important; height: 100% !important;
+  object-fit: contain; object-position: center bottom;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
+}
+html.no-gl .hero .hero__portrait { filter: grayscale(1) contrast(1.15) brightness(1.1); }
+html .hero .hero__trust.hero__trust { top: auto; bottom: clamp(56px, 8vh, 85px); }
+@media (max-width: 1100px) and (min-width: 861px) {
+  html .hero .hero__copy.hero__copy { width: min(52%, 560px); }
+}
+@media (max-width: 860px) {
+  html .hero.hero { min-height: max(100svh, 980px); padding-top: 112px; }
+  html .hero .hero__stage.hero__stage { inset: auto auto 0 50%; height: 52%; transform: translateX(-50%); }
+  html .hero .hero__trust.hero__trust { display: none; }
+}
