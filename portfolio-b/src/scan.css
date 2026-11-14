@@ -293,3 +293,21 @@ p {
 .eyebrow { display: none !important; }
 .eyebrow + .sec-title,
 .sec-head > .sec-title:first-child { margin-top: 0; }
+
+/* ---------------------------------------------------- contrast fixes
+   Leftovers from the light theme that turned into dark-on-dark text. */
+.chips li,
+.chips a { background: rgba(127, 220, 234, 0.05); color: var(--ink); }
+.disc__body .chips li {
+  border-color: var(--line-2);
+  background: rgba(127, 220, 234, 0.06);
+  color: var(--ink);
+}
+.cs-card__kind { color: var(--brand-ink); }
+.impact__tabs button[aria-selected='true'] { color: #021013; }
+.impact__tab-glider { background: var(--brand); }
+.global__region-code { color: color-mix(in srgb, var(--c) 45%, #ffffff); border-color: color-mix(in srgb, var(--c) 70%, #ffffff); }
+.global__region.is-active .global__region-code { color: #021013; background: color-mix(in srgb, var(--c) 45%, #ffffff); }
+.footer__col .footer__hi { background: var(--brand); color: #021013; }
+.footer__col .footer__hi:hover { background: var(--brand-ink); color: #021013; }
+.tool-stack__more a { background: var(--card-solid); color: var(--ink); border: 1px solid var(--line-2); }
