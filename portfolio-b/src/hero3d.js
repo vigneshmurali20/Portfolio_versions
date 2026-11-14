@@ -85,7 +85,14 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   let previous = 0;
 
   function layout() {
-    const hr = hero.getBoundingClientRect(), pr = portraitImg.getBoundingClientRect();
+    const hr = hero.getBoundingClientRect();
+    const stage = hero.querySelector('[data-hero-stage]')?.getBoundingClientRect() || hr;
+    const aspect = portraitImg.naturalWidth && portraitImg.naturalHeight ? portraitImg.naturalWidth / portraitImg.naturalHeight : 1.125;
+    const photoW = Math.min(stage.width, stage.height * aspect);
+    const photoH = photoW / aspect;
+    portraitImg.style.width = `${photoW}px`;
+    portraitImg.style.height = `${photoH}px`;
+    const pr = portraitImg.getBoundingClientRect();
     state.width = Math.max(1, hr.width); state.height = Math.max(1, hr.height);
     renderer.setSize(state.width, state.height, false);
     camera.aspect = state.width / state.height;
