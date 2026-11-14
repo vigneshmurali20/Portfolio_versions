@@ -1,8 +1,10 @@
-import '@fontsource/instrument-serif/latin-400-italic.css';
-import '@fontsource-variable/fraunces/opsz.css';
-import '@fontsource-variable/urbanist';
+import '@fontsource/barlow-condensed/latin-600.css';
+import '@fontsource/barlow-condensed/latin-700.css';
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-500.css';
 import '@fontsource-variable/jetbrains-mono';
 import './styles.css';
+import './scan.css';
 import './world.css';
 
 import { gsap } from 'gsap';
@@ -392,6 +394,14 @@ function descents() {
     };
     requestAnimationFrame(tick);
   };
+  // display headings glitch once as they arrive
+  $$('.sec-title, .contact__title').forEach((h) => {
+    if (reduced) return;
+    ScrollTrigger.create({ trigger: h, start: 'top 82%', once: true, onEnter: () => {
+      h.classList.add('is-glitch');
+      setTimeout(() => h.classList.remove('is-glitch'), 700);
+    } });
+  });
   $$('[data-descent]').forEach((band) => {
     const parts = $$('.descent__route span, .descent__title span, .descent__title em', band);
     parts.forEach((el) => { el.dataset.text = el.textContent; });

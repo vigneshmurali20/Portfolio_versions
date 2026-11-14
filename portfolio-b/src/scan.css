@@ -1,0 +1,290 @@
+/* =====================================================================
+   Scan design language, shared by the home page and the case studies.
+
+   Type, in the spirit of a hacker HUD:
+     Barlow Condensed  display, uppercase, tall and tight
+     Barlow            body copy
+     JetBrains Mono    labels, eyebrows, numbers, metadata, buttons
+   The second line of a heading is outlined, not filled, so headings keep
+   a two-tone rhythm without a second typeface. Display headings glitch
+   (a brief RGB split) as they arrive and on hover.
+
+   Contrast: ink is near-white on a black field; secondary text stays
+   above 7:1, muted text above 4.5:1. Surfaces are dark glass over the
+   particle field, blurred so text never sits directly on moving points.
+   ===================================================================== */
+
+:root {
+  --paper: #030404;
+  --paper-2: #080b0c;
+  --card: rgba(12, 17, 19, 0.72);
+  --card-solid: #0b1012;
+  --ink: #f4f7f7;
+  --ink-2: #d0d8d9;
+  --muted: #9aa6a7;
+  --line: rgba(205, 232, 238, 0.14);
+  --line-2: rgba(205, 232, 238, 0.26);
+  --brand: #7fdcea;
+  --brand-ink: #b2eef6;
+  --brand-soft: rgba(127, 220, 234, 0.12);
+  --lime: rgba(127, 220, 234, 0.1);
+  --peach: rgba(255, 160, 100, 0.1);
+  --sky: rgba(127, 220, 234, 0.1);
+  --rose: rgba(255, 110, 110, 0.1);
+  --signal: #ff6a4d; /* the one warm accent: live states, the perimeter red */
+
+  --serif: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --serif-italic: var(--serif);
+  --sans: 'Barlow', system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 40px -18px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.4), 0 30px 70px -24px rgba(0, 0, 0, 0.9);
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+body {
+  font-family: var(--sans);
+  font-weight: 400;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: var(--brand);
+  color: #021013;
+}
+
+/* ------------------------------------------------------------- display */
+.hero__title,
+.sec-title,
+.contact__title,
+.csd-title,
+.csd-title__name,
+.csd-next__line,
+.descent__title span,
+.disc__name,
+.tb__empty-title,
+.tb__name,
+.xp__company,
+.cs-card h3,
+.sheet li a {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings: normal;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+}
+.hero__title,
+.sec-title,
+.contact__title {
+  line-height: 0.88;
+}
+.sec-title,
+.contact__title { font-size: clamp(46px, 7vw, 112px); }
+.hero__title { font-size: clamp(54px, 7.4vw, 124px); }
+/* the second line of a heading: same face, lighter and quieter */
+.line--em,
+.hero__line--em,
+.hero__line--em .hc__a,
+.hero__line--em .hc__b,
+.descent__title em,
+.csd-title__line,
+.sec-title em,
+.brands li:nth-child(even),
+.pv-poster__type,
+.deck__quote {
+  font-family: var(--serif);
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--ink-2);
+  letter-spacing: 0;
+}
+/* small accent lines stay filled: outlines only read at display sizes */
+.descent__title em,
+.csd-title__line,
+.brands li:nth-child(even),
+.deck__quote {
+  color: var(--muted);
+  -webkit-text-stroke: 0;
+}
+
+/* glitch: a brief RGB split with a jitter, on arrival and on hover */
+@keyframes scan-glitch {
+  0%, 100% { text-shadow: none; transform: none; clip-path: none; }
+  15% { text-shadow: 3px 0 rgba(255, 70, 60, 0.75), -3px 0 rgba(90, 225, 245, 0.75); transform: translateX(-2px); }
+  30% { text-shadow: -2px 0 rgba(255, 70, 60, 0.75), 2px 0 rgba(90, 225, 245, 0.75); transform: translateX(2px) skewX(-4deg); }
+  45% { text-shadow: 1px 0 rgba(255, 70, 60, 0.6), -1px 0 rgba(90, 225, 245, 0.6); transform: none; clip-path: inset(10% 0 40% 0); }
+  60% { text-shadow: none; clip-path: none; }
+  75% { text-shadow: 2px 0 rgba(255, 70, 60, 0.5), -2px 0 rgba(90, 225, 245, 0.5); }
+}
+.is-glitch,
+.sec-title:hover,
+.contact__title:hover {
+  animation: scan-glitch 0.6s steps(2, end) 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-glitch, .sec-title:hover, .contact__title:hover { animation: none; }
+}
+
+/* ------------------------------------------------------- body and meta */
+.sec-body,
+.hero__body,
+.csd-about,
+p {
+  color: var(--ink-2);
+}
+.sec-body,
+.hero__body {
+  font-size: clamp(16px, 1.15vw, 18px);
+  line-height: 1.6;
+}
+.eyebrow,
+.descent__route,
+.cases__index-kind,
+.cs-card__kind,
+.csd-tags li,
+.csd-meta dt,
+.csd-stats dt,
+.impact__index,
+.xp__date,
+.tb__group-label,
+.cinema-scroll,
+.hero__hint {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  background: rgba(127, 220, 234, 0.06);
+  color: var(--brand);
+  box-shadow: none;
+}
+.eyebrow__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  background: var(--brand);
+  box-shadow: 0 0 10px var(--brand);
+}
+/* numbers read as instrument readouts */
+.impact__num,
+.csd-stats dd,
+.cs-card dd,
+.pv-dash__kpi b,
+.tb__meter b {
+  font-family: var(--mono);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------- controls */
+.btn {
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.btn--dark {
+  background: var(--brand);
+  color: #021013;
+}
+.btn--dark:hover {
+  background: var(--brand-ink);
+}
+.btn--dark .btn__icon {
+  background: #021013;
+  color: var(--brand);
+}
+.btn--ghost {
+  background: rgba(8, 12, 14, 0.6);
+  color: var(--ink);
+  border: 1px solid var(--line-2);
+  backdrop-filter: blur(10px);
+}
+.btn--ghost:hover {
+  border-color: var(--brand);
+}
+.btn--ghost .btn__icon,
+.btn__play {
+  background: var(--ink);
+  color: #021013;
+}
+.btn__icon,
+.btn__play {
+  border-radius: 4px;
+}
+.chips a,
+.impact__tabs button,
+.nav__link {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.nav__pill {
+  background: rgba(6, 9, 10, 0.72);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+/* ------------------------------------------------------------- surfaces */
+/* dark glass over the particle field, one radius, one hairline */
+.cs-card__link,
+.disc__panel,
+.impact__front,
+.impact__back,
+.global__panel,
+.tb__info,
+.ai-tile,
+.footer__card,
+.xp__row,
+.deck__card,
+.contact__card,
+.csd-mod__fig {
+  border-color: var(--line);
+}
+.disc__panel,
+.impact__front,
+.impact__back,
+.global__panel,
+.tb__info,
+.ai-tile,
+.footer__card,
+.deck__card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+}
+
+/* sub-headings inside sections follow the display face at a smaller size */
+.xp__title,
+.about__name,
+.footer__title {
+  font-family: var(--serif);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+/* the logo chip that appears on scroll is dark glass, like the nav */
+.nav.is-scrolled .nav__logo {
+  background: rgba(6, 9, 10, 0.72);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
