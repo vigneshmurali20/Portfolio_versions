@@ -386,12 +386,10 @@ function caseStudies() {
 /* ------------------------------------------------------------ descents */
 // The fall band's clouds race upward faster than the page, so you drop
 // through them rather than scroll past them.
-function descents() {
-  // Between layers the backdrop dives (world.js). The band copy decodes out
-  // of scan noise as it arrives: each glyph cycles through random marks
-  // before locking, left to right.
-  const glyphs = '01<>/|=+*#%@';
-  const decode = (el) => {
+// Text decodes out of scan noise: each glyph cycles through random marks
+// before locking, left to right.
+const glyphs = '01<>/|=+*#%@';
+function decode(el) {
     const final = el.dataset.text;
     if (reduced) { el.textContent = final; return; }
     const start = performance.now(), dur = 900 + final.length * 18;
@@ -406,11 +404,17 @@ function descents() {
       if (t < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
-  };
-  // display headings glitch once as they arrive
+}
+
+function descents() {
+  // Between layers the backdrop dives (world.js); band copy decodes in.
+  // display headings decode out of noise and glitch once as they arrive
   $$('.sec-title, .contact__title').forEach((h) => {
     if (reduced) return;
+    const lines = $$('.line__in', h).filter((el) => el.children.length === 0);
+    lines.forEach((el) => { el.dataset.text = el.textContent; });
     ScrollTrigger.create({ trigger: h, start: 'top 82%', once: true, onEnter: () => {
+      lines.forEach(decode);
       h.classList.add('is-glitch');
       setTimeout(() => h.classList.remove('is-glitch'), 700);
     } });
@@ -437,6 +441,41 @@ function descents() {
       });
     }
   });
+}
+
+
+/* ------------------------------------------------------------ HUD + materialize */
+// Media resolves out of halftone dots with a scan line (scan.css .mz), once,
+// as it enters the viewport.
+function materialize() {
+  const els = $$('.cs-card__media, .bh-card__frame, .about__photo, .reel__frame, .ai-tile');
+  els.forEach((el) => el.classList.add('mz'));
+  if (reduced) { els.forEach((el) => el.classList.add('is-in', 'is-done')); return; }
+  els.forEach((el) => {
+    ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => {
+      el.classList.add('is-in');
+      setTimeout(() => el.classList.add('is-done'), 1300);
+    } });
+  });
+}
+// The drone-feed frame: section code, depth with scroll, cursor position, clock.
+function hud() {
+  const el = $('[data-hud]');
+  if (!el) return;
+  const sec = $('[data-hud-sec]', el), depth = $('[data-hud-depth]', el);
+  const hx = $('[data-hud-x]', el), hy = $('[data-hud-y]', el), clock = $('[data-hud-clock]', el);
+  const names = { heaven: '01 SURFACE', earth: '02 WORK', ocean: '03 SYSTEMS', abyss: '04 PERSON', hell: '05 SIGNAL' };
+  const pad = (n) => String(Math.max(0, Math.round(n))).padStart(4, '0');
+  const onScroll = () => {
+    depth.textContent = pad(scrollY / 6);
+    const now = names[root.dataset.worldNow] || names.heaven;
+    if (sec.textContent !== now) { sec.dataset.text = now; sec.textContent = now; decode(sec); }
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  addEventListener('pointermove', (e) => { hx.textContent = pad(e.clientX); hy.textContent = pad(e.clientY); }, { passive: true });
+  const tick = () => { clock.textContent = new Date().toTimeString().slice(0, 8); };
+  tick(); setInterval(tick, 1000);
 }
 
 /* ------------------------------------------------------------ parallax */
@@ -1102,6 +1141,8 @@ impactViews();
 const openDiscipline = disciplineAccordion();
 caseStudies();
 descents();
+materialize();
+hud();
 parallax();
 toolbox(openDiscipline);
 showreel();

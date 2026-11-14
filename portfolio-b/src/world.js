@@ -35,7 +35,19 @@ function formations(n) {
     return { pos, lum };
   };
 
-  const dust = make(() => [g() * 9, g() * 5, -rnd() * 14 + 2, 0.25 + rnd() * 0.5]);
+  // surface: a scanned city ahead of the camera, continuing the hero's city
+  const city = make(() => {
+    if (rnd() < 0.12) return [g() * 9, g() * 4, -rnd() * 14 + 2, 0.25 + rnd() * 0.4]; // dust
+    const cx = Math.round(g() * 9), cz = Math.round(-rnd() * 16);
+    const x = cx * 0.6, z = cz * 0.6 - 2, base = -1.7;
+    const d = Math.hypot(cx * 0.6, (z + 7) * 0.8);
+    const h = 0.2 + Math.exp(-d * d / 10) * 3.6 * (0.4 + rnd() * 0.6);
+    const edge = rnd() < 0.55;
+    if (edge) return [x + (rnd() < 0.5 ? 0 : 0.42), base + rnd() * h, z + (rnd() < 0.5 ? 0 : 0.42), 0.9];
+    // window rows on the face toward the camera
+    const fy = Math.floor(rnd() * h / 0.09) * 0.09;
+    return [x + rnd() * 0.42, base + fy, z + 0.42, 0.5];
+  });
 
   // work: a city-like data grid; streets as lines, some cells rise as bars
   const cellH = (cx, cz) => {
@@ -86,7 +98,7 @@ function formations(n) {
     return [Math.cos(a) * r, Math.sin(a) * r * 0.85, 3 - t * 26, 0.3 + t * 0.7];
   });
 
-  return [dust, grid, network, terrain, tunnel];
+  return [city, grid, network, terrain, tunnel];
 }
 
 // one colour per formation: cool scan white, ice blue, cyan, warm white, ember

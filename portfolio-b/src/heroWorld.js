@@ -284,7 +284,8 @@ export function createHeroWorld({ THREE, scene, reduced }) {
       uniforms.uIntro.value = intro;
       // a slow orbit; scrolling dives the camera down into the streets
       field.rotation.y = Math.sin(t * 0.04) * 0.04;
-      field.position.z = progress * 2.6 * (height / 2);
+      // accelerating dive into the towers: the journey field takes over
+      field.position.z = (progress * 1.2 + progress * progress * 6) * (height / 2);
       const net = Math.max(0, intro * 1.4 - 0.4) * (1 - progress);
       lineMaterial.opacity = 0.2 * net;
       nodeUniforms.uAlpha.value = 0.9 * net;

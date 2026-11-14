@@ -587,7 +587,7 @@ export const renderCaseStudies = (base = '') => {
   </section>`;
 };
 
-// More projects, embedded from Behance. Each iframe loads only when it nears
+// More projects from Behance: self-hosted covers that link out. (Previously iframes; each iframe loaded only when it neared
 // the viewport, and a plain link keeps the project reachable (and crawlable)
 // if the embed is blocked.
 const renderBehanceMore = () => `
@@ -601,10 +601,10 @@ const renderBehanceMore = () => `
             .map(
               (p) => `
           <li class="bh-card" data-reveal>
-            <div class="bh-card__frame">
-              <img src="images/behance/${p.id}.webp" alt="Cover of ${esc(p.title)}" width="808" height="632" loading="lazy" decoding="async" />
-              <iframe src="https://www.behance.net/embed/project/${p.id}?ilo0=1" title="${esc(p.title)}, a project on Behance" width="404" height="316" loading="lazy" allowfullscreen allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-            </div>
+            <a class="bh-card__frame" href="https://www.behance.net/gallery/${p.id}/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="Open">
+              <img src="images/behance/${p.id}.webp" alt="" width="808" height="632" loading="lazy" decoding="async" />
+              <span class="bh-card__scan" aria-hidden="true">Scanned · Behance</span>
+            </a>
             <a class="bh-card__link" href="https://www.behance.net/gallery/${p.id}/" target="_blank" rel="noopener">${esc(p.title)} ${icon('arrowUR')}<span class="sr-only"> (opens Behance in a new tab)</span></a>
           </li>`,
             )
