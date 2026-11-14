@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { createHeroWorld } from './heroWorld.js';
-import { createCloudAtmosphere } from './cloudAtmosphere.js';
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const damp = (a, b, dt) => a + (b - a) * (1 - Math.exp(-5 * dt));
@@ -33,7 +32,6 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   const scene = new THREE.Scene();
   const heroWorld = createHeroWorld({ THREE, scene, reduced });
   const camera = new THREE.PerspectiveCamera(30, 1, 1, 10000);
-  const atmosphere = createCloudAtmosphere({ scene, camera, hero, reduced });
   const portraitMaterial = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, opacity: reduced ? 1 : 0 });
   const portraitGeometry = new THREE.PlaneGeometry(1, 1);
   const portrait = new THREE.Mesh(portraitGeometry, portraitMaterial);
@@ -186,7 +184,6 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
       item.material.opacity = fade * (0.72 + 0.28 * (depth + 1) / 2);
       item.mesh.renderOrder = depth < 0 ? 2 : 4;
     });
-    atmosphere.update(now / 1000, state, dt);
     renderer.render(scene, camera);
   }
 
@@ -228,7 +225,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   });
   return { ready, renderer, destroy() {
     state.disposed = true; cancelAnimationFrame(raf); observer.disconnect(); resize.disconnect();
-    atmosphere.destroy(); heroWorld.destroy();
+    heroWorld.destroy();
     hero.removeEventListener('pointermove', point); hero.removeEventListener('pointerleave', leave);
     canvas.removeEventListener('pointerdown', down); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
     portraitMaterial.map?.dispose(); portraitMaterial.dispose(); portraitGeometry.dispose();

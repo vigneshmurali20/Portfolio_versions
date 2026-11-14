@@ -4,10 +4,10 @@ export function createHeroWorld({ THREE, scene, reduced }) {
   const foreground = new THREE.Group(); foreground.name = 'hero-particle-foreground'; scene.add(foreground);
   const uniforms = { uTime:{value:0}, uTravel:{value:0}, uPointer:{value:new THREE.Vector2()}, uOpacity:{value:0.82} };
   const vertex = `uniform float uTime; uniform float uTravel; uniform vec2 uPointer; attribute float aSeed; attribute float aLayer; varying float vAlpha; varying float vSeed;
-    void main(){ vec3 p=position; float z=p.z;
+    void main(){ vec3 p=position; float z=p.z; p.y += uTravel*.025;
       if(aLayer<0.5){ p.x += sin(uTime*.22+aSeed*8.)*.012; p.y += sin(p.x*2.2+aSeed*6.)*.012; }
       else { p.x += sin(uTime*.34+aSeed*12.)*.035; p.y += cos(uTime*.27+aSeed*9.)*.022; }
-      vec2 delta=p.xy-uPointer; float d=length(delta); float repel=exp(-d*7.)*(1.-aLayer)*.045;
+      vec2 delta=p.xy-uPointer; float d=length(delta); float repel=exp(-d*7.)*(aLayer<.5?.045:.12);
       p.xy += normalize(delta+vec2(.0001))*repel; p.z=z+sin(uTime*.3+aSeed*7.)*.01;
       vec4 mv=modelViewMatrix*vec4(p,1.); gl_Position=projectionMatrix*mv;
       gl_PointSize=(aLayer<.5?1.35:2.2)+aSeed*(aLayer<.5?1.2:2.8); vAlpha=(aLayer<.5?.36:.42)+aSeed*.46; vSeed=aSeed;
