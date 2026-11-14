@@ -299,8 +299,14 @@ export const experience = [
       'Designing the OmniGreen website and product marketing system, with a page system that launches new pages without new design work.',
       'Leading 500+ lifecycle email journeys across five consumer brands within two months, on one shared design system.',
       'Built AI-assisted design automation and journey workflows that cut production time.',
+      // latest projects, from the case studies on this site
+      'Designed and built Omni Tracker, an admin panel and client portal on one codebase: idea to production in 3 days, 32 releases and 106 automated tests.',
+      'Designed the Omnicommerce B2B SaaS website on a system of 15 page templates.',
+      'Built Omni CRM, a customer data, automation and sales CRM that Claude operates through 46 MCP tools, in 2 days.',
+      'Built Agent Canvas, a drag-and-drop workspace for Claude agents with an MCP server, in 2 days.',
+      'Integrating Jev & Laya locally: 8,000+ records mapped, uploaded and classified in under 30 seconds.',
     ],
-    skills: 'UI/UX Design, Graphic Design.',
+    skills: 'UI/UX Design, Product Design, Graphic Design, Design Engineering, AI Agents & MCP, Automation.',
   },
 ];
 
