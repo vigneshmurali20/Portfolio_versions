@@ -815,7 +815,6 @@ export const renderFooter = () => `
         <div class="footer__brand">
           <a class="footer__logo" href="#top" aria-label="${esc(site.fullName)}, back to top">${vMark()}<span>${esc(site.fullName)}</span></a>
           <p>Product &amp; UI/UX designer. Interfaces, motion and brand visuals that feel calm and clear.</p>
-          <span class="footer__status"><span class="dot-live" aria-hidden="true"></span>Open to freelance &amp; full-time work</span>
         </div>
         <nav class="footer__col" aria-label="Footer">
           <h2>Explore</h2>
