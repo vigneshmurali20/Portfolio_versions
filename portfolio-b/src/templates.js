@@ -25,6 +25,7 @@ import {
   experience,
   earlierRoles,
   writingIntro,
+  behanceProjects,
   writing,
   skills,
   processSteps,
@@ -580,9 +581,35 @@ export const renderCaseStudies = (base = '') => {
           })
           .join('')}
       </ol>
+      ${behanceProjects.length ? renderBehanceMore() : ''}
     </div>
   </section>`;
 };
+
+// More projects, embedded from Behance. Each iframe loads only when it nears
+// the viewport, and a plain link keeps the project reachable (and crawlable)
+// if the embed is blocked.
+const renderBehanceMore = () => `
+      <div class="bh-more">
+        <div class="bh-more__head" data-reveal>
+          <h3 class="xp__title">More projects</h3>
+          <a class="writing__all" href="${site.behance}" target="_blank" rel="noopener">See all on Behance ${icon('arrowUR')}<span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+        <ul class="bh-grid">
+          ${behanceProjects
+            .map(
+              (p) => `
+          <li class="bh-card" data-reveal>
+            <div class="bh-card__frame">
+              <img src="images/behance/${p.id}.webp" alt="Cover of ${esc(p.title)}" width="808" height="632" loading="lazy" decoding="async" />
+              <iframe src="https://www.behance.net/embed/project/${p.id}?ilo0=1" title="${esc(p.title)}, a project on Behance" width="404" height="316" loading="lazy" allowfullscreen allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+            <a class="bh-card__link" href="https://www.behance.net/gallery/${p.id}/" target="_blank" rel="noopener">${esc(p.title)} ${icon('arrowUR')}<span class="sr-only"> (opens Behance in a new tab)</span></a>
+          </li>`,
+            )
+            .join('')}
+        </ul>
+      </div>`;
 
 /* ---------------------------------------------------------------- showreel */
 const renderShowreel = () => `
