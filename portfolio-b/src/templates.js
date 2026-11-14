@@ -149,6 +149,8 @@ const renderHero = () => {
   const toolStack = tools.slice(0, 4);
   return `
   <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
+    <img class="hero__angel" src="images/heaven/angel-raised.webp" alt="" width="641" height="1100" decoding="async" fetchpriority="low" aria-hidden="true" data-hero-angel />
+    <div class="hero__rays" aria-hidden="true"></div>
     <canvas class="hero__gl" aria-hidden="true" data-hero-gl></canvas>
     <p class="sr-only">Design and automation tools: Figma, Framer, Webflow, n8n, Make, Zapier and Claude.</p>
     <div class="hero__copy">
@@ -1138,7 +1140,8 @@ const renderDescent = (key) => {
   <div class="descent descent--${key}" data-world="${key}" data-descent="${key}" aria-hidden="true">
     ${
       key === 'fall'
-        ? `<img class="descent__cloud descent__cloud--a" src="images/cloud-foreground.webp" alt="" loading="lazy" decoding="async" />
+        ? `<img class="descent__angel" src="images/heaven/angel-praying.webp" alt="" width="666" height="1200" loading="lazy" decoding="async" />
+    <img class="descent__cloud descent__cloud--a" src="images/cloud-foreground.webp" alt="" loading="lazy" decoding="async" />
     <img class="descent__cloud descent__cloud--b" src="images/cloud-foreground.webp" alt="" loading="lazy" decoding="async" />`
         : ''
     }

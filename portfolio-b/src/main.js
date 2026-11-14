@@ -373,9 +373,11 @@ function caseStudies() {
 // through them rather than scroll past them.
 function descents() {
   if (reduced) return;
+  const angel = $('[data-hero-angel]');
+  if (angel) gsap.to(angel, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '[data-hero]', start: 'top top', end: 'bottom top', scrub: true } });
   const fall = $('[data-descent="fall"]');
   if (!fall) return;
-  [['.descent__cloud--a', 55, -85], ['.descent__cloud--b', 90, -140]].forEach(([sel, from, to]) => {
+  [['.descent__angel', 30, -30], ['.descent__cloud--a', 55, -85], ['.descent__cloud--b', 90, -140]].forEach(([sel, from, to]) => {
     const el = $(sel, fall);
     if (!el) return;
     gsap.fromTo(el, { yPercent: from }, { yPercent: to, ease: 'none', scrollTrigger: { trigger: fall, start: 'top bottom', end: 'bottom top', scrub: true } });

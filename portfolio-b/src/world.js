@@ -20,6 +20,7 @@ uniform vec2 uRes;
 uniform float uTime;
 uniform float uWorld;
 uniform float uScroll;
+uniform vec2 uSun;
 
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
@@ -42,24 +43,45 @@ float dots(vec2 uv,vec2 grid,vec2 drift,float size,float seed){
 }
 
 vec3 heaven(vec2 uv,float t){
-  vec3 top=vec3(.95,.90,.82),mid=vec3(.98,.88,.70),low=vec3(.99,.96,.91);
-  vec3 c=mix(low,mix(mid,top,smoothstep(.55,1.,uv.y)),smoothstep(0.,.6,uv.y));
-  vec2 sun=vec2(.72,1.08);
-  c+=vec3(1.,.93,.78)*.55*exp(-length((uv-sun)*vec2(1.,1.25))*2.6);
-  c+=vec3(1.,.95,.84)*rays(uv,sun,9.,t*.05)*.22;
-  float w=fbm(uv*vec2(2.6,5.)+vec2(t*.012,0.));
-  c=mix(c,vec3(1.),smoothstep(.55,.85,w)*smoothstep(.75,.0,uv.y)*.55);
+  // warm high-altitude sky: pale gold near the sun, cooler cream overhead
+  vec2 asp=vec2(uRes.x/uRes.y,1.);
+  vec3 c=mix(vec3(.99,.95,.88),vec3(.93,.88,.80),smoothstep(.2,1.,uv.y));
+  vec2 d=(uv-uSun)*asp;
+  float r=length(d);
+  // the sun sits behind the portrait's head: core, bloom and a wide glow
+  c+=vec3(1.,.96,.86)*exp(-r*9.)*.9;
+  c+=vec3(1.,.90,.70)*exp(-r*3.2)*.45;
+  c=mix(c,vec3(1.,.94,.80),exp(-r*1.3)*.25);
+  // volumetric rays: the light broken into shafts by noise in the air
+  float ang=atan(d.y,d.x);
+  float shafts=fbm(vec2(ang*5.,t*.04))*.7+fbm(vec2(ang*13.+1.3,-t*.03))*.3;
+  shafts=smoothstep(.42,.86,shafts);
+  c+=vec3(1.,.93,.78)*shafts*exp(-r*1.15)*.38;
+  // high wisps catch the light
+  float w=fbm(uv*vec2(2.6,5.)+vec2(t*.01,0.));
+  c=mix(c,vec3(1.,.98,.95),smoothstep(.56,.86,w)*smoothstep(.8,.05,uv.y)*.5);
   return c;
 }
 
 vec3 earth(vec2 uv,float t,float sc){
-  vec3 c=mix(vec3(.88,.80,.66),vec3(.95,.90,.81),smoothstep(0.,1.,uv.y));
-  // topographic contour lines, drifting with the scroll like a map below you
-  vec2 q=uv*vec2(uRes.x/uRes.y,1.)*1.6+vec2(0.,sc*.00018);
-  float h=fbm(q+vec2(t*.004,0.))*1.4+fbm(q*2.3)*.25;
-  float d=abs(fract(h*11.)-.5);
-  c-=vec3(.30,.24,.15)*smoothstep(.43,.5,d)*.22;
-  c+=vec3(1.,.9,.7)*.12*exp(-length(uv-vec2(.2,1.1))*2.);
+  // a dark, mossy forest floor in mist, lit softly from the middle
+  vec2 a=uv*vec2(uRes.x/uRes.y,1.);
+  vec3 c=mix(vec3(.012,.03,.028),vec3(.04,.10,.095),smoothstep(0.,.85,uv.y));
+  c+=vec3(.30,.48,.44)*.32*exp(-length((uv-vec2(.5,.62))*vec2(1.2,1.6))*2.4);
+  float fog=fbm(uv*vec2(2.2,4.)+vec2(t*.018,sc*.00008));
+  float fog2=fbm(uv*vec2(4.,7.)+vec2(-t*.03,1.7));
+  c+=vec3(.22,.34,.32)*(fog*.22+fog2*.08)*smoothstep(.05,.75,uv.y);
+  // trunks close in at the edges
+  float edge=(1.-smoothstep(0.,.2,uv.x+fbm(vec2(uv.y*3.,1.))*.05))+(1.-smoothstep(1.,.8,uv.x-fbm(vec2(uv.y*3.,4.))*.05));
+  c*=1.-clamp(edge,0.,1.)*.75;
+  // fireflies and violet spores drifting up
+  float ff=dots(a,vec2(16.,10.),vec2(sin(t*.2)*.25,t*.035),.05,13.);
+  c+=vec3(1.,.78,.32)*ff*(.55+.45*sin(t*3.+uv.x*30.))*.7;
+  float vi=dots(a,vec2(24.,15.),vec2(-t*.01,t*.02),.04,21.);
+  c+=vec3(.62,.52,1.)*vi*.35;
+  // the pool at your feet catches the light
+  float sh=pow(noise(vec2(uv.x*38.,uv.y*5.-t*.45)),6.)*smoothstep(.22,.0,uv.y);
+  c+=vec3(.6,.78,.72)*sh*.45;
   return c;
 }
 
@@ -180,9 +202,28 @@ export function createWorld({ reduced }) {
     return ['Below', `${Math.round(m / 1000).toLocaleString('en-US')} km`];
   };
 
+  // the sun sits just behind the portrait's head, wherever the layout puts it
+  const portrait = document.querySelector('[data-portrait]');
+  const hero = document.querySelector('[data-hero]');
+  const sun = [0.74, 0.66];
+  const trackSun = () => {
+    if (!portrait) return;
+    const r = portrait.getBoundingClientRect();
+    const x = (r.left + r.width * 0.5) / innerWidth;
+    const y = (r.top + r.height * 0.24) / innerHeight;
+    sun[0] = x;
+    sun[1] = 1 - y;
+    if (hero) {
+      const h = hero.getBoundingClientRect();
+      hero.style.setProperty('--sun-x', `${r.left - h.left + r.width * 0.5}px`);
+      hero.style.setProperty('--sun-y', `${r.top - h.top + r.height * 0.24}px`);
+    }
+  };
+
   let current = -1;
   let w = 0;
   const update = () => {
+    if (w < 1.2) trackSun();
     w = worldAt(scrollY);
     const now = Math.round(w);
     if (now !== current) {
@@ -232,7 +273,7 @@ export function createWorld({ reduced }) {
   gl.enableVertexAttribArray(loc);
   gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
   const u = (n) => gl.getUniformLocation(prog, n);
-  const uRes = u('uRes'), uTime = u('uTime'), uWorld = u('uWorld'), uScroll = u('uScroll');
+  const uRes = u('uRes'), uTime = u('uTime'), uWorld = u('uWorld'), uScroll = u('uScroll'), uSun = u('uSun');
 
   // the scene is soft (gradients, noise, glow), so a reduced buffer looks the
   // same and costs a fraction; phones get less still
@@ -251,6 +292,7 @@ export function createWorld({ reduced }) {
     gl.uniform1f(uTime, t);
     gl.uniform1f(uWorld, w);
     gl.uniform1f(uScroll, scrollY);
+    gl.uniform2f(uSun, sun[0], sun[1]);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
   root.classList.add('world-live');

@@ -23,18 +23,20 @@
 }
 [data-world='earth'],
 :root[data-world-now='earth'] :is(.nav, .sheet, .altimeter, .descent) {
-  --paper: #ece0c9;
-  --paper-2: #e3d4b8;
-  --card: rgba(255, 250, 240, 0.7);
-  --card-solid: #f8f1e3;
-  --ink: #1d170f;
-  --ink-2: #3d3326;
-  --muted: #65553f;
-  --line: rgba(70, 50, 25, 0.13);
-  --line-2: rgba(70, 50, 25, 0.22);
-  --brand: #b5532d;
-  --brand-ink: #93401f;
-  --brand-soft: #f3dccd;
+  --paper: #0b1714;
+  --paper-2: #10201b;
+  --card: rgba(190, 255, 220, 0.05);
+  --card-solid: #0f1f1a;
+  --ink: #e9f1ea;
+  --ink-2: #c4d3c7;
+  --muted: #8fa797;
+  --line: rgba(200, 255, 220, 0.12);
+  --line-2: rgba(200, 255, 220, 0.2);
+  --brand: #e3c15a;
+  --brand-ink: #f0d27a;
+  --brand-soft: rgba(227, 193, 90, 0.14);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 18px 40px -18px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.3), 0 30px 70px -24px rgba(0, 0, 0, 0.8);
 }
 [data-world='ocean'],
 :root[data-world-now='ocean'] :is(.nav, .sheet, .altimeter, .descent) {
@@ -110,7 +112,7 @@ html:not(.world-live) body {
   transition: background-color 0.8s var(--ease);
 }
 html:not(.world-live)[data-world-now='heaven'] body { background: #f7efe2; }
-html:not(.world-live)[data-world-now='earth'] body { background: #ece0c9; }
+html:not(.world-live)[data-world-now='earth'] body { background: #0b1714; }
 html:not(.world-live)[data-world-now='ocean'] body { background: #0a3446; }
 html:not(.world-live)[data-world-now='abyss'] body { background: #04101b; }
 html:not(.world-live)[data-world-now='hell'] body { background: #1f0704; }
@@ -271,7 +273,7 @@ html:not(.world-live) .world {
 }
 /* in the dark worlds, panels that were inverted (ink on light pages) become
    deep cards instead of glaring light slabs */
-:is([data-world='ocean'], [data-world='abyss'], [data-world='hell']) :is(.tb__info, .footer__card) {
+:is([data-world='earth'], [data-world='ocean'], [data-world='abyss'], [data-world='hell']) :is(.tb__info, .footer__card) {
   background: color-mix(in srgb, var(--card-solid) 88%, transparent);
   color: var(--ink);
   border: 1px solid var(--line);
@@ -318,4 +320,127 @@ html:not(.world-live) .world {
 }
 .descent--dive .descent__title {
   text-shadow: none;
+}
+
+/* earth: glowing outlined labels, like a lit sign in the undergrowth */
+[data-world='earth'] .eyebrow {
+  padding: 6px 14px;
+  border: 1px solid rgba(240, 250, 240, 0.55);
+  border-radius: 999px;
+  color: var(--ink);
+  box-shadow: 0 0 18px rgba(220, 255, 235, 0.18), inset 0 0 12px rgba(220, 255, 235, 0.08);
+  text-shadow: 0 0 10px rgba(240, 255, 245, 0.6);
+}
+[data-world='earth'] .cs-card__link:hover,
+[data-world='earth'] .cs-card__link:focus-visible {
+  box-shadow: 0 0 0 1px rgba(240, 250, 240, 0.35), 0 0 40px -8px rgba(220, 255, 235, 0.25), var(--shadow-lg);
+}
+/* heaven to earth is light to dark: invert the band title against the scene */
+.descent--fall .descent__inner {
+  color: #fff;
+  mix-blend-mode: difference;
+}
+.descent--fall .descent__route,
+.descent--fall .descent__title em {
+  color: inherit;
+}
+
+/* ------------------------------------------------------------- heaven
+   A marble angel stands as a distant colossus behind the portrait, sunk in
+   the clouds and softened by the air; light shafts fall in front of it from
+   the sun behind the head (world.js sets --sun-x / --sun-y). */
+.hero__angel {
+  position: absolute;
+  z-index: -1;
+  left: 56%;
+  bottom: 9%;
+  height: 92%;
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  opacity: 0.5;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to top, transparent 4%, #000 34%);
+  mask-image: linear-gradient(to top, transparent 4%, #000 34%);
+}
+.hero__rays {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(circle at var(--sun-x, 74%) var(--sun-y, 34%), #000 0, rgba(0, 0, 0, 0.6) 30%, transparent 70%);
+  mask-image: radial-gradient(circle at var(--sun-x, 74%) var(--sun-y, 34%), #000 0, rgba(0, 0, 0, 0.6) 30%, transparent 70%);
+}
+.hero__rays::before {
+  content: '';
+  position: absolute;
+  left: var(--sun-x, 74%);
+  top: var(--sun-y, 34%);
+  width: 260vmax;
+  height: 260vmax;
+  margin: -130vmax 0 0 -130vmax;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 238, 200, 0) 0deg,
+    rgba(255, 238, 200, 0.55) 2.2deg,
+    rgba(255, 238, 200, 0) 5deg,
+    rgba(255, 238, 200, 0) 9deg,
+    rgba(255, 244, 220, 0.35) 10.5deg,
+    rgba(255, 238, 200, 0) 13deg
+  );
+  filter: blur(6px);
+  animation: hero-rays 140s linear infinite;
+}
+@keyframes hero-rays {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 860px) {
+  .hero__angel {
+    left: 50%;
+    bottom: 18%;
+    height: 54%;
+    opacity: 0.42;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__rays::before {
+    animation: none;
+  }
+}
+/* the praying angel drifts past as you fall through the clouds */
+.descent__angel {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  height: 92%;
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  opacity: 0.4;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 62%, transparent 92%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 62%, transparent 92%);
+}
+
+/* panels that were inverted (ink slabs on light pages) become deep cards in
+   the dark worlds, earth included */
+:is([data-world='earth'], [data-world='ocean'], [data-world='abyss'], [data-world='hell']) .global__panel {
+  background: radial-gradient(circle at 72% 50%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 46%),
+    color-mix(in srgb, var(--card-solid) 92%, #000);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+:is([data-world='earth'], [data-world='ocean'], [data-world='abyss'], [data-world='hell']) .disc__panel.is-open,
+:is([data-world='earth'], [data-world='ocean'], [data-world='abyss'], [data-world='hell']) .impact__cell--dark .impact__front {
+  background: color-mix(in srgb, var(--card-solid) 70%, var(--brand) 8%);
+  color: var(--ink);
+  border-color: var(--line-2);
+}
+:is([data-world='earth'], [data-world='ocean'], [data-world='abyss'], [data-world='hell']) .impact__cell--dark .impact__front :is(.impact__index, .impact__note) {
+  color: var(--muted);
 }
