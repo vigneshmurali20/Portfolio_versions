@@ -372,15 +372,47 @@ function caseStudies() {
 // The fall band's clouds race upward faster than the page, so you drop
 // through them rather than scroll past them.
 function descents() {
-  if (reduced) return;
-  const angel = $('[data-hero-angel]');
-  if (angel) gsap.to(angel, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '[data-hero]', start: 'top top', end: 'bottom top', scrub: true } });
-  const fall = $('[data-descent="fall"]');
-  if (!fall) return;
-  [['.descent__angel', 30, -30], ['.descent__cloud--a', 55, -85], ['.descent__cloud--b', 90, -140]].forEach(([sel, from, to]) => {
-    const el = $(sel, fall);
-    if (!el) return;
-    gsap.fromTo(el, { yPercent: from }, { yPercent: to, ease: 'none', scrollTrigger: { trigger: fall, start: 'top bottom', end: 'bottom top', scrub: true } });
+  // Between layers the backdrop dives (world.js). The band copy decodes out
+  // of scan noise as it arrives: each glyph cycles through random marks
+  // before locking, left to right.
+  const glyphs = '01<>/|=+*#%@';
+  const decode = (el) => {
+    const final = el.dataset.text;
+    if (reduced) { el.textContent = final; return; }
+    const start = performance.now(), dur = 900 + final.length * 18;
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      let out = '';
+      for (let i = 0; i < final.length; i++) {
+        const lock = i / final.length < t * 1.15 - 0.1;
+        out += lock || final[i] === ' ' ? final[i] : glyphs[(Math.random() * glyphs.length) | 0];
+      }
+      el.textContent = t < 1 ? out : final;
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  $$('[data-descent]').forEach((band) => {
+    const parts = $$('.descent__route span, .descent__title span, .descent__title em', band);
+    parts.forEach((el) => { el.dataset.text = el.textContent; });
+    ScrollTrigger.create({
+      trigger: band,
+      start: 'top 70%',
+      end: 'bottom 30%',
+      onEnter: () => parts.forEach(decode),
+      onEnterBack: () => parts.forEach(decode),
+    });
+    if (!reduced) {
+      // the band copy flies toward you with the camera
+      gsap.fromTo($('.descent__inner', band), { scale: 0.82, opacity: 0, filter: 'blur(6px)' }, {
+        keyframes: [
+          { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.45 },
+          { scale: 1.6, opacity: 0, filter: 'blur(8px)', duration: 0.55, ease: 'power2.in' },
+        ],
+        ease: 'none',
+        scrollTrigger: { trigger: band, start: 'top 85%', end: 'bottom 15%', scrub: true },
+      });
+    }
   });
 }
 

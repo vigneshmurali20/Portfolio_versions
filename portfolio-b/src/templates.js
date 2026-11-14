@@ -149,8 +149,6 @@ const renderHero = () => {
   const toolStack = tools.slice(0, 4);
   return `
   <section class="hero" id="top" aria-labelledby="hero-title" data-hero>
-    <img class="hero__angel" src="images/heaven/angel-raised.webp" alt="" width="641" height="1100" decoding="async" fetchpriority="low" aria-hidden="true" data-hero-angel />
-    <div class="hero__rays" aria-hidden="true"></div>
     <canvas class="hero__gl" aria-hidden="true" data-hero-gl></canvas>
     <p class="sr-only">Design and automation tools: Figma, Framer, Webflow, n8n, Make, Zapier and Claude.</p>
     <div class="hero__copy">
@@ -1120,31 +1118,23 @@ export function renderCaseStudyPage(slug) {
 export const renderLoader = () => `${wordmark()}`;
 
 /* ------------------------------------------------------------ the journey
-   The page is one descent: heaven (hero), a fall through the clouds to earth
-   (case studies, clients, numbers, disciplines), a dive into the ocean
-   (toolbox, AI lab, showreel), the ocean floor (about, writing, testimonials)
-   and a warm underworld (contact, footer). Each section carries data-world,
-   which re-scopes the colour tokens; src/world.js draws the matching scene
-   on one fixed canvas behind the page. */
+   The page is one dive through a scan: surface (hero), work (case studies,
+   clients, numbers, disciplines), systems (toolbox, AI lab, showreel),
+   person (about, writing, testimonials) and signal (contact, footer). Each
+   section carries data-world; src/world.js morphs one particle field behind
+   the page and flies through it in the .descent bands between layers. */
 const inWorld = (world, html) => html.replace(/<(section|div|footer)\b/, `<$1 data-world="${world}"`);
 
 const descents = {
-  fall: { from: 'Heaven', to: 'Earth', title: ['Leaving the clouds.', 'Down to earth, where the work lives.'] },
-  dive: { from: 'Earth', to: 'Ocean', title: ['Into the deep.', 'Below the surface: the tools and the lab.'] },
-  trench: { from: 'Ocean', to: 'Ocean floor', title: ['Deeper still.', 'The quiet floor: who I am and what I write.'] },
-  fire: { from: 'Ocean floor', to: 'The warm below', title: ['Where it gets warm.', 'Let’s make something together.'] },
+  fall: { from: '01 Surface', to: '02 Work', title: ['Into the work.', 'Case studies, clients and the disciplines behind them.'] },
+  dive: { from: '02 Work', to: '03 Systems', title: ['Into the systems.', 'The toolbox and the AI lab.'] },
+  trench: { from: '03 Systems', to: '04 Person', title: ['Into the person.', 'Who I am and what I write.'] },
+  fire: { from: '04 Person', to: '05 Signal', title: ['Into the signal.', 'Let’s make something together.'] },
 };
 const renderDescent = (key) => {
   const d = descents[key];
   return `
   <div class="descent descent--${key}" data-world="${key}" data-descent="${key}" aria-hidden="true">
-    ${
-      key === 'fall'
-        ? `<img class="descent__angel" src="images/heaven/angel-praying.webp" alt="" width="666" height="1200" loading="lazy" decoding="async" />
-    <img class="descent__cloud descent__cloud--a" src="images/cloud-foreground.webp" alt="" loading="lazy" decoding="async" />
-    <img class="descent__cloud descent__cloud--b" src="images/cloud-foreground.webp" alt="" loading="lazy" decoding="async" />`
-        : ''
-    }
     <div class="descent__inner">
       <p class="descent__route"><span>${esc(d.from)}</span><i></i><span>${esc(d.to)}</span></p>
       <p class="descent__title"><span>${esc(d.title[0])}</span><em>${esc(d.title[1])}</em></p>
@@ -1153,13 +1143,7 @@ const renderDescent = (key) => {
 };
 
 const renderWorldChrome = () => `
-  <canvas class="world" data-world-canvas aria-hidden="true"></canvas>
-  <div class="altimeter" aria-hidden="true" data-altimeter>
-    <span class="altimeter__label" data-alt-label>Altitude</span>
-    <span class="altimeter__value" data-alt-value>12,000 m</span>
-    <span class="altimeter__track"><i data-alt-fill></i></span>
-    <span class="altimeter__world" data-alt-world>Heaven</span>
-  </div>`;
+  <canvas class="world" data-world-canvas aria-hidden="true"></canvas>`;
 
 export function renderPage() {
   return {
