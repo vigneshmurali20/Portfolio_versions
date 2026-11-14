@@ -176,44 +176,41 @@ export function createWorld({ reduced }) {
     const uniforms = {
       uMix: { value: 0 }, uTime: { value: 0 }, uPx: { value: renderer.getPixelRatio() },
       uTintA: { value: new THREE.Color() }, uTintB: { value: new THREE.Color() }, uH: { value: 800 },
-      uBeam: { value: new THREE.Color(0.5, 0.86, 0.92) },
+      uRole: { value: 0 },
     };
     const material = new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms,
       vertexShader: `
-        uniform float uMix; uniform float uTime; uniform float uPx; uniform float uH;
-        uniform vec3 uTintA; uniform vec3 uTintB; uniform vec3 uBeam;
+        uniform float uMix; uniform float uTime; uniform float uPx; uniform float uH; uniform float uRole;
+        uniform vec3 uTintA; uniform vec3 uTintB;
         attribute vec3 aTo; attribute float aLumA; attribute float aLumB; attribute float aSeed;
         varying vec3 vColor; varying float vAlpha;
         void main() {
-          // The match cut. First half: the current formation collapses, in
-          // screen space, onto one horizontal line at mid-screen. Second half:
-          // the line opens out into the next formation. The line sits where
-          // the incoming section's top edge is at that moment, so the scan
-          // beam becomes the section's edge.
-          float m = uMix;
-          bool useB = m > 0.5;
-          vec3 p = useB ? aTo : position;
+          // The dive. Both formations are drawn during a cut (uRole 0 = the
+          // outgoing one, 1 = the incoming one). The incoming formation waits
+          // DIVE units further ahead; as you scroll, both move toward the lens
+          // by exactly the same eased amount, so the outgoing points stream
+          // past the camera while the incoming ones arrive in place, in sync,
+          // like one camera flying forward through both.
+          const float DIVE = 14.0;
+          float t = uMix;
+          float e = t * t * (3.0 - 2.0 * t);
+          bool incoming = uRole > 0.5;
+          vec3 p = incoming ? aTo : position;
+          p.z += incoming ? -(1.0 - e) * DIVE : e * DIVE;
           p.y += sin(uTime * 0.3 + aSeed * 40.0) * 0.02;   // idle breathing
-          vec4 clip = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
-          float depth = max(0.2, clip.w);
-          // collapse amount: 0 at rest, 1 on the line; staggered per point so
-          // the line gathers and releases like a scan rather than all at once
-          float c = useB ? 1.0 - smoothstep(0.5, 0.92 - aSeed * 0.12, m) : smoothstep(0.08 + aSeed * 0.12, 0.5, m);
-          c = c * c * (3.0 - 2.0 * c);
-          vec2 ndc = clip.xy / clip.w;
-          float spread = (fract(aSeed * 7.31) * 2.0 - 1.0) * 1.08;
-          vec2 line = vec2(mix(ndc.x, spread, 0.6), (fract(aSeed * 3.7) - 0.5) * 0.006);
-          vec2 q = mix(ndc, line, c);
-          gl_Position = vec4(q * clip.w, clip.z, clip.w);
-          float size = (1.6 + aSeed * 1.2) * uPx * (uH / 900.0) * 7.0 / depth;
-          gl_PointSize = clamp(mix(size, 1.6 * uPx, c), 1.0, 22.0);
-          float lum = useB ? aLumB : aLumA;
-          vec3 tint = useB ? uTintB : uTintA;
-          vColor = mix(tint * lum, uBeam * 1.4, c);          // the beam glows cyan
+          vec4 mv = modelViewMatrix * vec4(p, 1.0);
+          gl_Position = projectionMatrix * mv;
+          float depth = max(0.2, -mv.z);
+          // points stretch a little with speed, most at the middle of the cut
+          float speed = sin(t * 3.14159);
+          gl_PointSize = clamp((1.6 + aSeed * 1.2) * uPx * (uH / 900.0) * 7.0 / depth * (1.0 + speed * 0.8), 1.0, 26.0);
+          vColor = (incoming ? uTintB : uTintA) * (incoming ? aLumB : aLumA);
           float fog = 1.0 - smoothstep(14.0, 30.0, depth);
-          float near = smoothstep(0.25, 1.4, depth);
-          vAlpha = mix(fog * near * 0.75, 0.9, c);
+          float near = smoothstep(0.3, 1.6, depth);       // fade as they pass the lens
+          // a hand-over in opacity centred on the cut, the same curve mirrored
+          float hand = incoming ? smoothstep(0.15, 0.6, t) : 1.0 - smoothstep(0.4, 0.85, t);
+          vAlpha = fog * near * 0.75 * hand;
         }`,
       fragmentShader: `
         varying vec3 vColor; varying float vAlpha;
@@ -226,6 +223,13 @@ export function createWorld({ reduced }) {
     const points = new THREE.Points(geometry, material);
     points.frustumCulled = false;
     scene.add(points);
+    // the incoming formation: same geometry, drawn with uRole = 1
+    const incomingMaterial = material.clone();
+    incomingMaterial.uniforms = { ...uniforms, uRole: { value: 1 } };
+    const incoming = new THREE.Points(geometry, incomingMaterial);
+    incoming.frustumCulled = false;
+    incoming.visible = false;
+    scene.add(incoming);
 
     let base = -1;
     let lastBeam = null;
@@ -278,6 +282,8 @@ export function createWorld({ reduced }) {
       camera.position.y = look.y * 0.2 + 0.4;
       camera.lookAt(0, -0.3, -4);
       points.rotation.y = reduced ? 0 : Math.sin(t * 0.03) * 0.08;
+      incoming.rotation.y = points.rotation.y;
+      incoming.visible = m > 0;
       renderer.render(scene, camera);
     };
     raf = requestAnimationFrame(frame);
