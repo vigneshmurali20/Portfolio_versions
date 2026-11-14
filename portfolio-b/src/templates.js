@@ -1117,12 +1117,71 @@ export function renderCaseStudyPage(slug) {
 
 export const renderLoader = () => `${wordmark()}`;
 
+/* ------------------------------------------------------------ the journey
+   The page is one descent: heaven (hero), a fall through the clouds to earth
+   (case studies, clients, numbers, disciplines), a dive into the ocean
+   (toolbox, AI lab, showreel), the ocean floor (about, writing, testimonials)
+   and a warm underworld (contact, footer). Each section carries data-world,
+   which re-scopes the colour tokens; src/world.js draws the matching scene
+   on one fixed canvas behind the page. */
+const inWorld = (world, html) => html.replace(/<(section|div|footer)\b/, `<$1 data-world="${world}"`);
+
+const descents = {
+  fall: { from: 'Heaven', to: 'Earth', title: ['Leaving the clouds.', 'Down to earth, where the work lives.'] },
+  dive: { from: 'Earth', to: 'Ocean', title: ['Into the deep.', 'Below the surface: the tools and the lab.'] },
+  trench: { from: 'Ocean', to: 'Ocean floor', title: ['Deeper still.', 'The quiet floor: who I am and what I write.'] },
+  fire: { from: 'Ocean floor', to: 'The warm below', title: ['Where it gets warm.', 'Let’s make something together.'] },
+};
+const renderDescent = (key) => {
+  const d = descents[key];
+  return `
+  <div class="descent descent--${key}" data-world="${key}" data-descent="${key}" aria-hidden="true">
+    ${
+      key === 'fall'
+        ? `<img class="descent__cloud descent__cloud--a" src="images/cloud-foreground.webp" alt="" loading="lazy" decoding="async" />
+    <img class="descent__cloud descent__cloud--b" src="images/cloud-foreground.webp" alt="" loading="lazy" decoding="async" />`
+        : ''
+    }
+    <div class="descent__inner">
+      <p class="descent__route"><span>${esc(d.from)}</span><i></i><span>${esc(d.to)}</span></p>
+      <p class="descent__title"><span>${esc(d.title[0])}</span><em>${esc(d.title[1])}</em></p>
+    </div>
+  </div>`;
+};
+
+const renderWorldChrome = () => `
+  <canvas class="world" data-world-canvas aria-hidden="true"></canvas>
+  <div class="altimeter" aria-hidden="true" data-altimeter>
+    <span class="altimeter__label" data-alt-label>Altitude</span>
+    <span class="altimeter__value" data-alt-value>12,000 m</span>
+    <span class="altimeter__track"><i data-alt-fill></i></span>
+    <span class="altimeter__world" data-alt-world>Heaven</span>
+  </div>`;
+
 export function renderPage() {
   return {
     meta,
     loader: renderLoader(),
     nav: renderNav(),
-    main: [renderHero(), renderMarquee(), renderCaseStudies(), renderGlobalClients(), renderImpact(), renderDisciplines(), renderToolbox(), renderAiLab(), renderShowreel(), renderAbout(), renderTestimonials(), renderContact()].join('\n'),
-    footer: renderFooter() + renderDialog(),
+    main: [
+      renderWorldChrome(),
+      inWorld('heaven', renderHero()),
+      inWorld('heaven', renderMarquee()),
+      renderDescent('fall'),
+      inWorld('earth', renderCaseStudies()),
+      inWorld('earth', renderGlobalClients()),
+      inWorld('earth', renderImpact()),
+      inWorld('earth', renderDisciplines()),
+      renderDescent('dive'),
+      inWorld('ocean', renderToolbox()),
+      inWorld('ocean', renderAiLab()),
+      inWorld('ocean', renderShowreel()),
+      renderDescent('trench'),
+      inWorld('abyss', renderAbout()),
+      inWorld('abyss', renderTestimonials()),
+      renderDescent('fire'),
+      inWorld('hell', renderContact()),
+    ].join('\n'),
+    footer: inWorld('hell', renderFooter()) + renderDialog(),
   };
 }

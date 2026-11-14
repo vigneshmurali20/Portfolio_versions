@@ -3,6 +3,7 @@ import '@fontsource-variable/fraunces/opsz.css';
 import '@fontsource-variable/urbanist';
 import '@fontsource-variable/jetbrains-mono';
 import './styles.css';
+import './world.css';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,6 +12,7 @@ import Lenis from 'lenis';
 import { injectSpeedInsights } from '@vercel/speed-insights';
 import { site, tools, disciplines, haloTools, clientRegions } from './content.js';
 import { cinematic } from './cinematic.js';
+import { createWorld } from './world.js';
 
 injectSpeedInsights();
 
@@ -363,6 +365,20 @@ function caseStudies() {
       { clipPath: 'inset(18% 10% 18% 10% round 24px)' },
       { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power2.out', scrollTrigger: { trigger: m, start: 'top bottom', end: 'top 72%', scrub: 0.5 } },
     );
+  });
+}
+
+/* ------------------------------------------------------------ descents */
+// The fall band's clouds race upward faster than the page, so you drop
+// through them rather than scroll past them.
+function descents() {
+  if (reduced) return;
+  const fall = $('[data-descent="fall"]');
+  if (!fall) return;
+  [['.descent__cloud--a', 55, -85], ['.descent__cloud--b', 90, -140]].forEach(([sel, from, to]) => {
+    const el = $(sel, fall);
+    if (!el) return;
+    gsap.fromTo(el, { yPercent: from }, { yPercent: to, ease: 'none', scrollTrigger: { trigger: fall, start: 'top bottom', end: 'bottom top', scrub: true } });
   });
 }
 
@@ -1021,12 +1037,14 @@ function impactViews() {
 
 /* ------------------------------------------------------------ boot */
 cinematic({ hero, reduced });
+createWorld({ reduced });
 startHero3D();
 clientGlobe();
 impactCounters();
 impactViews();
 const openDiscipline = disciplineAccordion();
 caseStudies();
+descents();
 parallax();
 toolbox(openDiscipline);
 showreel();
