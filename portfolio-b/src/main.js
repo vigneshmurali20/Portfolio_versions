@@ -446,22 +446,32 @@ function descents() {
 
 
 /* ------------------------------------------------------------ depth flow */
-// Sections fly in from depth and past the lens as you scroll, so the page
-// reads as one forward flight with the particle dive behind it. At rest
-// every section is at scale 1, so interaction is unchanged. The case-study
-// stack is left alone: its sticky cards need an untransformed parent.
+// Every block in a section flies forward out of the depth on its own as it
+// enters, in reading order, and rushes past the lens as it leaves, like the
+// particle dive behind it. Scrubbed to scroll, so it plays both ways. At rest
+// every block sits at z = 0, so interaction is unchanged. Cards in the
+// case-study stack are left alone: they are sticky and stack on their own.
+const DEPTH_BLOCKS = [
+  '[data-reveal]', '.sec-title', '.contact__title', '.ai-tile', '.xp__row', '.bh-card', '.deck__card',
+  '.impact__cell', '.global__panel', '.tb__stage', '.tb__info', '.footer__card', '.cases__index', '.disc__list',
+].join(', ');
 function depthFlow() {
   if (reduced) return;
-  $$('main > section:not(.hero):not(#case-studies), main > .marquee, footer.footer').forEach((el) => {
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.4, invalidateOnRefresh: true },
-    });
+  const scope = $$('main > section:not(.hero), footer.footer');
+  const all = scope.flatMap((sec) => $$(DEPTH_BLOCKS, sec)).filter((el) => !el.closest('.hero, .cs-card'));
+  // only the outermost block of a nest moves, so nothing doubles up
+  const blocks = all.filter((el) => !all.some((o) => o !== el && o.contains(el)));
+  blocks.forEach((el) => {
+    gsap.set(el, { opacity: 1, y: 0 }); // the depth flight replaces the old fade-up
     const total = () => el.offsetHeight + innerHeight;
-    const inD = () => (innerHeight * 0.55) / total();
-    const outD = () => (innerHeight * 0.5) / total();
-    tl.fromTo(el, { scale: 0.84, opacity: 0, transformOrigin: '50% 0%' }, { scale: 1, opacity: 1, ease: 'power2.out', duration: inD })
+    const inD = () => Math.min(0.6, (innerHeight * 0.42) / total());
+    const outD = () => Math.min(0.4, (innerHeight * 0.3) / total());
+    gsap.timeline({
+      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.35, invalidateOnRefresh: true },
+    })
+      .fromTo(el, { z: -900, opacity: 0, transformPerspective: 1000 }, { z: 0, opacity: 1, ease: 'power3.out', duration: inD })
       .to(el, { duration: () => Math.max(0.0001, 1 - inD() - outD()) })
-      .to(el, { scale: 1.1, opacity: 0, transformOrigin: '50% 100%', ease: 'power2.in', duration: outD });
+      .to(el, { z: 480, opacity: 0, ease: 'power2.in', duration: outD });
   });
 }
 
@@ -592,10 +602,11 @@ function reveals() {
     gsap.set('.skill__fill', { scaleX: (i, el) => getComputedStyle(el).getPropertyValue('--v') });
     return;
   }
+  // blocks outside the depth flow (hero, case-study cards) keep the fade-up
   ScrollTrigger.batch('[data-reveal]', {
     start: 'top 88%',
     once: true,
-    onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 1.1, ease: EASE, stagger: 0.08 }),
+    onEnter: (els) => gsap.to(els.filter((el) => el.closest('.hero, .cs-card')), { opacity: 1, y: 0, duration: 1.1, ease: EASE, stagger: 0.08 }),
   });
   $$('[data-split]').forEach((h) => {
     gsap.fromTo($$('.line__in', h), { y: 0, yPercent: 105 }, {

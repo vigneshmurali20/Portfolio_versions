@@ -510,6 +510,6 @@ main > [data-world]:not([data-world='heaven'])::before {
   top: 0;
   height: 1px;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(127, 220, 234, calc(0.12 + var(--beam, 0) * 0.88)) 12%, rgba(220, 250, 255, calc(0.12 + var(--beam, 0) * 0.88)) 50%, rgba(127, 220, 234, calc(0.12 + var(--beam, 0) * 0.88)) 88%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(127, 220, 234, calc(var(--beam, 0) * 0.9)) 12%, rgba(220, 250, 255, var(--beam, 0)) 50%, rgba(127, 220, 234, calc(var(--beam, 0) * 0.9)) 88%, transparent);
   box-shadow: 0 0 calc(var(--beam, 0) * 24px) rgba(127, 220, 234, calc(var(--beam, 0) * 0.8));
 }
