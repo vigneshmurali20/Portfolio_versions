@@ -444,6 +444,27 @@ function descents() {
 }
 
 
+
+/* ------------------------------------------------------------ depth flow */
+// Sections fly in from depth and past the lens as you scroll, so the page
+// reads as one forward flight with the particle dive behind it. At rest
+// every section is at scale 1, so interaction is unchanged. The case-study
+// stack is left alone: its sticky cards need an untransformed parent.
+function depthFlow() {
+  if (reduced) return;
+  $$('main > section:not(.hero):not(#case-studies), main > .marquee, footer.footer').forEach((el) => {
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.4, invalidateOnRefresh: true },
+    });
+    const total = () => el.offsetHeight + innerHeight;
+    const inD = () => (innerHeight * 0.55) / total();
+    const outD = () => (innerHeight * 0.5) / total();
+    tl.fromTo(el, { scale: 0.84, opacity: 0, transformOrigin: '50% 0%' }, { scale: 1, opacity: 1, ease: 'power2.out', duration: inD })
+      .to(el, { duration: () => Math.max(0.0001, 1 - inD() - outD()) })
+      .to(el, { scale: 1.1, opacity: 0, transformOrigin: '50% 100%', ease: 'power2.in', duration: outD });
+  });
+}
+
 /* ------------------------------------------------------------ HUD + materialize */
 // Media resolves out of halftone dots with a scan line (scan.css .mz), once,
 // as it enters the viewport.
@@ -1143,6 +1164,7 @@ caseStudies();
 descents();
 materialize();
 hud();
+depthFlow();
 parallax();
 toolbox(openDiscipline);
 showreel();

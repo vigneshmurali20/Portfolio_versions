@@ -1152,7 +1152,6 @@ export function renderPage() {
     main: [
       renderWorldChrome(),
       inWorld('heaven', renderHero()),
-      inWorld('heaven', renderMarquee()),
       inWorld('earth', renderCaseStudies()),
       inWorld('earth', renderGlobalClients()),
       inWorld('earth', renderImpact()),
