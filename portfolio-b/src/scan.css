@@ -311,3 +311,99 @@ p {
 .footer__col .footer__hi { background: var(--brand); color: #021013; }
 .footer__col .footer__hi:hover { background: var(--brand-ink); color: #021013; }
 .tool-stack__more a { background: var(--card-solid); color: var(--ink); border: 1px solid var(--line-2); }
+
+/* ---------------------------------------------------------------- drone
+   The pointer is a small survey drone. A cyan reticle marks the exact
+   point; the drone trails it, banks with its velocity (main.js), spins its
+   rotors and casts a soft shadow. Over links it closes in with a lock-on
+   bracket; labels ride under it as a tag. */
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor .cursor { mix-blend-mode: normal; color: var(--ink); }
+}
+.cursor__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 0;
+  background:
+    linear-gradient(var(--brand), var(--brand)) center / 2px 100% no-repeat,
+    linear-gradient(var(--brand), var(--brand)) center / 100% 2px no-repeat;
+  opacity: 0.9;
+}
+.cursor__ring {
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  display: block;
+  transition: width 0.45s var(--ease), height 0.45s var(--ease);
+}
+.cursor__tilt {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+  animation: drone-hover 2.4s ease-in-out infinite;
+}
+@keyframes drone-hover { 50% { translate: 0 -2px; } }
+.cursor__shadow {
+  position: absolute;
+  inset: 22% 18%;
+  translate: 8px 16px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent);
+  filter: blur(3px);
+}
+.drone { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000) drop-shadow(0 0 6px rgba(127, 220, 234, 0.25)); }
+.drone__arms { color: #c9d4d6; }
+.drone__body { fill: #0c1214; stroke: #e8eef0; stroke-width: 2; }
+.drone__cam { fill: #e8eef0; }
+.drone__rotor circle { fill: rgba(200, 235, 245, 0.08); stroke: rgba(200, 235, 245, 0.35); stroke-width: 1; }
+.drone__rotor path { stroke: #e8eef0; stroke-width: 2; stroke-linecap: round; }
+.drone__rotor {
+  transform-box: view-box;
+  transform-origin: var(--x) var(--y);
+  animation: drone-spin 0.18s linear infinite;
+}
+.drone__rotor:nth-child(even) { animation-direction: reverse; }
+@keyframes drone-spin { to { transform: rotate(360deg); } }
+.drone__led--front { fill: var(--brand); animation: drone-blink 1.2s steps(1) infinite; }
+.drone__led--rear { fill: var(--signal, #ff6a4d); }
+@keyframes drone-blink { 50% { opacity: 0.2; } }
+
+/* over a link: the drone closes in and a lock-on bracket appears */
+.cursor.is-hover .cursor__ring { width: 44px; height: 44px; }
+.cursor.is-hover .cursor__dot {
+  opacity: 1;
+  width: 34px;
+  height: 34px;
+  background:
+    linear-gradient(var(--brand), var(--brand)) left top / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) left top / 2px 8px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right top / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right top / 2px 8px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) left bottom / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) left bottom / 2px 8px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right bottom / 8px 2px no-repeat,
+    linear-gradient(var(--brand), var(--brand)) right bottom / 2px 8px no-repeat;
+  transition: width 0.3s var(--ease), height 0.3s var(--ease);
+}
+.cursor.is-down .cursor__tilt { scale: 0.86; }
+
+/* labels ride under the drone as a small tag */
+.cursor .cursor__label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  translate: -50% 6px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: var(--brand);
+  color: #021013;
+  white-space: nowrap;
+}
+.cursor.is-label .cursor__ring { width: 56px; height: 56px; background: none; }
+.cursor.is-label .cursor__dot { opacity: 0.9; }
+@media (prefers-reduced-motion: reduce) {
+  .cursor__tilt, .drone__rotor, .drone__led--front { animation: none; }
+}

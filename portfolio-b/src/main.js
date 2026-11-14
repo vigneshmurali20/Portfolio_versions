@@ -87,6 +87,19 @@ if (finePointer && cursor) {
     },
     { passive: true },
   );
+  // the drone banks toward where it is flying: tilt follows its velocity
+  const tilt = $('.cursor__tilt', cursor);
+  if (tilt && !reduced) {
+    let px = 0, py = 0, bank = 0, pitch = 0;
+    gsap.ticker.add(() => {
+      const x = gsap.getProperty(ring, 'x'), y = gsap.getProperty(ring, 'y');
+      const vx = x - px, vy = y - py;
+      px = x; py = y;
+      bank += (Math.max(-28, Math.min(28, vx * 1.6)) - bank) * 0.18;
+      pitch += (Math.max(-22, Math.min(22, vy * 1.4)) - pitch) * 0.18;
+      tilt.style.transform = `perspective(200px) rotateY(${bank}deg) rotateX(${-pitch}deg) rotate(${bank * 0.35}deg)`;
+    });
+  }
   document.addEventListener('pointerleave', () => cursor.classList.add('is-hidden'));
   window.addEventListener('pointerdown', () => cursor.classList.add('is-down'));
   window.addEventListener('pointerup', () => cursor.classList.remove('is-down'));
