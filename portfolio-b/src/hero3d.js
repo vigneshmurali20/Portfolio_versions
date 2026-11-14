@@ -91,12 +91,13 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
 
   const subjectUniforms = {
     uTime: { value: 0 }, uProgress: { value: 0 }, uIntro: { value: reduced ? 1 : 0 }, uAlpha: { value: 1 },
-    uCell: { value: 3 }, uPointer: { value: new THREE.Vector3() },
+    uCell: { value: 3 }, uPointer: { value: new THREE.Vector3() }, uSolid: { value: 0 }, uAspect: { value: 0.56 }, uRadius: { value: 0.2 },
   };
   const subjectMaterial = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false, uniforms: subjectUniforms,
     vertexShader: `
       uniform float uTime; uniform float uProgress; uniform float uIntro; uniform float uCell; uniform vec3 uPointer;
+      uniform float uSolid; uniform float uAspect; uniform float uRadius;
       attribute float aSize; attribute float aKind; attribute float aSeed;
       varying float vAlpha; varying float vKind;
       void main() {
@@ -106,9 +107,14 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
         vec2 dir = vec2(cos(aSeed * 40.0), sin(aSeed * 53.0));
         p.xy += dir * (1.0 - t) * (0.35 + aSeed * 0.6);
         // hover: dots part around the pointer
+        // the reveal: a soft circle around the pointer where the photo
+        // gives way to particles (measured in true proportions)
+        vec2 rel = (position.xy - uPointer.xy) * vec2(uAspect, 1.0);
+        float reveal = uPointer.z * (1.0 - smoothstep(uRadius * 0.55, uRadius, length(rel)));
         vec2 away = p.xy - uPointer.xy;
-        float hover = uPointer.z * exp(-length(away) * 14.0);
-        p.xy += normalize(away + 1e-4) * hover * 0.06;
+        float hover = reveal * exp(-length(rel) * 9.0);
+        p.xy += normalize(away + 1e-4) * (reveal * 0.018 + hover * 0.05);
+        p.z += reveal * 0.02 * aSeed;
         // scroll: the figure dissolves into the scan
         p.xy += dir * uProgress * (0.04 + aSeed * 0.12);
         // loose pixels drift
@@ -118,7 +124,8 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
         gl_PointSize = max(1.0, aSize * uCell * (1.0 + hover * 0.6));
         vKind = aKind;
         // legs fade into the ground of the scan
-        vAlpha = t * smoothstep(-0.5, -0.24, position.y) * (aKind > 0.5 ? 0.55 : 1.0);
+        float show = max(1.0 - uSolid, reveal);
+        vAlpha = t * show * smoothstep(-0.5, -0.24, position.y) * (aKind > 0.5 ? 0.55 : 1.0);
       }`,
     fragmentShader: `
       uniform float uAlpha; varying float vAlpha; varying float vKind;
@@ -134,6 +141,28 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   const subjectGeometry = new THREE.BufferGeometry();
   const subjectPoints = new THREE.Points(subjectGeometry, subjectMaterial);
   subjectPoints.frustumCulled = false; subjectPoints.renderOrder = 3; subject.add(subjectPoints);
+
+  // the solid photograph sits over the halftone; around the pointer it
+  // fades out so the particles underneath show through
+  const photoUniforms = { uMap: { value: null }, uSolid: subjectUniforms.uSolid, uPointer: subjectUniforms.uPointer, uAspect: subjectUniforms.uAspect, uRadius: subjectUniforms.uRadius };
+  const photoMaterial = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, uniforms: photoUniforms,
+    vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: `
+      uniform sampler2D uMap; uniform float uSolid; uniform vec3 uPointer; uniform float uAspect; uniform float uRadius;
+      varying vec2 vUv;
+      void main() {
+        vec4 c = texture2D(uMap, vUv);
+        vec2 rel = (vUv - 0.5 - uPointer.xy) * vec2(uAspect, 1.0);
+        float hole = uPointer.z * (1.0 - smoothstep(uRadius * 0.35, uRadius * 0.9, length(rel)));
+        float fade = smoothstep(0.0, 0.26, vUv.y);   // legs fade into the city
+        gl_FragColor = vec4(c.rgb * 1.08, c.a * uSolid * (1.0 - hole) * fade);
+        #include <colorspace_fragment>
+      }`,
+  });
+  const photoGeometry = new THREE.PlaneGeometry(1, 1);
+  const photoMesh = new THREE.Mesh(photoGeometry, photoMaterial);
+  photoMesh.renderOrder = 3.5; subject.add(photoMesh);
 
   // a soft pool of shadow behind the figure separates it from the city
   const shadeMaterial = new THREE.ShaderMaterial({
@@ -230,6 +259,11 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     const push = 1 + progress * 0.12;
     subjectPoints.scale.set(p.w * push, p.h * push, 1);
     subjectPoints.position.set(p.x, p.y - progress * state.height * 0.06, 0);
+    photoMesh.scale.copy(subjectPoints.scale);
+    photoMesh.position.set(subjectPoints.position.x, subjectPoints.position.y, 0.5);
+    // solid once the dots have assembled; scrolling dissolves it back to dots
+    subjectUniforms.uSolid.value = reduced ? 1 : smooth(0.75, 1, state.intro) * (1 - smooth(0.05, 0.45, progress));
+    subjectUniforms.uAspect.value = p.w / Math.max(1, p.h);
     shade.scale.set(p.w * 1.9, p.h * 1.15, 1);
     shade.position.set(subjectPoints.position.x, subjectPoints.position.y + p.h * 0.05, -1);
     shadeMaterial.uniforms.uAlpha.value = intro * (1 - progress);
@@ -239,7 +273,9 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     subjectUniforms.uAlpha.value = 1 - smooth(0.55, 1, progress);
     const px = (state.pointer.x * state.width * 0.5 - p.x) / Math.max(1, p.w);
     const py = (state.pointer.y * state.height * 0.5 - p.y) / Math.max(1, p.h);
-    subjectUniforms.uPointer.value.set(px, py, state.pointer.inside && Math.abs(px) < 0.65 && Math.abs(py) < 0.65 ? 1 : 0);
+    const near = Math.abs(px) < 0.75 && Math.abs(py) < 0.62 ? 1 : 0;
+    state.near = damp(state.near || 0, near * (state.pointer.inside ? 1 : 0), dt, 7);
+    subjectUniforms.uPointer.value.set(px, py, reduced ? 0 : state.near);
 
     // the tool ring: a hollow halo just above the crown
     const radius = state.radius * (1 + progress * 0.25);
@@ -285,6 +321,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   ]).then(([photo, images]) => {
     if (state.disposed) return;
     cols = mobile() ? 96 : 150;
+    photoUniforms.uMap.value = texture(photo);
     const h = halftone(photo, cols);
     subjectGeometry.setAttribute('position', new THREE.Float32BufferAttribute(h.pos, 3));
     subjectGeometry.setAttribute('aSize', new THREE.Float32BufferAttribute(h.size, 1));
@@ -306,7 +343,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     background.destroy(); foreground.destroy();
     hero.removeEventListener('pointermove', point); hero.removeEventListener('pointerleave', leave);
     canvas.removeEventListener('pointerdown', down); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
-    subjectGeometry.dispose(); subjectMaterial.dispose(); shadeGeometry.dispose(); shadeMaterial.dispose();
+    subjectGeometry.dispose(); subjectMaterial.dispose(); shadeGeometry.dispose(); shadeMaterial.dispose(); photoGeometry.dispose(); photoMaterial.dispose(); photoUniforms.uMap.value?.dispose();
     logos.forEach(({ mesh, material }) => { mesh.geometry.dispose(); material.map?.dispose(); material.dispose(); });
     renderer.dispose();
   } };
