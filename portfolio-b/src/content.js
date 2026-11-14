@@ -341,7 +341,6 @@ export const writing = [
     // on-site piece: `path` is relative to the site root, and the page itself
     // is the embed (public/writing/agency-control-room/index.html)
     path: 'writing/agency-control-room/',
-    url: 'https://vigneshmurali.com/writing/agency-control-room/',
     excerpt:
       'You direct Atlas, the orchestrator. Atlas runs five team leads, each with its own sub-agents, plus Penny on budgets, a Brand Vault everyone reads, and Vera at the QA gate.',
     summary:
