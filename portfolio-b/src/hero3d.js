@@ -32,7 +32,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
   const scene = new THREE.Scene();
   const heroWorld = createHeroWorld({ THREE, scene, reduced });
   const camera = new THREE.PerspectiveCamera(30, 1, 1, 10000);
-  const portraitMaterial = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, opacity: reduced ? 1 : 0 });
+  const portraitMaterial = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, opacity: 0 });
   const portraitGeometry = new THREE.PlaneGeometry(1, 1);
   const portrait = new THREE.Mesh(portraitGeometry, portraitMaterial);
   portrait.renderOrder = 1; scene.add(portrait);
@@ -66,9 +66,9 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
       void main() {
         float r = length(gl_PointCoord - vec2(0.5));
         float dot = 1.0 - smoothstep(0.18, 0.5, r);
-        vec3 lilac = vec3(0.66, 0.55, 1.0);
-        vec3 warm = vec3(1.0, 0.76, 0.48);
-        gl_FragColor = vec4(mix(lilac, warm, vSeed * 0.28), dot * vAlpha * uAlpha);
+        vec3 shadow = vec3(0.18, 0.20, 0.21);
+        vec3 highlight = vec3(0.96, 0.98, 0.98);
+        gl_FragColor = vec4(mix(shadow, highlight, vSeed), dot * vAlpha * uAlpha * (0.25 + vSeed * 0.75));
       }`,
   });
   const particleGeometry = new THREE.BufferGeometry();
@@ -137,7 +137,7 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     particleMaterial.uniforms.uTime.value = now / 1000;
     heroWorld.update(now / 1000, progress, state.pointer);
     particleMaterial.uniforms.uProgress.value = progress;
-    particleMaterial.uniforms.uAlpha.value = intro * 0.42;
+    particleMaterial.uniforms.uAlpha.value = intro * 0.92;
     const px = (state.pointer.x * state.width * 0.5 - p.x) / Math.max(1, p.w);
     const py = (-state.pointer.y * state.height * 0.5 - p.y) / Math.max(1, p.h);
     particleMaterial.uniforms.uPointer.value.set(px, py, state.pointer.inside && px > -0.65 && px < 0.65 && py > -0.65 && py < 0.65 ? 1 : 0);
@@ -197,18 +197,19 @@ export function createHero3D({ canvas, hero, portraitImg, portraitSrc, cards, re
     if (state.disposed) return;
     portraitMaterial.map = texture(photo); portraitMaterial.needsUpdate = true;
     const sample = document.createElement('canvas');
-    const sampleWidth = 144, sampleHeight = Math.round(sampleWidth * photo.height / photo.width);
+    const sampleWidth = 180, sampleHeight = Math.round(sampleWidth * photo.height / photo.width);
     sample.width = sampleWidth; sample.height = sampleHeight;
     const sampleContext = sample.getContext('2d', { willReadFrequently: true });
     sampleContext.drawImage(photo, 0, 0, sampleWidth, sampleHeight);
     const pixels = sampleContext.getImageData(0, 0, sampleWidth, sampleHeight).data;
     const positions = [], seeds = [];
-    for (let y = 0; y < sampleHeight; y += 2) {
-      for (let x = 0; x < sampleWidth; x += 2) {
+    for (let y = 0; y < sampleHeight; y += 1) {
+      for (let x = 0; x < sampleWidth; x += 1) {
         const at = (y * sampleWidth + x) * 4;
         if (pixels[at + 3] < 72) continue;
         positions.push(x / sampleWidth - 0.5, 0.5 - y / sampleHeight, 0.008);
-        seeds.push(Math.random());
+        const luminance = (pixels[at] * 0.2126 + pixels[at + 1] * 0.7152 + pixels[at + 2] * 0.0722) / 255;
+        seeds.push(0.18 + luminance * 0.82);
       }
     }
     particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));

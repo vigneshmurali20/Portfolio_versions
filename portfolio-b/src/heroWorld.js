@@ -4,15 +4,15 @@ export function createHeroWorld({ THREE, scene, reduced }) {
   const foreground = new THREE.Group(); foreground.name = 'hero-particle-foreground'; scene.add(foreground);
   const uniforms = { uTime:{value:0}, uTravel:{value:0}, uPointer:{value:new THREE.Vector2()}, uOpacity:{value:0.82} };
   const vertex = `uniform float uTime; uniform float uTravel; uniform vec2 uPointer; attribute float aSeed; attribute float aLayer; varying float vAlpha; varying float vSeed;
-    void main(){ vec3 p=position; float z=p.z; p.y += uTravel*.025;
+    void main(){ vec3 p=position; float z=p.z;
       if(aLayer<0.5){ p.x += sin(uTime*.22+aSeed*8.)*.012; p.y += sin(p.x*2.2+aSeed*6.)*.012; }
       else { p.x += sin(uTime*.34+aSeed*12.)*.035; p.y += cos(uTime*.27+aSeed*9.)*.022; }
-      vec2 delta=p.xy-uPointer; float d=length(delta); float repel=exp(-d*7.)*(aLayer<.5?.045:.12);
+      vec2 delta=p.xy-uPointer; float d=length(delta); float repel=exp(-d*7.)*(1.-aLayer)*.045;
       p.xy += normalize(delta+vec2(.0001))*repel; p.z=z+sin(uTime*.3+aSeed*7.)*.01;
       vec4 mv=modelViewMatrix*vec4(p,1.); gl_Position=projectionMatrix*mv;
       gl_PointSize=(aLayer<.5?1.35:2.2)+aSeed*(aLayer<.5?1.2:2.8); vAlpha=(aLayer<.5?.36:.42)+aSeed*.46; vSeed=aSeed;
  }`;
-  const fragment = `uniform float uOpacity; varying float vAlpha; varying float vSeed; void main(){ float r=length(gl_PointCoord-.5); float a=1.-smoothstep(.12,.5,r); vec3 c=mix(vec3(.15,.83,.96),vec3(.76,.35,1.),vSeed); gl_FragColor=vec4(c,a*vAlpha*uOpacity); }`;
+  const fragment = `uniform float uOpacity; varying float vAlpha; varying float vSeed; void main(){ float r=length(gl_PointCoord-.5); float a=1.-smoothstep(.12,.5,r); vec3 c=mix(vec3(.08,.62,.70),vec3(1.0,.38,.16),vSeed); gl_FragColor=vec4(c,a*vAlpha*uOpacity); }`;
   const points=(parent,positions,seeds,layers)=>{const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));g.setAttribute('aSeed',new THREE.Float32BufferAttribute(seeds,1));g.setAttribute('aLayer',new THREE.Float32BufferAttribute(layers,1));const m=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms,vertexShader:vertex,fragmentShader:fragment});const p=new THREE.Points(g,m);parent.add(p);return {g,m,p};};
   const pos=[],seed=[],layer=[];
   // Dense scan terrain: layered ridgelines recede behind the portrait.
