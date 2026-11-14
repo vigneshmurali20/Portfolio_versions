@@ -6,25 +6,7 @@
    (html[data-world-now], set by world.js).
    ===================================================================== */
 
-/* One scan palette for every layer of the page: black field, cool white
-   ink, an ice-cyan accent. The section names are kept as hooks only. */
-[data-world],
-:root[data-world-now] :is(.nav, .sheet, .descent) {
-  --paper: #030404;
-  --paper-2: #080b0c;
-  --card: rgba(200, 230, 240, 0.045);
-  --card-solid: #0a0e10;
-  --ink: #eef2f2;
-  --ink-2: #c3ccce;
-  --muted: #84918f;
-  --line: rgba(200, 230, 240, 0.11);
-  --line-2: rgba(200, 230, 240, 0.2);
-  --brand: #7fdcea;
-  --brand-ink: #a8ecf5;
-  --brand-soft: rgba(127, 220, 234, 0.12);
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 18px 40px -18px rgba(0, 0, 0, 0.8);
-  --shadow-lg: 0 2px 4px rgba(0, 0, 0, 0.4), 0 30px 70px -24px rgba(0, 0, 0, 0.9);
-}
+/* Colour tokens live in scan.css (:root), shared with the case studies. */
 html:not(.world-live) body { background: #030404; }
 html:not(.world-live) .world {
   display: none;

@@ -1,10 +1,12 @@
 // Entry for /case-studies/<slug>/. The page is static HTML rendered at build
 // time (renderCaseStudyPage); this file only adds smooth scroll and motion.
-import '@fontsource/instrument-serif/latin-400-italic.css';
-import '@fontsource-variable/fraunces/opsz.css';
-import '@fontsource-variable/urbanist';
+import '@fontsource/barlow-condensed/latin-600.css';
+import '@fontsource/barlow-condensed/latin-700.css';
+import '@fontsource/barlow/latin-400.css';
+import '@fontsource/barlow/latin-500.css';
 import '@fontsource-variable/jetbrains-mono';
 import './styles.css';
+import './scan.css';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
