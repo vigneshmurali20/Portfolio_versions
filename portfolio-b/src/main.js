@@ -452,13 +452,14 @@ function descents() {
 // every block sits at z = 0, so interaction is unchanged. Cards in the
 // case-study stack are left alone: they are sticky and stack on their own.
 const DEPTH_BLOCKS = [
-  '[data-reveal]', '.sec-title', '.contact__title', '.ai-tile', '.xp__row', '.bh-card', '.deck__card',
-  '.impact__cell', '.global__panel', '.tb__stage', '.tb__info', '.footer__card', '.cases__index', '.disc__list',
+  '[data-reveal]', '.sec-title', '.contact__title', '.ai-tile', '.xp__row', '.bh-card', '.deck',
+  '.impact__panel', '.global__panel', '.tb__stage', '.tb__info', '.footer__card', '.disc__list',
 ].join(', ');
 function depthFlow() {
   if (reduced) return;
   const scope = $$('main > section:not(.hero), footer.footer');
-  const all = scope.flatMap((sec) => $$(DEPTH_BLOCKS, sec)).filter((el) => !el.closest('.hero, .cs-card'));
+  // the case-study index stays pinned beside the stack until the section ends
+  const all = scope.flatMap((sec) => $$(DEPTH_BLOCKS, sec)).filter((el) => !el.closest('.hero, .cs-card, .cases__layout'));
   // only the outermost block of a nest moves, so nothing doubles up
   const blocks = all.filter((el) => !all.some((o) => o !== el && o.contains(el)));
   blocks.forEach((el) => {
@@ -532,8 +533,6 @@ function parallax() {
   layer('.writing__item:nth-child(1)', 10);
   layer('.writing__item:nth-child(2)', 34);
   layer('.writing__item:nth-child(3)', 58);
-  layer('.impact__cell:nth-child(odd)', 14);
-  layer('.impact__cell:nth-child(even)', 40);
   layer('.process__step:nth-child(even)', 18);
   layer('.about__motto', 20);
 }

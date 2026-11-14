@@ -513,3 +513,61 @@ main > [data-world]:not([data-world='heaven'])::before {
   background: linear-gradient(90deg, transparent, rgba(127, 220, 234, calc(var(--beam, 0) * 0.9)) 12%, rgba(220, 250, 255, var(--beam, 0)) 50%, rgba(127, 220, 234, calc(var(--beam, 0) * 0.9)) 88%, transparent);
   box-shadow: 0 0 calc(var(--beam, 0) * 24px) rgba(127, 220, 234, calc(var(--beam, 0) * 0.8));
 }
+
+
+/* -------------------------------------------------------- toolbox dock
+   The drop slot is a scanner landing pad: range rings, a crosshair and a
+   radar sweep. It locks on (bracket ring) while a tool hovers over it and
+   goes solid once a tool is docked. Same size and place as before, so the
+   physics snapping in playground.js is unchanged. */
+.tb__slot {
+  border: 1px solid rgba(127, 220, 234, 0.35);
+  border-radius: 50%;
+  overflow: hidden;
+  color: var(--brand);
+  background:
+    linear-gradient(rgba(127, 220, 234, 0.25), rgba(127, 220, 234, 0.25)) center / 1px 100% no-repeat,
+    linear-gradient(rgba(127, 220, 234, 0.25), rgba(127, 220, 234, 0.25)) center / 100% 1px no-repeat,
+    repeating-radial-gradient(circle, transparent 0 15px, rgba(127, 220, 234, 0.14) 15px 16px),
+    radial-gradient(circle, rgba(127, 220, 234, 0.1), rgba(3, 4, 4, 0.6) 70%);
+  box-shadow: 0 0 30px -6px rgba(127, 220, 234, 0.35), inset 0 0 24px rgba(127, 220, 234, 0.08);
+}
+.tb__slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(127, 220, 234, 0.4), rgba(127, 220, 234, 0) 22%);
+  animation: dock-sweep 2.8s linear infinite;
+  pointer-events: none;
+}
+@keyframes dock-sweep { to { transform: rotate(360deg); } }
+.tb__slot-label {
+  position: relative;
+  z-index: 1;
+  padding: 3px 6px;
+  border-radius: 3px;
+  background: rgba(3, 4, 4, 0.75);
+  color: var(--brand);
+  font-size: 10px;
+}
+.tb__slot-ring {
+  inset: -8px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--brand);
+}
+.tb__slot.is-target {
+  border-color: var(--brand);
+  background-color: rgba(127, 220, 234, 0.12);
+}
+.tb__slot.is-target .tb__slot-ring { animation: dock-lock 1.6s linear infinite; }
+@keyframes dock-lock { to { transform: rotate(-360deg); } }
+.tb__slot.is-full {
+  border-style: solid;
+  border-color: var(--brand);
+  box-shadow: 0 0 40px -4px rgba(127, 220, 234, 0.6), inset 0 0 30px rgba(127, 220, 234, 0.15);
+}
+.tb__slot.is-full::before { animation-duration: 6s; opacity: 0.5; }
+@media (prefers-reduced-motion: reduce) {
+  .tb__slot::before, .tb__slot.is-target .tb__slot-ring { animation: none; }
+}
