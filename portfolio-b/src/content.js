@@ -49,7 +49,7 @@ export const nav = [
 ];
 
 export const hero = {
-  lines: ['Creative systems.', 'Built to move you.'],
+  lines: ['Creative systems.', 'Built for your problem.'],
   body: 'I’m Vignesh, a creative systems architect connecting design, motion, and AI automation to take ideas from concept to launch.',
   cta: { label: 'Start your project', href: '#contact' },
   badge: 'PRODUCT DESIGNER · DESIGN ENGINEER · ',

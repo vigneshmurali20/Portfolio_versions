@@ -455,6 +455,7 @@ const DEPTH_BLOCKS = [
   '[data-reveal]', '.sec-title', '.contact__title', '.ai-tile', '.xp__row', '.bh-card', '.deck',
   '.impact__panel', '.global__panel', '.tb__stage', '.tb__info', '.footer__card', '.disc__list',
 ].join(', ');
+const depthBlocks = new WeakSet();
 function depthFlow() {
   if (reduced) return;
   const scope = $$('main > section:not(.hero), footer.footer');
@@ -463,6 +464,7 @@ function depthFlow() {
   // only the outermost block of a nest moves, so nothing doubles up
   const blocks = all.filter((el) => !all.some((o) => o !== el && o.contains(el)));
   blocks.forEach((el) => {
+    depthBlocks.add(el);
     gsap.set(el, { opacity: 1, y: 0 }); // the depth flight replaces the old fade-up
     const total = () => el.offsetHeight + innerHeight;
     const inD = () => Math.min(0.6, (innerHeight * 0.42) / total());
@@ -601,11 +603,11 @@ function reveals() {
     gsap.set('.skill__fill', { scaleX: (i, el) => getComputedStyle(el).getPropertyValue('--v') });
     return;
   }
-  // blocks outside the depth flow (hero, case-study cards) keep the fade-up
   ScrollTrigger.batch('[data-reveal]', {
     start: 'top 88%',
     once: true,
-    onEnter: (els) => gsap.to(els.filter((el) => el.closest('.hero, .cs-card')), { opacity: 1, y: 0, duration: 1.1, ease: EASE, stagger: 0.08 }),
+    // everything the depth flow does not fly in itself fades up as before
+    onEnter: (els) => gsap.to(els.filter((el) => !depthBlocks.has(el)), { opacity: 1, y: 0, duration: 1.1, ease: EASE, stagger: 0.08 }),
   });
   $$('[data-split]').forEach((h) => {
     gsap.fromTo($$('.line__in', h), { y: 0, yPercent: 105 }, {
